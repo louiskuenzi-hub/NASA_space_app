@@ -1,0 +1,1237 @@
+<title>Landing Site Finder</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Concept: night survey sheet. Near-black ground, off-white type, thin light borders. Home = animated contour lines behind a huge extended headline, then three live map previews; guide = plain reading page; app = dark world map tinted blue (Moon) or red (Mars); planet = 3D globe; detail = Earth photo beside its Moon/Mars counterpart. Dark look only, by choice. */
+:root{
+  --bg:#0b0d12; --panel:#12151c; --fg:#eceef3; --muted:#8f96a5; --line:#2a2f3b; --soft:#1a1e27; --edge:rgba(206,212,224,.5);
+  --sea:#0e1117; --land:#181c25;
+  --moon:#2f6df0; --mars:#e0382a; --accent:var(--moon); --peak:#e03a2f; --off:#5d6577;
+  --head:'Archivo','Arial Black',Impact,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  --body:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:dark;
+}
+body[data-body="mars"]{--accent:var(--mars)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:14px;line-height:1.5}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---------- Home ---------- */
+.home{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;background:var(--bg)}
+#topo{position:absolute;inset:0;width:100%;height:100%;display:block}
+#topoLabels{position:absolute;inset:0;pointer-events:none;font-family:var(--mono);font-size:11px;color:#9aa1b0}
+#topoLabels span{position:absolute;left:0;top:0;transform:translate(-50%,-50%);background:var(--bg);padding:0 3px;line-height:1.25;white-space:nowrap;letter-spacing:.04em}
+#topoLabels .peak{background:transparent;color:var(--fg);font-size:12px;padding:0;transform:translate(12px,-50%)}
+.hwrap{position:relative;z-index:2;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;max-width:1560px;margin:0 auto;
+  padding-block:28px 22px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.hnav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 28px}
+.mark{display:flex;align-items:center;gap:14px;color:var(--fg);text-decoration:none}
+.mark img{height:40px;width:auto;display:block}
+.mark .mk{display:flex;flex-direction:column;font-family:var(--head);font-weight:900;font-stretch:125%;font-variation-settings:"wdth" 125;font-size:15px;line-height:.98;letter-spacing:.01em;text-transform:uppercase}
+.nlinks{display:flex;flex-wrap:wrap;align-items:center;gap:6px 26px}
+.nl{background:none;border:2px solid transparent;font:500 13px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:14px 6px;cursor:pointer;color:#b5bac6}
+.nl:hover{color:var(--fg)}
+.nl.contact{border-color:var(--fg);padding:14px 20px;color:var(--fg);background:var(--bg)}
+.hero{margin:auto 0;padding-block:56px 40px}
+.eyebrow{display:flex;align-items:center;gap:12px;font:500 13px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:#a6acb9;margin:0}
+.eyebrow i{width:16px;height:16px;border:2px solid var(--fg);transform:rotate(45deg);display:inline-block}
+h1.big{font-family:var(--head);font-weight:900;font-stretch:125%;font-variation-settings:"wdth" 125;text-transform:uppercase;line-height:.93;
+  font-size:clamp(30px,6.5vw,120px);letter-spacing:-.01em;margin:26px 0 30px;text-wrap:balance;overflow-wrap:break-word}
+.lead{font-weight:300;font-size:clamp(16px,1.55vw,20px);line-height:1.65;color:#b3b8c4;max-width:680px;margin:0 0 34px}
+.cta{display:flex;flex-wrap:wrap;gap:14px}
+.ctaitem{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.btn{font:500 13px var(--mono);letter-spacing:.22em;text-transform:uppercase;padding:21px 36px;border:2px solid var(--fg);background:var(--bg);color:var(--fg);cursor:pointer}
+.btn.solid{background:var(--fg);color:var(--bg)}
+.btn.solid:hover{background:var(--moon);border-color:var(--moon);color:#fff}
+.hint{margin:16px 0 0;font:400 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.hfoot{font:400 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- Home: map choice ---------- */
+.msec{border-top:1px solid var(--line);background:var(--bg);scroll-margin-top:0}
+.mwrap{max-width:1560px;margin:0 auto;padding-block:72px 80px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.msec h2{font-family:var(--head);font-weight:900;font-stretch:125%;font-variation-settings:"wdth" 125;text-transform:uppercase;font-size:clamp(24px,3.6vw,52px);line-height:1;margin:0 0 14px;letter-spacing:-.01em}
+.msec .msub{max-width:640px;color:#b3b8c4;font-weight:300;font-size:17px;line-height:1.6;margin:0 0 36px}
+.mgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+@media (max-width:980px){.mgrid{grid-template-columns:minmax(0,1fr)}}
+.mcard{display:flex;flex-direction:column;border:2px solid var(--fg);background:var(--panel);color:var(--fg);text-decoration:none;transition:border-color .2s,transform .2s}
+.mcard:hover,.mcard:focus-visible{border-color:var(--hov);transform:translateY(-3px)}
+.mprev{aspect-ratio:16/10;background:radial-gradient(ellipse at 50% 45%,#10151f 0%,#05070b 75%);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:2px solid var(--fg)}
+.mprev canvas,.mprev svg{display:block;max-width:100%;max-height:100%;width:auto;height:100%}
+.mprev svg{width:100%;height:auto}
+.mbody{padding:20px 20px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.mbody .tag{font:500 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--hov)}
+.mbody h3{font-family:var(--head);font-weight:800;font-stretch:115%;font-variation-settings:"wdth" 115;text-transform:uppercase;font-size:22px;line-height:1.05;margin:0}
+.mbody p{margin:0;color:#b9bfcb;font-size:14.5px;line-height:1.6;flex:1}
+.mgo{margin-top:6px;font:500 12px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--hov)}
+
+/* ---------- Views ---------- */
+.app,.detail,.guide{max-width:1400px;margin:0 auto;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:16px}
+.ahead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px}
+.back{background:none;border:2px solid var(--fg);font:500 12px var(--mono);letter-spacing:.18em;text-transform:uppercase;padding:10px 16px;cursor:pointer}
+.atitle{flex:1;min-width:220px}
+.atitle h1,.atitle h2{font-family:var(--head);font-weight:800;font-stretch:118%;font-variation-settings:"wdth" 118;text-transform:uppercase;font-size:clamp(18px,2.4vw,28px);line-height:1.05;margin:0}
+.atitle p{margin:4px 0 0;font:400 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.seg{display:inline-flex;border:2px solid var(--fg)}
+.seg button{border:0;background:var(--bg);font:500 13px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:11px 26px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.seg button:disabled{opacity:.35;cursor:not-allowed}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:16px;align-items:start}
+@media (max-width:960px){.main{grid-template-columns:minmax(0,1fr)}}
+.mapbox{position:relative;background:var(--sea);border:1px solid var(--line);overflow:hidden}
+svg#map{display:block;width:100%;height:auto;touch-action:none;cursor:grab;background:var(--sea)}
+.sph{fill:var(--sea);stroke:var(--edge);stroke-width:.5;vector-effect:non-scaling-stroke}
+.cfill{fill:var(--land);stroke:none;transition:fill .4s}
+.edge{fill:none;stroke:var(--edge);stroke-width:.45;vector-effect:non-scaling-stroke;pointer-events:none}
+.ring{fill:var(--accent);stroke:none;pointer-events:none}
+.dot{fill:var(--accent);stroke:#fff;stroke-width:1.2}
+.dot.off{fill:var(--off)}
+.pulse{fill:none;stroke:var(--accent);stroke-width:1.6;transform-box:fill-box;transform-origin:center;animation:pulse 1.6s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.6);opacity:.95}100%{transform:scale(2.6);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none;opacity:.5}.cfill{transition:none}}
+.hit{fill:transparent;cursor:pointer}
+.zc{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:4px;z-index:4}
+.zc button{width:34px;height:34px;background:var(--panel);border:1px solid var(--fg);font:500 16px var(--mono);cursor:pointer}
+.zc button:hover{background:var(--fg);color:var(--bg)}
+.tip{position:absolute;z-index:5;width:min(350px,calc(100% - 16px));max-height:calc(100% - 16px);overflow:auto;background:var(--panel);color:var(--fg);border:1px solid var(--fg);
+  padding:12px 14px;box-shadow:6px 6px 0 rgba(0,0,0,.35);font-size:12.5px;pointer-events:none}
+.tip.pinned{pointer-events:auto}
+.tip h3{font-family:var(--head);font-weight:800;font-stretch:112%;font-size:15px;margin:0 0 2px;text-transform:uppercase}
+.tip .meta{color:var(--muted);font:400 11px var(--mono);margin-bottom:8px}
+.tip .score{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.tip .score b{font-family:var(--head);font-weight:800;font-size:24px;color:var(--accent)}
+.tip dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:3px 10px}
+.tip dt{color:var(--muted)} .tip dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.na{color:var(--muted);font-style:italic}
+.tip .feat{margin-top:8px;color:#c3c8d3}
+.tip .sep{border-top:1px solid var(--line);margin:10px 0}
+.tip .close{float:right;border:0;background:none;color:var(--muted);font-size:20px;line-height:1;cursor:pointer}
+.dev{margin-top:10px;width:100%;background:var(--accent);color:#fff;border:0;padding:10px 12px;font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.legend{display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid var(--line);background:var(--panel);font:400 11px var(--mono);letter-spacing:.06em;color:var(--muted);flex-wrap:wrap}
+.ramp{width:110px;height:8px;background:linear-gradient(90deg,var(--land),var(--accent));border:1px solid var(--line)}
+aside{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);padding:14px}
+.card h2,.card h3.t{font:500 12px var(--mono);text-transform:uppercase;letter-spacing:.16em;margin:0 0 10px}
+.cat+.cat{margin-top:6px}
+.chipbtn{width:100%;display:flex;align-items:center;gap:10px;text-align:left;background:var(--bg);border:2px solid var(--fg);padding:9px 12px;cursor:pointer;font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.chipbtn .t{flex:1}
+.chipbtn .badge{min-width:22px;text-align:center;font-size:11px;padding:1px 6px;background:var(--accent);color:#fff}
+.chipbtn .badge:empty{display:none}
+.chipbtn.on{background:var(--fg);color:var(--bg)}
+.sub{border:1px solid var(--line);border-top:0;padding:8px 12px 10px;max-height:290px;overflow:auto}
+.subact{display:flex;gap:6px;margin-bottom:6px}
+.subact button{font:400 11px var(--mono);letter-spacing:.08em;border:1px solid var(--line);background:var(--bg);padding:2px 9px;cursor:pointer;text-transform:uppercase}
+.glabel{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:8px 0 2px}
+.sub label{display:flex;align-items:center;gap:8px;padding:3px 0;cursor:pointer}
+.sub input{accent-color:var(--accent);width:16px;height:16px;flex:none}
+.sub small{margin-left:auto;color:var(--muted);font:400 11px var(--mono);padding-left:6px}
+.rank{display:flex;flex-direction:column;gap:1px;margin:0;padding:0;list-style:none}
+.rank button{width:100%;display:flex;justify-content:space-between;gap:8px;padding:5px 6px;background:none;border:0;cursor:pointer;text-align:left}
+.rank button:hover{background:var(--soft)}
+.rank span:last-child{font:500 12px var(--mono);color:var(--accent)}
+.note{font-size:12px;color:var(--muted);margin:0 0 8px}
+details.how summary{cursor:pointer;font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase}
+details.how p{font-size:12px;color:#b3b8c4;margin:8px 0 0}
+.rad{display:flex;align-items:center;gap:10px;margin-top:4px;font:400 12px var(--mono)}
+.rad input{flex:1;accent-color:var(--accent)}
+.unplaced{margin:0;padding-left:16px;font-size:12px;color:var(--muted)}
+
+/* ---------- Detail ---------- */
+.dimgs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.dimgs{grid-template-columns:1fr}}
+.fig{margin:0;border:1px solid var(--line);background:var(--panel)}
+.imgbox{position:relative;aspect-ratio:16/10;max-height:380px;width:100%;background:var(--soft);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.imgbox img{width:100%;height:100%;object-fit:cover;display:block}
+.imgbox .ph{display:none;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px;text-align:center;color:var(--muted);font:400 12px var(--mono)}
+.imgbox.missing .ph{display:flex}
+.imgbox .ph code{font-size:11px;overflow-wrap:anywhere;color:#aab0be}
+.fig figcaption{padding:10px 12px;font-size:12.5px;color:#c3c8d3;border-top:1px solid var(--line)}
+.fig figcaption b{font:500 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-right:8px}
+.dgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+@media (max-width:1000px){.dgrid{grid-template-columns:minmax(0,1fr)}}
+.dgrid dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-size:13px}
+.dgrid dt{color:var(--muted)} .dgrid dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}
+.chips span{border:1px solid var(--line);padding:2px 8px;font-size:12px;background:var(--soft)}
+.dgrid p{margin:0 0 8px;font-size:13px;color:#c3c8d3}
+.dgrid a{color:var(--accent);text-underline-offset:3px}
+.dgrid .gl{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:10px 0 4px}
+
+/* ---------- Planet 3D ---------- */
+.lbox{display:flex;flex-direction:column;height:min(74vh,740px);min-height:440px}
+#lcanvas{position:relative;flex:1;min-height:0;background:#05070b;cursor:grab}
+#lcanvas canvas{display:block}
+.lstatus{position:absolute;left:0;right:0;top:40%;text-align:center;font:400 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 16px}
+.lr dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px}
+.lr dt{color:var(--muted)} .lr dd{margin:0;font-family:var(--mono);font-size:12.5px}
+.lr .gl{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:12px 0 4px}
+.lr .chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0}
+.lr .chips span{border:1px solid var(--line);padding:2px 8px;font-size:12px;background:var(--soft)}
+.lr .chips span.hit{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 22%,transparent)}
+.lr .best{border:1px solid var(--accent);padding:12px;margin-top:12px;background:color-mix(in srgb,var(--accent) 9%,transparent)}
+.lr .best h3{font-family:var(--head);font-weight:800;font-stretch:112%;font-size:16px;margin:0;text-transform:uppercase}
+.lr .best .pc{font-family:var(--head);font-weight:800;font-size:26px;color:var(--accent)}
+.lr img.earth{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;margin:8px 0;background:var(--soft)}
+.lr svg.mini{display:block;width:100%;height:auto;background:var(--sea);border:1px solid var(--line);margin:8px 0}
+.lr .others{margin:6px 0 0;padding:0;list-style:none;font-size:12.5px}
+.lr .others li{display:flex;justify-content:space-between;gap:8px;padding:2px 0}
+.lr .go{width:100%;margin-top:8px;background:var(--accent);color:#fff;border:0;padding:10px 12px;font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.lr .tie{font-size:12px;color:var(--muted);margin:6px 0 0}
+.lrow{display:flex;align-items:center;gap:10px;margin:6px 0;font:400 12px var(--mono)}
+.lrow input{flex:1;accent-color:var(--accent)}
+.lchk{display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:6px;cursor:pointer}
+.lchk input{accent-color:var(--accent);width:16px;height:16px}
+.zleg{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:9px}
+.zleg li{display:flex;gap:10px;font-size:12.5px;line-height:1.35}
+.zleg i{flex:none;width:14px;height:14px;margin-top:3px;box-shadow:0 0 9px 1px currentColor}
+.zleg small{color:var(--muted)}
+.lbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.lbtns button{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--fg);background:var(--bg);padding:7px 12px;cursor:pointer}
+
+/* ---------- Guide ---------- */
+.gwrap{max-width:820px;width:100%;padding-bottom:20px}
+.gsec{border-top:1px solid var(--line);padding-top:24px;margin-top:30px}
+.gsec:first-child{border-top:0;margin-top:8px;padding-top:0}
+.gsec h2{font:500 12px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+.gsec h3{font-family:var(--head);font-weight:800;font-stretch:112%;font-variation-settings:"wdth" 112;text-transform:uppercase;font-size:19px;line-height:1.1;margin:22px 0 8px}
+.gsec p,.gsec li{font-size:15.5px;line-height:1.7;color:#c9ceda;font-weight:300}
+.gsec p{margin:0 0 12px}
+.gsec ul,.gsec ol{margin:0 0 12px;padding-left:22px}
+.gsec li{margin-bottom:6px}
+.gsec li b,.gsec p b{font-weight:600;color:var(--fg)}
+.gsec a{color:var(--fg);text-underline-offset:3px}
+.gsec a:hover{color:var(--moon)}
+.gsec .callout{border:1px solid var(--line);background:var(--panel);padding:14px 16px;margin:14px 0}
+.gsec .callout p{margin:0;font-size:14.5px}
+</style>
+
+<div id="home">
+  <main id="heroSec" class="home">
+    <canvas id="topo" aria-hidden="true"></canvas>
+    <div id="topoLabels" aria-hidden="true"></div>
+    <div class="hwrap">
+      <nav class="hnav" aria-label="Main">
+        <a class="mark" href="#" aria-label="Helvetic Dynamics, home">
+          <img src="/*LOGO*/" alt="" width="69" height="40">
+          <span class="mk"><span>Helvetic</span><span>Dynamics</span></span>
+        </a>
+        <div class="nlinks">
+          <button class="nl" id="navGuide" type="button">Explanations</button>
+          <button class="nl" id="navMap" type="button">Map</button>
+          <button class="nl contact" type="button">Contact</button>
+        </div>
+      </nav>
+      <section class="hero">
+        <p class="eyebrow"><i></i><span>Analogue sites · Moon &amp; Mars</span></p>
+        <h1 class="big">Looking for a<br>landing site ?</h1>
+        <p class="lead">An interactive map of places on Earth that resemble the Moon or Mars. The data comes from ESA's <i>Catalogue of Planetary Analogues</i> (30 sites) and from NASA lunar and Martian datasets. Pick the Moon or Mars, tick the criteria you care about (terrain, temperature, rainfall, humidity…) and the zones that match best light up, from dark to blue for the Moon and to red for Mars. Click a point to zoom in, then open the site sheet. Or spin a 3D Moon or Mars and click anywhere to find its closest match on Earth.</p>
+        <div class="cta">
+          <div class="ctaitem"><button class="btn solid" id="goEarth" type="button">Earth</button></div>
+          <div class="ctaitem"><button class="btn" id="goMoon" type="button">Moon</button></div>
+          <div class="ctaitem"><button class="btn" id="goMars" type="button">Mars</button></div>
+        </div>
+        <p class="hint">Earth: site map · Moon and Mars: 3D models</p>
+      </section>
+      <footer class="hfoot">Helvetic Dynamics · NASA Space Apps Challenge project · Source: The Catalogue of Planetary Analogues — ESA / CAFE · Open University · 2012</footer>
+    </div>
+  </main>
+
+  <section id="maps" class="msec" aria-labelledby="mapsTitle">
+    <div class="mwrap">
+      <h2 id="mapsTitle">Pick a map</h2>
+      <p class="msub">Three ways into the same data. Each card below opens a live map.</p>
+      <div class="mgrid">
+        <a class="mcard" href="#carte" style="--hov:#eceef3">
+          <div class="mprev" id="prevEarth" aria-hidden="true"></div>
+          <div class="mbody">
+            <span class="tag">Earth</span>
+            <h3>Site map</h3>
+            <p>A flat world map of the 30 analogue sites. Choose the Moon or Mars, tick criteria in the side panel and see which countries and spots match best.</p>
+            <span class="mgo">Open the map →</span>
+          </div>
+        </a>
+        <a class="mcard" href="#lune" style="--hov:#2f6df0">
+          <div class="mprev" aria-hidden="true"><canvas id="prevMoon" width="360" height="360"></canvas></div>
+          <div class="mbody">
+            <span class="tag" style="color:#2f6df0">Moon</span>
+            <h3>3D globe</h3>
+            <p>A Moon with its real relief. Click anywhere to read the terrain and see the closest analogue site on Earth. Glowing zones mark the strongest matches.</p>
+            <span class="mgo">Open the globe →</span>
+          </div>
+        </a>
+        <a class="mcard" href="#mars" style="--hov:#e0382a">
+          <div class="mprev" aria-hidden="true"><canvas id="prevMars" width="360" height="360"></canvas></div>
+          <div class="mbody">
+            <span class="tag" style="color:#e0382a">Mars</span>
+            <h3>3D globe</h3>
+            <p>Mars from laser altimetry, with volcanoes, canyons and polar caps. Click anywhere to find the Earth site that resembles it most.</p>
+            <span class="mgo">Open the globe →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="guide" class="guide" hidden>
+  <header class="ahead">
+    <button class="back" id="gback" type="button">← Home</button>
+    <div class="atitle">
+      <h1>How this site works</h1>
+      <p>User guide · Helvetic Dynamics · NASA Space Apps Challenge</p>
+    </div>
+    <button class="back" id="gmaps" type="button">Go to the maps ↓</button>
+  </header>
+  <article class="gwrap">
+    <section class="gsec">
+      <h2>About the project</h2>
+      <p>This site was built by <b>Helvetic Dynamics</b> for the <b>NASA Space Apps Challenge</b>. It answers one practical question: when you need to test a rover, train astronauts or study a landing area, <b>where on Earth can you find terrain that resembles the Moon or Mars?</b></p>
+      <p>Our main resource is ESA's <b>The Catalogue of Planetary Analogues</b>, produced in the CAFE study (Concepts for Activities in the Field for Exploration) by The Open University for ESA, final version December 2012. It describes 30 field sites on Earth: where they are, their climate and geology, and which lunar or Martian features each one imitates. We add NASA data: LRO laser altimetry and camera maps for the Moon, Mars Global Surveyor laser altimetry and the Viking colour mosaic for Mars. Site photographs come from Wikipedia and Wikimedia Commons.</p>
+    </section>
+
+    <section class="gsec">
+      <h2>Quick start</h2>
+      <ol>
+        <li>On the home page press <b>Earth</b>, <b>Moon</b> or <b>Mars</b>, or press <b>Map</b> in the top bar to jump to the three map cards.</li>
+        <li>On the <b>Earth map</b>, switch between Moon and Mars, tick the criteria that matter to you and watch the map change colour.</li>
+        <li>Hover a blinking point for a quick card, click it to zoom in, then press <b>Open the full sheet</b> for the photos and the catalogue data.</li>
+        <li>On the <b>3D Moon or Mars</b>, rotate the globe, click anywhere on the surface and read which Earth site resembles that spot most.</li>
+      </ol>
+    </section>
+
+    <section class="gsec">
+      <h2>Using the Earth map</h2>
+      <ul>
+        <li><b>Moon / Mars switch</b> (top right): changes the list of sites (22 for the Moon, 29 for Mars) and the colour (blue or red).</li>
+        <li><b>Criteria panel</b> (right): eight categories. Click a category to open its sub-categories and tick what you want. <b>Terrain &amp; geology</b> is fully ticked at the start: it is the catalogue's own list of lunar or Martian features each site imitates. The other seven (climate type, temperature, precipitation, humidity, wind, insolation, altitude) start empty; tick bands to include them. <b>All / None</b> buttons speed this up.</li>
+        <li><b>Colours</b>: a country that contains a catalogued site is tinted, and a glowing disk surrounds each precise point. The stronger the colour, the better the site covers your ticked criteria, relative to the best site.</li>
+        <li><b>Points</b> blink. Hover for a card with the percentage, the climate values and the features. Click to zoom in and pin the card. <b>Open the full sheet</b> opens the site page.</li>
+        <li><b>Ranking</b> lists the 8 best sites; click one to zoom to it. The <b>Point radius</b> slider only changes the size of the glowing disks.</li>
+        <li><b>Countries only</b>: 14 sites have no coordinates in the catalogue, so only their country is coloured.</li>
+        <li>Zoom with the wheel, pinch or the + / − buttons; ⟲ returns to the world view.</li>
+      </ul>
+      <h3>The site sheet</h3>
+      <p>It shows a photo of the Earth site next to a Moon or Mars image proposed as its counterpart, the catalogue data (climate, altitude, sub-sites), the lunar and Martian features it covers, and how it scores with your current criteria. The <b>Moon / Mars</b> switch changes the comparison image. Press <b>Esc</b> or <b>← Back</b> to return.</p>
+    </section>
+
+    <section class="gsec">
+      <h2>Using the 3D Moon and Mars</h2>
+      <ul>
+        <li><b>Drag</b> to rotate, <b>wheel or pinch</b> to zoom, <b>click</b> a point to analyse it. The <b>Relief</b> slider exaggerates the vertical scale; <b>Near side / Far side</b> reset the view.</li>
+        <li><b>Selected point</b>: latitude and longitude, altitude, slope, local relief and brightness, then a terrain profile (for example “highlands + rugged relief”) and the catalogue elements that profile calls for.</li>
+        <li><b>Closest Earth site</b>: the catalogue site that covers most of those elements, with its percentage, a photo, a mini-map and a button to open its sheet.</li>
+        <li><b>Glowing zones</b>: areas of the globe whose terrain matches a catalogue site above the chosen <b>Threshold</b>. The colour is the matching site, listed in the legend with the share of the surface it covers. Lower the threshold to light up more zones.</li>
+        <li>The <b>Moon / Mars</b> switch in the header swaps the globe without leaving the page.</li>
+      </ul>
+    </section>
+
+    <section class="gsec">
+      <h2>Reading the percentages</h2>
+      <div class="callout"><p>A percentage is the <b>share of the criteria you ticked that the catalogue lists for that site</b>. It is a coverage score, not a measure of physical similarity.</p></div>
+      <p>On the Earth map, each category with at least one tick counts equally. For terrain it is the share of ticked items the site covers; for the other categories it is 1 if a value quoted in the catalogue falls inside a ticked band, 0 otherwise. On the 3D globes the profile of the clicked point gives the list of elements to cover, and the site covering the largest share wins. On a tie, the driest site comes first (and, for Mars, then the coldest), using the values quoted in the catalogue.</p>
+    </section>
+
+    <section class="gsec">
+      <h2>Limits to keep in mind</h2>
+      <ul>
+        <li>The catalogue is a 2012 literature compilation and some entries are incomplete. 14 of the 30 sites have no usable coordinates, and one set of coordinates (Yellowstone) is printed wrongly in the document, so it is not used.</li>
+        <li>The catalogue gives no reference values for the Moon or Mars and does not measure UV. The climate bands (for example “very cold: below −10 °C”) are thresholds defined for this project from the values the catalogue quotes. “Insolation” uses the radiation or sunshine hours it quotes.</li>
+        <li>The rules linking lunar or Martian terrain to catalogue elements were defined for this project, not by ESA or NASA. They are listed in the “How the site is chosen” panel of each globe.</li>
+        <li>The elevation grids are coarse (about 7.6 km per pixel on the Moon, 14.8 km on Mars), so small craters and canyons are not resolved. NASA describes its Moon Kit maps as optimised for aesthetics, not science.</li>
+        <li>Site photos are the lead image of each Wikipedia page; some are maps or satellite views. The Moon and Mars images are proposed associations, not official equivalences.</li>
+        <li>This is an independent project. It is not an official NASA or ESA product.</li>
+      </ul>
+    </section>
+
+    <section class="gsec">
+      <h2>Sources and credits</h2>
+      <ul>
+        <li>ESA — <a href="https://www.esa.int/Our_Activities/Preparing_for_the_Future/Discovery_and_Preparation/Cataloguing_otherworldly_landscapes_on_Earth" target="_blank" rel="noopener">Cataloguing otherworldly landscapes on Earth</a> (The Catalogue of Planetary Analogues, CAFE study, The Open University, 2012).</li>
+        <li>NASA/GSFC Scientific Visualization Studio — <a href="https://svs.gsfc.nasa.gov/4720" target="_blank" rel="noopener">CGI Moon Kit</a> (LRO LOLA elevation and LROC colour map; visualizer Ernie Wright, scientist Noah Petro).</li>
+        <li>NASA Planetary Data System — <a href="https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg004/" target="_blank" rel="noopener">MGS MOLA gridded topography</a> (4 pixels per degree).</li>
+        <li>NASA/JPL/USGS — Viking MDIM 2.1 colour mosaic, via <a href="https://commons.wikimedia.org/wiki/File:Mars_Viking_MDIM21_ClrMosaic_1km.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</li>
+        <li>Site photographs and map outlines: Wikipedia and Wikimedia Commons contributors; country outlines from Natural Earth via the world-atlas package.</li>
+        <li>Built for the <a href="https://www.spaceappschallenge.org" target="_blank" rel="noopener">NASA Space Apps Challenge</a> by Helvetic Dynamics.</li>
+      </ul>
+      /*CREDITS*/
+    </section>
+  </article>
+</div>
+
+<div id="app" class="app" hidden>
+  <header class="ahead">
+    <button class="back" id="back" type="button">← Home</button>
+    <div class="atitle">
+      <h1>Earth map of analogue sites</h1>
+      <p>Single source: Catalogue of Planetary Analogues (ESA / CAFE, 2012)</p>
+    </div>
+    <div class="seg" role="group" aria-label="Celestial body">
+      <button id="b-moon" aria-pressed="true" type="button">Moon</button>
+      <button id="b-mars" aria-pressed="false" type="button">Mars</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="mapbox" id="mapbox">
+      <svg id="map" viewBox="0 0 960 500" role="img" aria-label="World map with the analogue sites">
+        <defs><clipPath id="landclip"></clipPath></defs>
+        <g id="zoom"><path id="sphere" class="sph"></path><g id="fills"></g><g id="halos" clip-path="url(#landclip)"></g><g id="lines"></g><g id="dots"></g></g>
+      </svg>
+      <div class="zc"><button id="zin" type="button" aria-label="Zoom in">+</button><button id="zout" type="button" aria-label="Zoom out">−</button><button id="zreset" type="button" aria-label="World view">⟲</button></div>
+      <div class="tip" id="tip" hidden></div>
+      <div class="legend"><span>WEAK</span><span class="ramp"></span><span>STRONG (RELATIVE TO THE BEST SITE FOR THE TICKED CRITERIA)</span>
+        <span style="margin-left:auto">CLICK A POINT: ZOOM · WHEEL / PINCH: ZOOM</span></div>
+    </div>
+
+    <aside>
+      <section class="card">
+        <h2>Criteria</h2>
+        <div id="crit"></div>
+      </section>
+      <section class="card">
+        <h2>Ranking</h2>
+        <ol class="rank" id="rank"></ol>
+      </section>
+      <section class="card">
+        <h2>Display</h2>
+        <div class="rad"><label for="rad">Point radius</label><input type="range" id="rad" min="2" max="20" step="1" value="7"><output id="radv">7°</output></div>
+        <p class="note" style="margin-top:10px">Zones: the country named in the document, plus a radius around precise points. The document defines no region boundaries.</p>
+        <details class="how">
+          <summary>How to read the percentage</summary>
+          <p>Each category with at least one tick counts equally. Terrain: share of the ticked items that the catalogue lists for the site. Other categories: 1 if a value quoted by the catalogue falls in a ticked band, 0 otherwise. It is not a measure of physical similarity. Map colour is relative to the best-ranked site; the percentage shown is absolute.</p>
+          <p>Bands (thresholds) are defined for this project from the quoted values. The document gives no Moon or Mars reference values and does not measure UV: “Insolation” uses the radiation or sunshine-hour values quoted. Terrain terms are the catalogue's own.</p>
+        </details>
+      </section>
+      <section class="card" id="unplacedCard" hidden>
+        <h2>Countries only</h2>
+        <p class="note">Sites without coordinates in the document: only their country is coloured.</p>
+        <ul class="unplaced" id="unplaced"></ul>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<div id="detail" class="detail" hidden>
+  <header class="ahead">
+    <button class="back" id="dback" type="button">← Back</button>
+    <div class="atitle"><h2 id="dname"></h2><p id="dsub"></p></div>
+    <div class="seg" role="group" aria-label="Compare with">
+      <button id="d-moon" aria-pressed="true" type="button">Moon</button>
+      <button id="d-mars" aria-pressed="false" type="button">Mars</button>
+    </div>
+  </header>
+  <div class="dimgs" id="dimgs"></div>
+  <div class="dgrid" id="dgrid"></div>
+</div>
+
+<div id="lune" class="app" hidden>
+  <header class="ahead">
+    <button class="back" id="lback" type="button">← Home</button>
+    <div class="atitle">
+      <h1 id="ltitle">Moon in 3D</h1>
+      <p>Click anywhere: closest analogue site in the ESA catalogue</p>
+    </div>
+    <div class="seg" role="group" aria-label="Planet">
+      <button id="pl-moon" aria-pressed="true" type="button">Moon</button>
+      <button id="pl-mars" aria-pressed="false" type="button">Mars</button>
+    </div>
+  </header>
+  <div class="main">
+    <div class="mapbox lbox">
+      <div id="lcanvas"><div class="lstatus" id="lstatus">Loading data…</div></div>
+      <div class="legend"><span>DRAG: ROTATE · WHEEL: ZOOM · CLICK: ANALYSE</span>
+        <span style="margin-left:auto" id="lcredit">DATA: NASA/GSFC · LRO (LOLA, LROC) · CGI MOON KIT</span></div>
+    </div>
+    <aside>
+      <section class="card lr"><h2>Selected point</h2><div id="lres"><p class="note">Click on the surface to read its characteristics and see the catalogue site on Earth that comes closest.</p></div></section>
+      <section class="card">
+        <h2>Glowing zones</h2>
+        <label class="lchk"><input type="checkbox" id="zon" checked> Show highlights</label>
+        <div class="lrow"><label for="zthr">Threshold</label><input type="range" id="zthr" min="50" max="100" step="5" value="70"><output id="zthrv">70 %</output></div>
+        <ul class="zleg" id="zleg"></ul>
+        <p class="note" style="margin-top:10px">Each colour is the catalogue site on Earth that best covers that type of terrain. Only remarkable terrain (crater walls and rims, steep slopes, volcanic highlands, basins, polar regions) lights up, and only above the threshold. Lower the threshold to see more.</p>
+      </section>
+      <section class="card">
+        <h2>Display</h2>
+        <div class="lrow"><label for="lexag">Relief</label><input type="range" id="lexag" min="1" max="30" step="1" value="5"><output id="lexagv">×5</output></div>
+        <div class="lbtns"><button type="button" id="lnear">Near side</button><button type="button" id="lfar">Far side</button></div>
+      </section>
+      <section class="card">
+        <details class="how">
+          <summary>How the site is chosen</summary>
+          <div id="lhow"></div>
+        </details>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script>
+const SITES = /*SITES*/;
+const WORLD = /*WORLD*/;
+const FOLDER = /*FOLDER*/;
+
+/* Numeric values read from the catalogue's "Environmental" fields (a blank or qualitative field stays absent).
+   t °C, p mm/yr, w m/s, ir kWh/m²/day (MJ/m²/day ÷ 3.6), ih sunshine hours/day, a metres.
+   h humidity, c climate: labels derived from the words the document uses. */
+const CRIT={
+1:{t:[-18,-18],p:[0,0],h:['faible'],w:[88.9,88.9],ih:[24,24],hi:1,a:[2800,2800],c:['polaire','aride']},
+2:{t:[0,23],p:[0,10],h:['tfaible'],ir:[5.8,5.8],hi:1,a:[0,6885],c:['aride','tempere']},
+3:{t:[26,30],p:[127,305],h:['faible'],ih:[9,9],a:[576,576],c:['aride']},
+4:{t:[-19.7,-19.7],p:[64,64],ir:[4.24,6.32],a:[0,2210],c:['polaire','aride']},
+5:{t:[20.2,26.8],p:[672,672],c:['autre']},
+6:{t:[-9,28],p:[583,583],h:['faible'],a:[1580,1580],c:['aride']},
+7:{t:[-9,28],p:[583,583],h:['faible'],a:[2030,2030],c:['aride']},
+8:{p:[150,250],h:['faible'],c:['aride','tempere']},
+9:{t:[-27,17],p:[0,300],h:['faible'],ih:[5,20],c:['polaire','aride']},
+10:{t:[-16,-16],p:[0,13],ih:[24,24],a:[0,1920],c:['polaire','aride']},
+11:{t:[10,40],p:[180,260],h:['tfaible'],w:[2.6,2.6],hi:1,a:[2500,2500],c:['aride']},
+12:{t:[-25,13],h:['moderee','elevee'],w:[18,18],ir:[0.03,4.71],a:[-146,2110],c:['tempere']},
+13:{p:[2700,2700],h:['elevee'],a:[0,4750],c:['polaire']},
+14:{t:[19.4,28.3],p:[1752.6,1752.6],h:['elevee'],a:[1277,1277],c:['autre']},
+15:{t:[12,38],h:['faible'],a:[583,583],c:['semi']},
+16:{t:[-9,28],h:['faible'],a:[1700,1700],c:['aride']},
+17:{t:[-39,32],a:[338,338],c:['polaire']},
+18:{t:[11.47,23.12],p:[547,547],h:['moderee','elevee'],w:[3.1,3.6],a:[3350,3350],c:['tempere']},
+19:{t:[9,45],p:[2,200],h:['elevee'],hi:1,c:['aride']},
+20:{t:[-5,30],h:['faible','moderee','elevee'],w:[0,11],ir:[0.82,5.64],a:[820,820],c:['semi']},
+21:{t:[13,36],p:[309,309],h:['faible','moderee','elevee'],w:[1,10],ih:[11,13],c:['aride']},
+22:{t:[37,37],h:['elevee'],a:[441,441],c:['tempere']},
+23:{t:[18.1,18.1],p:[490,490],h:['moderee'],ih:[8,8],a:[54,54],c:['tempere']},
+24:{t:[-18,25],p:[656,656],h:['faible','moderee','elevee'],w:[1,7],ih:[8.35,16],a:[347.5,347.5],c:['tempere']},
+25:{t:[6,28],p:[430,430],w:[20,20],a:[1400,2150],c:['semi','aride']},
+26:{t:[-5,-5],p:[271,271],h:['tfaible','elevee'],w:[10.01,10.01],ir:[0,5.69],a:[0,1713],c:['polaire','aride']},
+27:{t:[20,28],h:['moderee'],w:[5.63,7.89],ir:[3.26,6.97],a:[2200,3718],c:['tempere']},
+28:{t:[-2.2,39.7],p:[0,20],hi:1,a:[150,831.7],c:['aride']},
+29:{t:[-10.9,37.1],p:[141,141],h:['faible','moderee','elevee'],w:[0,8],ih:[9,15],a:[1340,1400],c:['aride']},
+30:{p:[380,2000],a:[2400,2400],c:['autre']}
+};
+
+const CMAP=[[/antarctica/i,"Antarctica"],[/chile/i,"Chile"],[/peru/i,"Peru"],[/australia/i,"Australia"],[/canada/i,"Canada"],[/south africa/i,"South Africa"],[/\bUSA\b|united states/i,"United States of America"],[/iceland/i,"Iceland"],[/russia/i,"Russia"],[/india/i,"India"],[/namibia/i,"Namibia"],[/germany/i,"Germany"],[/spain/i,"Spain"],[/norway/i,"Norway"],[/china/i,"China"],[/morocco/i,"Morocco"],[/sicily|italy/i,"Italy"]];
+function countriesOf(s){const o=[];CMAP.forEach(([re,n])=>{if(re.test(s.country||""))o.push(n)});return o}
+
+const $=id=>document.getElementById(id);
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+const LAND="#181c25";
+const REDUCE=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ================= Home: animated contour lines ================= */
+const topo=(function(){
+  const cv=$("topo"), ctx=cv.getContext("2d"), labels=$("topoLabels"), home=$("heroSec");
+  const CELL=9, PAD=2, STEP=125, ALT=4150, NLEV=40;
+  let w=0,h=0,cols=0,rows=0,grid=null,raf=0,last=0,t0=performance.now(),on=false;
+  const contour=d3.contours();
+  const levels=d3.range(1,NLEV+1).map(k=>k*STEP/ALT);
+  const path=d3.geoPath(d3.geoIdentity().scale(CELL),ctx);
+  const LAB=[{alt:4000,ang:-140},{alt:3500,ang:75},{alt:3000,ang:105},{alt:1500,ang:80},{alt:1000,ang:100}];
+  function fmtAlt(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g," ")}
+  const labEls=LAB.map(l=>{const s=document.createElement("span");s.textContent=fmtAlt(l.alt);labels.appendChild(s);return s});
+  const peakEl=document.createElement("span");peakEl.className="peak";labels.appendChild(peakEl);
+  function peaks(t){return[
+    {x:.80+.012*Math.sin(t*.11),y:.40+.010*Math.cos(t*.09),a:1.0,s:.36},
+    {x:.07+.010*Math.sin(t*.07+1),y:.14+.008*Math.cos(t*.06),a:.34,s:.26},
+    {x:.52+.02*Math.cos(t*.05),y:1.08,a:.52,s:.42},
+    {x:1.02,y:1.0+.01*Math.sin(t*.08),a:.42,s:.28},
+    {x:.30,y:.55+.01*Math.sin(t*.09),a:.14,s:.20}]}
+  function fz(u,v,asp,P,t){
+    let z=0;for(let i=0;i<P.length;i++){const p=P[i],dx=(u-p.x)*asp,dy=v-p.y;z+=p.a*Math.exp(-(dx*dx+dy*dy)/(p.s*p.s))}
+    return z+.03*Math.sin(u*asp*6+t*.17)*Math.cos(v*5-t*.13)+.02*Math.sin(u*asp*11-v*9+t*.21);
+  }
+  function resize(){
+    const r=home.getBoundingClientRect();
+    w=cv.width=Math.max(320,Math.round(r.width));h=cv.height=Math.max(320,Math.round(r.height));
+    cols=Math.ceil(w/CELL)+PAD*2+1;rows=Math.ceil(h/CELL)+PAD*2+1;
+    grid=new Float32Array(cols*rows);contour.size([cols,rows]);
+  }
+  function draw(t){
+    const asp=w/h,P=peaks(t);
+    for(let j=0;j<rows;j++){const v=((j-PAD)*CELL)/h;for(let i=0;i<cols;i++)grid[j*cols+i]=fz(((i-PAD)*CELL)/w,v,asp,P,t)}
+    ctx.clearRect(0,0,w,h);
+    ctx.save();ctx.translate(-PAD*CELL,-PAD*CELL);
+    const cs=contour.thresholds(levels)(grid);
+    for(let k=0;k<cs.length;k++){
+      const idx=(k+1)%4===0;
+      ctx.beginPath();path(cs[k]);
+      ctx.strokeStyle=idx?"rgba(236,238,243,.30)":"rgba(236,238,243,.13)";ctx.lineWidth=idx?1.15:.8;ctx.stroke();
+    }
+    ctx.restore();
+    const p0=P[0],px=p0.x*w,py=p0.y*h;
+    ctx.fillStyle="#e8453a";ctx.beginPath();ctx.moveTo(px,py-7);ctx.lineTo(px+6.5,py+5);ctx.lineTo(px-6.5,py+5);ctx.closePath();ctx.fill();
+    const pa=Math.round(fz(p0.x,p0.y,asp,P,t)*ALT/10)*10;
+    peakEl.textContent=fmtAlt(pa);peakEl.style.left=px+"px";peakEl.style.top=py+"px";
+    LAB.forEach((l,n)=>{
+      const target=l.alt/ALT,a=l.ang*Math.PI/180;let d=14,x=px,y=py;
+      for(;d<Math.max(w,h);d+=3){x=px+Math.cos(a)*d;y=py+Math.sin(a)*d;if(fz(x/w,y/h,asp,P,t)<=target)break}
+      const el=labEls[n];el.style.left=x+"px";el.style.top=y+"px";el.hidden=(x<20||y<20||x>w-20||y>h-20);
+    });
+  }
+  function frame(now){
+    raf=requestAnimationFrame(frame);
+    if(now-last<48)return;last=now;draw((now-t0)/1000);
+  }
+  function start(){if(on)return;on=true;resize();draw((performance.now()-t0)/1000);if(!REDUCE)raf=requestAnimationFrame(frame)}
+  function stop(){on=false;cancelAnimationFrame(raf)}
+  new ResizeObserver(()=>{if(on){resize();draw((performance.now()-t0)/1000)}}).observe(home);
+  document.addEventListener("visibilitychange",()=>{if(!on)return;if(document.hidden)cancelAnimationFrame(raf);else if(!REDUCE)raf=requestAnimationFrame(frame)});
+  return{start,stop};
+})();
+
+/* ================= Navigation (home / guide / map / globes / site sheet) ================= */
+let lastView="#carte", nextDetailBody=null;
+function route(){
+  const h=location.hash, m=/^#site-(\d+)$/.exec(h), appOn=h==="#carte", plOn=h==="#lune"||h==="#mars", guideOn=h==="#guide";
+  if(appOn||plOn)lastView=h;
+  $("home").hidden=appOn||plOn||guideOn||!!m;$("app").hidden=!appOn;$("lune").hidden=!plOn;$("detail").hidden=!m;$("guide").hidden=!guideOn;
+  if(m)openDetail(+m[1]);
+  if(appOn||plOn||guideOn||m)topo.stop();else topo.start();
+  if(plOn)showPlanet(h==="#mars"?"mars":"moon");else planetLoop(false);
+  if(!window.__keepScroll)window.scrollTo(0,0);
+}
+function goHome(){history.pushState("",document.title,location.pathname+location.search);route()}
+function goMaps(){window.__keepScroll=true;goHome();window.__keepScroll=false;window.scrollTo(0,0);setTimeout(()=>$("maps").scrollIntoView({behavior:REDUCE?"auto":"smooth",block:"start"}),60)}
+$("goEarth").onclick=()=>{location.hash="carte"};
+$("goMoon").onclick=()=>{location.hash="lune"};
+$("goMars").onclick=()=>{location.hash="mars"};
+$("navGuide").onclick=()=>{location.hash="guide"};
+$("navMap").onclick=()=>{$("maps").scrollIntoView({behavior:REDUCE?"auto":"smooth",block:"start"})};
+$("back").onclick=goHome;
+$("lback").onclick=goHome;
+$("gback").onclick=goHome;
+$("gmaps").onclick=goMaps;
+$("dback").onclick=()=>{location.hash=lastView.slice(1)};
+addEventListener("hashchange",route);
+addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("detail").hidden)location.hash=lastView.slice(1)});
+
+/* ================= Earth map ================= */
+const BODY_LABEL={moon:"Moon",mars:"Mars"}, COLORS={moon:"#2f6df0",mars:"#e0382a"};
+let body="moon", radius=7, pinned=false, CS=new Map(), EV=new Map(), BEST=0, LASTDOTS=[];
+const featOrder={moon:[],mars:[]};
+SITES.forEach(s=>["moon","mars"].forEach(b=>(s.directory_features?.[b]||[]).forEach(f=>{if(!featOrder[b].includes(f))featOrder[b].push(f)})));
+
+const INF=Infinity, ov=(r,a,b)=>!!r&&r[0]<b&&r[1]>=a;
+const band=(id,label,key,a,b)=>({id,label,test:s=>ov(CRIT[s.id]?.[key],a,b)});
+const tag=(id,label,key,v)=>({id,label,test:s=>(CRIT[s.id]?.[key]||[]).includes(v)});
+const STATIC_CATS=[
+ {id:"climat",label:"Climate type",mode:"any",groups:[{items:[
+   tag("c1","Polar / arctic","c","polaire"),tag("c2","Desert / arid","c","aride"),tag("c3","Semi-arid","c","semi"),
+   tag("c4","Temperate / Mediterranean","c","tempere"),tag("c5","Other / altitude-dependent","c","autre")]}]},
+ {id:"temp",label:"Temperature",mode:"any",groups:[{label:"Quoted values (mean or range)",items:[
+   band("t1","Very cold (< −10 °C)","t",-INF,-10),band("t2","Cold to cool (−10 to 10 °C)","t",-10,10),
+   band("t3","Mild to hot (10 to 30 °C)","t",10,30),band("t4","Very hot (≥ 30 °C)","t",30,INF)]}]},
+ {id:"precip",label:"Precipitation",mode:"any",groups:[{label:"Quoted annual total",items:[
+   band("p1","Very low (< 50 mm/yr, or “negligible”)","p",0,50),band("p2","Low (50 to 300 mm/yr)","p",50,300),
+   band("p3","Medium (300 to 800 mm/yr)","p",300,800),band("p4","High (≥ 800 mm/yr)","p",800,INF)]}]},
+ {id:"humid",label:"Humidity",mode:"any",groups:[{label:"Quoted words or values",items:[
+   tag("h1","Very low (“very low”, “very dry”)","h","tfaible"),tag("h2","Low (“low”, RH < 40 %)","h","faible"),
+   tag("h3","Moderate (RH 40 to 70 %)","h","moderee"),tag("h4","High (“high”, RH > 70 %)","h","elevee")]}]},
+ {id:"vent",label:"Wind",mode:"any",groups:[{label:"Quoted speeds",items:[
+   band("w1","Weak (< 5 m/s)","w",0,5),band("w2","Moderate (5 to 10 m/s)","w",5,10),band("w3","Strong (> 10 m/s)","w",10,INF)]}]},
+ {id:"insol",label:"Insolation",mode:"any",groups:[
+   {label:"Radiation (kWh/m²/day)",items:[band("i1","Low (< 3)","ir",-INF,3),band("i2","Medium (3 to 5)","ir",3,5),band("i3","High (> 5)","ir",5,INF)]},
+   {label:"Sunshine hours per day",items:[band("i4","Short (< 8 h)","ih",0,8),band("i5","Medium (8 to 12 h)","ih",8,12),band("i6","Long (> 12 h)","ih",12,INF)]},
+   {label:"Mention",items:[{id:"i7",label:"“High” quoted by the document",test:s=>!!CRIT[s.id]?.hi}]}]},
+ {id:"alt",label:"Altitude",mode:"any",groups:[{label:"Quoted values (site, range or highest point)",items:[
+   band("a1","Low (< 500 m)","a",-INF,500),band("a2","Medium (500 to 1,500 m)","a",500,1500),
+   band("a3","High (1,500 to 3,000 m)","a",1500,3000),band("a4","Very high (≥ 3,000 m)","a",3000,INF)]}]}
+];
+function terrainCat(b){
+  const groups=[];
+  featOrder[b].forEach(f=>{
+    const [cls,name]=f.includes(" > ")?f.split(" > "):["Other",f];
+    let g=groups.find(x=>x.label===cls);if(!g){g={label:cls,items:[]};groups.push(g)}
+    g.items.push({id:"f:"+f,label:name,test:s=>(s.directory_features?.[b]||[]).includes(f)});
+  });
+  return{id:"terrain",label:"Terrain & geology",mode:"share",groups};
+}
+const CATS={moon:[terrainCat("moon"),...STATIC_CATS],mars:[terrainCat("mars"),...STATIC_CATS]};
+const state={moon:{},mars:{}}, openCats=new Set(["terrain"]);
+["moon","mars"].forEach(b=>CATS[b].forEach(c=>{
+  state[b][c.id]=new Set(c.id==="terrain"?c.groups.flatMap(g=>g.items.map(i=>i.id)):[]);
+}));
+
+const inList=(s,b)=>(s.directory_features?.[b]||[]).length>0||!!s.relevance?.[b];
+const relevant=s=>inList(s,body);
+function evalSite(s,b=body){
+  let sum=0,n=0;const matched=[];
+  for(const c of CATS[b]){
+    const sel=state[b][c.id];if(!sel.size)continue;
+    const items=c.groups.flatMap(g=>g.items).filter(i=>sel.has(i.id));
+    const hit=items.filter(i=>i.test(s));
+    sum+=c.mode==="share"?hit.length/items.length:(hit.length?1:0);n++;
+    hit.forEach(i=>matched.push(i.label));
+  }
+  return{score:n?sum/n:0,matched,n};
+}
+
+const W=960,H=500;
+const proj=d3.geoNaturalEarth1().fitSize([W,H],{type:"Sphere"});
+const gpath=d3.geoPath(proj);
+const svg=d3.select("#map"), zoomG=d3.select("#zoom");
+const features=topojson.feature(WORLD,WORLD.objects.countries).features;
+zoomG.select("#sphere").attr("d",gpath({type:"Sphere"}));
+d3.select("#landclip").append("path").attr("d",gpath(topojson.merge(WORLD,WORLD.objects.countries.geometries)));
+const fills=zoomG.select("#fills").selectAll("path").data(features).join("path").attr("class","cfill").attr("d",gpath);
+zoomG.select("#lines").selectAll("path").data(features).join("path").attr("class","edge").attr("d",gpath);
+const geoc=d3.geoCircle().precision(2), RINGS=10;
+let k=1;
+const zoomB=d3.zoom().scaleExtent([1,12]).translateExtent([[0,0],[W,H]]).on("zoom",e=>{k=e.transform.k;zoomG.attr("transform",e.transform);sizeMarks()});
+svg.call(zoomB);
+function zoomTo(x,y,s){svg.transition().duration(800).call(zoomB.transform,d3.zoomIdentity.translate(W/2-s*x,H/2-s*y).scale(s))}
+function zoomBounds(feats){
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  feats.forEach(f=>{const b=gpath.bounds(f);x0=Math.min(x0,b[0][0]);y0=Math.min(y0,b[0][1]);x1=Math.max(x1,b[1][0]);y1=Math.max(y1,b[1][1])});
+  if(x0>x1)return;
+  zoomTo((x0+x1)/2,(y0+y1)/2,Math.max(1,Math.min(8,.85/Math.max((x1-x0)/W,(y1-y0)/H))));
+}
+$("zin").onclick=()=>svg.transition().duration(300).call(zoomB.scaleBy,1.7);
+$("zout").onclick=()=>svg.transition().duration(300).call(zoomB.scaleBy,1/1.7);
+$("zreset").onclick=()=>svg.transition().duration(600).call(zoomB.transform,d3.zoomIdentity);
+
+const isPlaced=s=>s.coords&&s.coords.lat!=null&&s.coords.lon!=null;
+function sizeMarks(){
+  d3.selectAll(".dot").attr("r",d=>(d.off?4:5.5)/k).attr("stroke-width",1.2/k);
+  d3.selectAll(".pulse").attr("r",6/k).attr("stroke-width",1.6/k);
+  d3.selectAll(".hit").attr("r",14/k);
+}
+
+const tip=$("tip"), box=$("mapbox");
+function hideTip(){tip.hidden=true;tip.classList.remove("pinned")}
+function moveTip(e){
+  const r=box.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight;
+  let x=e.clientX-r.left+16,y=e.clientY-r.top+16;
+  if(x+w>r.width-8)x=e.clientX-r.left-w-16;if(x<8)x=8;
+  if(y+h>r.height-8)y=Math.max(8,r.height-h-8);
+  tip.style.left=x+"px";tip.style.top=y+"px";
+}
+const ENV=[["climate","Climate"],["temperature","Temperature"],["precip_type","Precipitation"],["annual_precip","Annual total"],["humidity","Humidity"],["wind","Wind"],["insolation","Insolation"]];
+const NA='<span class="na">not provided</span>';
+const cm=n=>n===1?"1 criterion met":n+" criteria met";
+function card(s,ev,pin){
+  const c=s.coords||{};
+  const rows=ENV.map(([key,l])=>{const v=s.environment?.[key];return `<dt>${l}</dt><dd>${v?esc(v):NA}</dd>`}).join("");
+  const feats=s.directory_features?.[body]||[];
+  const where=isPlaced(s)?`${c.lat.toFixed(2)}°, ${c.lon.toFixed(2)}°${c.source&&c.source!=="site"?" · sub-site "+esc(c.source.replace(/^subsite:\s*/,"")):""}`:"no coordinates in the document";
+  return `<h3>${esc(s.name)}</h3>
+    <div class="meta">${esc(s.country||"")} · ${where}</div>
+    <div class="score"><b>${Math.round(ev.score*100)} %</b><span>${ev.n?cm(ev.matched.length):"no criteria ticked"} · ${BODY_LABEL[body]}</span></div>
+    ${ev.matched.length?`<div class="feat"><b>Met:</b> ${esc(ev.matched.join(" · "))}</div>`:""}
+    <dl style="margin-top:8px"><dt>Altitude</dt><dd>${s.elevation_raw?esc(s.elevation_raw):NA}</dd>${rows}</dl>
+    <div class="feat"><b>Analogue for ${BODY_LABEL[body]}:</b> ${feats.length?esc(feats.map(f=>f.replace(" > "," › ")).join(", ")):"no items listed"}</div>
+    ${s.relevance?.evidence?`<div class="feat">${esc(s.relevance.evidence)}</div>`:""}
+    ${pin?`<button type="button" class="dev" data-dev="${s.id}">Open the full sheet ▸</button>`:""}`;
+}
+function showCards(list,e,pin){
+  tip.innerHTML=`<button class="close" aria-label="Close" id="tipx">×</button>`+list.map(([s,ev])=>card(s,ev,pin)).join('<div class="sep"></div>');
+  tip.hidden=false;$("tipx").onclick=()=>{pinned=false;hideTip()};
+  if(pin){tip.classList.add("pinned");tip.style.left="12px";tip.style.top="12px"}
+  else if(e&&e.clientX!==undefined)moveTip(e);
+}
+tip.addEventListener("click",e=>{const b=e.target.closest("[data-dev]");if(b)location.hash="site-"+b.dataset.dev});
+
+function focusSite(s){
+  pinned=true;showCards([[s,EV.get(s.id)]],null,true);
+  if(isPlaced(s)){const p=proj([s.coords.lon,s.coords.lat]);zoomTo(p[0],p[1],6)}
+  else{const names=countriesOf(s);zoomBounds(features.filter(f=>names.includes(f.properties.name)))}
+}
+
+function render(){
+  document.body.dataset.body=body;
+  $("b-moon").setAttribute("aria-pressed",body==="moon");$("b-mars").setAttribute("aria-pressed",body==="mars");
+  const col=COLORS[body];
+  const elig=SITES.filter(relevant); EV=new Map(elig.map(s=>[s.id,evalSite(s)]));
+  const best=Math.max(0,...[...EV.values()].map(e=>e.score)), rel=x=>best?x/best:0;
+  BEST=best;
+  CS=new Map();
+  elig.forEach(s=>countriesOf(s).forEach(n=>{const e=CS.get(n)||{score:0,sites:[]};e.sites.push(s);e.score=Math.max(e.score,EV.get(s.id).score);CS.set(n,e)}));
+  fills.style("fill",d=>{const e=CS.get(d.properties.name);return e&&e.score>0?d3.interpolateRgb(LAND,col)(.12+.78*rel(e.score)):null})
+       .style("cursor",d=>CS.has(d.properties.name)?"pointer":"grab");
+
+  const data=elig.filter(isPlaced).map(s=>{const e=EV.get(s.id),p=proj([s.coords.lon,s.coords.lat]);return{s,ev:e,score:e.score,off:e.matched.length===0,x:p[0],y:p[1]}});
+  LASTDOTS=data;
+  const rings=[];
+  data.filter(d=>!d.off).forEach(d=>{
+    const r=rel(d.score),peak=.22+.68*r,a=1-Math.pow(1-peak,1/RINGS),R=radius*(.6+.4*r);
+    for(let i=1;i<=RINGS;i++)rings.push({id:d.s.id+"-"+i,a,d:gpath(geoc.center([d.s.coords.lon,d.s.coords.lat]).radius(R*i/RINGS)())});
+  });
+  d3.select("#halos").selectAll("path").data(rings,r=>r.id).join("path").attr("class","ring").attr("d",r=>r.d).attr("fill-opacity",r=>r.a);
+
+  const g=d3.select("#dots").selectAll("g.site").data(data,d=>d.s.id).join(en=>{
+    const g=en.append("g").attr("class","site");g.append("circle").attr("class","pulse");g.append("circle").attr("class","dot");g.append("circle").attr("class","hit");return g});
+  g.attr("transform",d=>`translate(${d.x},${d.y})`);
+  g.select(".pulse").style("display",d=>d.off?"none":null);
+  g.select(".dot").attr("class",d=>"dot"+(d.off?" off":""));
+  g.on("mouseenter",(e,d)=>{if(!pinned)showCards([[d.s,d.ev]],e,false)}).on("mousemove",e=>{if(!pinned)moveTip(e)}).on("mouseleave",()=>{if(!pinned)hideTip()})
+   .on("click",(e,d)=>{e.stopPropagation();focusSite(d.s)});
+  const sitesOf=c=>c.sites.slice(0,3).map(s=>[s,EV.get(s.id)]);
+  fills.on("mouseenter",(e,d)=>{const c=CS.get(d.properties.name);if(!pinned&&c)showCards(sitesOf(c),e,false)})
+       .on("mousemove",e=>{if(!pinned&&!tip.hidden)moveTip(e)}).on("mouseleave",()=>{if(!pinned)hideTip()})
+       .on("click",(e,d)=>{const c=CS.get(d.properties.name);if(c){e.stopPropagation();pinned=true;showCards(sitesOf(c),e,true)}});
+  sizeMarks();
+
+  const un=elig.filter(s=>!isPlaced(s));
+  $("unplaced").innerHTML=un.map(s=>`<li>${esc(s.name)} (${esc(s.country||"")}) · ${Math.round(EV.get(s.id).score*100)} %</li>`).join("");
+  $("unplacedCard").hidden=!un.length;
+  renderCrit(elig);
+  const top=[...elig].sort((a,b)=>EV.get(b.id).score-EV.get(a.id).score||a.name.localeCompare(b.name)).slice(0,8);
+  $("rank").innerHTML=top.map(s=>`<li><button data-id="${s.id}"><span>${esc(s.name)}</span><span>${Math.round(EV.get(s.id).score*100)} %</span></button></li>`).join("");
+  $("rank").querySelectorAll("button").forEach(b=>b.onclick=()=>focusSite(SITES.find(x=>String(x.id)===b.dataset.id)));
+}
+
+function renderCrit(elig){
+  const el=$("crit"), cats=CATS[body];
+  el.innerHTML=cats.map(c=>{
+    const sel=state[body][c.id], open=openCats.has(c.id), n=sel.size;
+    return `<div class="cat"><button type="button" class="chipbtn ${n?"on":""}" data-cat="${c.id}" aria-expanded="${open}">
+      <span class="t">${esc(c.label)}</span><span class="badge">${n||""}</span><span>${open?"−":"+"}</span></button>
+      <div class="sub" ${open?"":"hidden"}><div class="subact"><button type="button" data-all="${c.id}">All</button><button type="button" data-none="${c.id}">None</button></div>
+      ${c.groups.map(g=>(g.label?`<div class="glabel">${esc(g.label)}</div>`:"")+g.items.map(i=>
+        `<label><input type="checkbox" data-cat="${c.id}" data-item="${esc(i.id)}" ${sel.has(i.id)?"checked":""}>${esc(i.label)}<small>${elig.filter(i.test).length}</small></label>`).join("")).join("")}
+      </div></div>`;
+  }).join("");
+}
+$("crit").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.cat){openCats.has(b.dataset.cat)?openCats.delete(b.dataset.cat):openCats.add(b.dataset.cat);render();return}
+  const id=b.dataset.all||b.dataset.none;if(!id)return;
+  const c=CATS[body].find(x=>x.id===id), sel=state[body][id];
+  sel.clear();if(b.dataset.all)c.groups.forEach(g=>g.items.forEach(i=>sel.add(i.id)));
+  hideTip();pinned=false;render();
+});
+$("crit").addEventListener("change",e=>{
+  const i=e.target;if(!i.dataset.item)return;
+  const sel=state[body][i.dataset.cat];i.checked?sel.add(i.dataset.item):sel.delete(i.dataset.item);
+  hideTip();pinned=false;render();
+});
+svg.on("click",()=>{pinned=false;hideTip()});
+$("b-moon").onclick=()=>{body="moon";hideTip();pinned=false;render()};
+$("b-mars").onclick=()=>{body="mars";hideTip();pinned=false;render()};
+$("rad").oninput=e=>{radius=+e.target.value;$("radv").textContent=radius+"°";render()};
+
+/* ================= Site sheet ================= */
+let detailId=null, detailBody="moon";
+function figure(kind,label,sid){
+  const f=FOLDER[sid]?.imgs?.[kind];
+  if(!f)return `<figure class="fig"><div class="imgbox missing"><div class="ph">No ${label.toLowerCase()} image planned for this site</div></div><figcaption><b>${label}</b></figcaption></figure>`;
+  return `<figure class="fig"><div class="imgbox"><img src="${esc(f.file)}" alt="${esc(f.subject)}" loading="lazy"><div class="ph"><span>Image not available</span></div></div>
+    <figcaption><b>${label}</b>${esc(f.subject)}${kind==="earth"?"":'<br><span class="na">Association proposed in the dataset, not an official NASA equivalence.</span>'}</figcaption></figure>`;
+}
+function renderDetail(){
+  const s=SITES.find(x=>x.id===detailId);if(!s)return;
+  const F=FOLDER[s.id]||{}, inM=inList(s,"moon"), inR=inList(s,"mars");
+  if(detailBody==="moon"&&!inM)detailBody="mars";if(detailBody==="mars"&&!inR)detailBody="moon";
+  document.body.dataset.body=detailBody;
+  $("d-moon").setAttribute("aria-pressed",detailBody==="moon");$("d-moon").disabled=!inM;
+  $("d-mars").setAttribute("aria-pressed",detailBody==="mars");$("d-mars").disabled=!inR;
+  $("dname").textContent=s.name;
+  $("dsub").textContent=`${s.country||""} · catalogue site ${s.id} · ${[inM?"Moon":null,inR?"Mars":null].filter(Boolean).join(" + ")}`;
+  $("dimgs").innerHTML=figure("earth","Earth",s.id)+figure(detailBody,BODY_LABEL[detailBody],s.id);
+  const c=s.coords||{};
+  const env=ENV.map(([key,l])=>{const v=s.environment?.[key];return `<dt>${l}</dt><dd>${v?esc(v):NA}</dd>`}).join("");
+  const featHtml=b=>{
+    const fs=s.directory_features?.[b]||[];if(!fs.length)return `<div class="gl">${BODY_LABEL[b]}</div><p class="na">No items listed.</p>`;
+    const groups={};fs.forEach(f=>{const [cl,n]=f.includes(" > ")?f.split(" > "):["Other",f];(groups[cl]=groups[cl]||[]).push(n)});
+    return `<div class="gl">${BODY_LABEL[b]}</div>`+Object.entries(groups).map(([cl,ns])=>`<div class="gl" style="margin-top:6px">${esc(cl)}</div><div class="chips">${ns.map(n=>`<span>${esc(n)}</span>`).join("")}</div>`).join("");
+  };
+  const ev=evalSite(s,detailBody);
+  const subs=(s.subsites||[]).length?`<div class="gl">Catalogue sub-sites</div><dl>${s.subsites.map(x=>`<dt>${esc(x.name)}</dt><dd>${x.coords_raw?esc(x.coords_raw):NA}</dd>`).join("")}</dl>`:"";
+  $("dgrid").innerHTML=`
+    <section class="card"><h3 class="t">ESA catalogue data</h3>
+      <dl><dt>Country</dt><dd>${esc(s.country||"")}</dd>
+      <dt>Coordinates</dt><dd>${isPlaced(s)?`${c.lat.toFixed(3)}°, ${c.lon.toFixed(3)}°${c.source&&c.source!=="site"?" ("+esc(c.source.replace(/^subsite:\s*/,""))+")":""}`:'<span class="na">not provided</span>'}</dd>
+      <dt>Altitude</dt><dd>${s.elevation_raw?esc(s.elevation_raw):NA}</dd>${env}</dl>${subs}
+    </section>
+    <section class="card"><h3 class="t">Analogue for</h3>
+      ${s.relevance?.evidence?`<p>${esc(s.relevance.evidence)}</p>`:""}
+      ${featHtml("moon")}${featHtml("mars")}
+    </section>
+    <section class="card"><h3 class="t">With the ticked criteria (${BODY_LABEL[detailBody]})</h3>
+      <p><b style="font-family:var(--head);font-size:26px;color:var(--accent)">${Math.round(ev.score*100)} %</b> ${ev.n?"· "+cm(ev.matched.length):"· no criteria ticked"}</p>
+      ${ev.matched.length?`<div class="chips">${ev.matched.map(m=>`<span>${esc(m)}</span>`).join("")}</div>`:""}
+      ${F.notes?`<div class="gl">Dataset notes</div><p>${esc(F.notes)}</p>`:""}
+      ${F.gmaps?`<p><a href="${esc(F.gmaps)}" target="_blank" rel="noopener">View in satellite (Google Maps)</a><br><span class="na">Approximate position from the dataset, to be checked.</span></p>`:""}
+    </section>`;
+}
+function openDetail(id){
+  if(detailId!==id||nextDetailBody){detailId=id;detailBody=nextDetailBody||body;nextDetailBody=null}
+  renderDetail();
+}
+$("d-moon").onclick=()=>{detailBody="moon";renderDetail()};
+$("d-mars").onclick=()=>{detailBody="mars";renderDetail()};
+$("detail").addEventListener("error",e=>{
+  if(e.target.tagName==="IMG"){const bx=e.target.parentNode;bx.classList.add("missing");e.target.remove()}
+},true);
+
+/* ================= 3D planets (Moon, Mars) ================= */
+const DEM_W=1440, DEM_H=720;
+const PL={
+  moon:{key:"moon",label:"Moon",R:1737400,color:"#2f6df0",dem:"/*MOONDEM*/",tex:"/*MOONCOLOR*/",hmin:-9200,hmax:10800,zoneMask:14,thr:70,amb:0x6b7a99,
+    cam:[3.4,.7,.5],far:[-3.4,.7,-.5],
+    credit:"DATA: NASA/GSFC · LRO (LOLA, LROC) · CGI MOON KIT",
+    intro:"Click on the surface of the Moon to read its characteristics and see the catalogue site on Earth that comes closest."},
+  mars:{key:"mars",label:"Mars",R:3396000,color:"#e0382a",dem:"/*MARSDEM*/",tex:"/*MARSCOLOR*/",hmin:-8200,hmax:21200,zoneMask:126,thr:90,amb:0x9a6a55,
+    cam:[3.4,.7,.5],far:[-3.4,.7,-.5],
+    credit:"DATA: NASA · MGS (MOLA) · VIKING MDIM 2.1 (NASA/JPL/USGS)",
+    intro:"Click on the surface of Mars to read its characteristics and see the catalogue site on Earth that comes closest."}
+};
+function howHtml(c){
+  const n=SITES.filter(s=>inList(s,c.key)).length;
+  if(c.key==="moon")return `<p>At the clicked point, the page reads the real altitude (LOLA, 4 pixels per degree, about 7.6 km per pixel at the equator), the slope, the local relief and the brightness of the LROC map.</p>
+    <p>Rules (defined for this project, not by the catalogue): dark terrain = lunar mare (basalt, lava flows); bright terrain = highlands (anorthosite, breccia, craters); local relief in the top 20 % = crater wall or rim (crater, ejecta, impact melt, breccia); slope in the top 10 % = possible debris (granular flows); latitude of 80° or more = possible water ice. Regolith is added everywhere. Thresholds are computed over the whole map.</p>
+    <p>These elements are compared with those the ESA catalogue lists for each of the ${n} sites of its Moon list. The percentage is the share of the sought elements that the site covers. On a tie, the driest site (quoted precipitation) comes first, because the Moon has no water. It is not a measure of physical similarity.</p>
+    <p>NASA describes these maps as “optimized for aesthetics, not science”: small craters and rilles are not resolved.</p>`;
+  return `<p>At the clicked point, the page reads the real altitude (MOLA laser altimeter, 4 pixels per degree, about 14.8 km per pixel at the equator, relative to the areoid), the slope, the local relief and the brightness of the Viking mosaic.</p>
+    <p>Rules (defined for this project, not by the catalogue): dark terrain = basaltic sand and rock (basalt, plus dunes where the terrain is smooth); bright terrain = dust (wind-blown soils); local relief in the top 20 % = craters and walls (crater, ejecta); altitude in the top 5 % = volcanic highlands (structures, lava flows, basalt); altitude in the lowest 10 % = basins (lakes, deltas and fans); steep slope between 25° and 60° latitude = possible gullies; latitude of 65° or more = ice (polygons, glaciers). Wind-blown soils are added everywhere. Thresholds are computed over the whole map.</p>
+    <p>These elements are compared with those the ESA catalogue lists for each of the ${n} sites of its Mars list. The percentage is the share of the sought elements that the site covers. On a tie, the driest site and then the coldest (quoted values) comes first, because Mars is dry and cold. It is not a measure of physical similarity.</p>
+    <p>The Viking mosaic is a presentation product: small features are not resolved.</p>`;
+}
+
+let S=null;
+const PS={};
+function demElev(col,row){col=((col%DEM_W)+DEM_W)%DEM_W;row=Math.max(0,Math.min(DEM_H-1,row));return S.ELEV[row*DEM_W+col]}
+function demAt(u,v){
+  const x=u*DEM_W-.5,y=v*DEM_H-.5,x0=Math.floor(x),y0=Math.floor(y),fx=x-x0,fy=y-y0;
+  return demElev(x0,y0)*(1-fx)*(1-fy)+demElev(x0+1,y0)*fx*(1-fy)+demElev(x0,y0+1)*(1-fx)*fy+demElev(x0+1,y0+1)*fx*fy;
+}
+function lum(x,y){
+  const cd=S.colorData,W=cd.width,H=cd.height;x=((x%W)+W)%W;y=Math.max(0,Math.min(H-1,y));
+  const i=(y*W+x)*4,d=cd.data;return .2126*d[i]+.7152*d[i+1]+.0722*d[i+2];
+}
+function loadPlanetData(key){
+  if(PS[key])return Promise.resolve(PS[key]);
+  const cfg=PL[key],bin=atob(cfg.dem),u8=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
+  const ELEV=new Float32Array(DEM_W*DEM_H);
+  if(key==="moon"){const a=new Uint16Array(u8.buffer);for(let i=0;i<ELEV.length;i++)ELEV[i]=(a[i]-20000)*.5}
+  else{const a=new Int16Array(u8.buffer);for(let i=0;i<ELEV.length;i++)ELEV[i]=a[i]}
+  return new Promise((res,rej)=>{
+    const im=new Image();
+    im.onload=()=>{
+      const cv=document.createElement("canvas");cv.width=im.width;cv.height=im.height;
+      const cx=cv.getContext("2d",{willReadFrequently:true});cx.drawImage(im,0,0);
+      PS[key]={cfg,ELEV,img:im,colorData:cx.getImageData(0,0,im.width,im.height),rankCache:{},ready:false};res(PS[key]);
+    };
+    im.onerror=rej;im.src=cfg.tex;
+  });
+}
+function slopeAt(col,row){
+  const lat=90-(row+.5)*180/DEM_H,R=S.cfg.R;
+  const dxm=Math.max(.02,Math.cos(lat*Math.PI/180))*2*Math.PI*R/DEM_W*2,dym=Math.PI*R/DEM_H*2;
+  const dzdx=(demElev(col+1,row)-demElev(col-1,row))/dxm,dzdy=(demElev(col,row-1)-demElev(col,row+1))/dym;
+  return Math.atan(Math.hypot(dzdx,dzdy))*180/Math.PI;
+}
+function reliefAt(col,row){
+  let mn=1e9,mx=-1e9;
+  for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){const e=demElev(col+dx,row+dy);if(e<mn)mn=e;if(e>mx)mx=e}
+  return mx-mn;
+}
+function percentile(arr,p){
+  const s=new Float32Array(Math.ceil(arr.length/3));for(let i=0,j=0;i<arr.length;i+=3)s[j++]=arr[i];
+  s.sort();return s[Math.floor(s.length*p)];
+}
+function computeThresholds(){
+  const N=DEM_W*DEM_H,cd=S.colorData,cw=cd.width,ch=cd.height;
+  const LM=new Uint8Array(N),RL=new Float32Array(N),SLP=new Float32Array(N);
+  for(let y=0;y<DEM_H;y++)for(let x=0;x<DEM_W;x++){
+    const i=y*DEM_W+x,cx=Math.floor((x+.5)/DEM_W*cw),cy=Math.floor((y+.5)/DEM_H*ch);
+    let s=0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)s+=lum(cx+dx,cy+dy);
+    LM[i]=Math.round(s/9);RL[i]=reliefAt(x,y);SLP[i]=slopeAt(x,y);
+  }
+  const hist=new Float64Array(256);let tot=0;
+  for(let y=Math.floor(DEM_H*.083);y<DEM_H*.917;y++)for(let x=0;x<DEM_W;x++){hist[LM[y*DEM_W+x]]++;tot++}
+  let sum=0;for(let i=0;i<256;i++)sum+=i*hist[i];
+  let sB=0,wB=0,best=0,thr=128;
+  for(let t=0;t<256;t++){
+    wB+=hist[t];if(!wB)continue;const wF=tot-wB;if(!wF)break;
+    sB+=t*hist[t];const mB=sB/wB,mF=(sum-sB)/wF,v=wB*wF*(mB-mF)*(mB-mF);
+    if(v>best){best=v;thr=t}
+  }
+  S.LM=LM;S.RL=RL;S.SLP=SLP;S.otsuT=thr;S.reliefP80=percentile(RL,.8);S.slopeP90=percentile(SLP,.9);
+  S.elevHi=percentile(S.ELEV,.95);S.elevLo=percentile(S.ELEV,.10);
+  const MASK=new Uint8Array(N);
+  for(let y=0;y<DEM_H;y++){const lat=90-(y+.5)*180/DEM_H;for(let x=0;x<DEM_W;x++){const i=y*DEM_W+x;MASK[i]=maskOf({L:LM[i],relief:RL[i],slope:SLP[i],lat,elev:S.ELEV[i]})}}
+  S.MASK=MASK;
+}
+function analyze(lat,lon){
+  const u=(lon+180)/360,v=(90-lat)/180,col=Math.min(DEM_W-1,Math.floor(u*DEM_W)),row=Math.min(DEM_H-1,Math.floor(v*DEM_H)),i=row*DEM_W+col;
+  return{lat,lon,elev:demAt(u,v),slope:S.SLP[i],relief:S.RL[i],L:S.LM[i]};
+}
+function maskOf(a){
+  const dark=a.L<S.otsuT?1:0,rug=a.relief>=S.reliefP80?2:0,steep=a.slope>=S.slopeP90?4:0,al=Math.abs(a.lat);
+  if(S.cfg.key==="mars")return dark|rug|steep|(al>=65?8:0)|(a.elev>=S.elevHi?16:0)|(a.elev<=S.elevLo?32:0)|((steep&&al>=25&&al<=60)?64:0);
+  return dark|rug|steep|(al>=80?8:0);
+}
+function profileOfMask(m){
+  const tags=[],feats=new Set();
+  if(S.cfg.key==="mars"){
+    feats.add("Wind > Soils/regolith");
+    if(m&1){tags.push("Dark terrain (basaltic sand and rock)");feats.add("Composition > Basalt");if(!(m&6))feats.add("Wind > Dunes")}
+    else tags.push("Bright terrain (dust)");
+    if(m&2){tags.push("Rugged relief (craters, walls)");["Impact Features > Crater","Impact Features > Ejecta"].forEach(f=>feats.add(f))}
+    if(m&4)tags.push("Steep slope");
+    if(m&64){tags.push("Steep slope at mid-latitude (possible gullies)");["Impact Features > Gullies","Fluvial > Gullies"].forEach(f=>feats.add(f))}
+    if(m&16){tags.push("Volcanic highland");["Volcanic > Structure","Volcanic > Lava Flows","Composition > Basalt"].forEach(f=>feats.add(f))}
+    if(m&32){tags.push("Low basin");["Fluvial > Lakes","Fluvial > Deltas/Fans"].forEach(f=>feats.add(f))}
+    if(m&8){tags.push("Polar region (ice)");["Ice > Polygon Terrain","Ice > Icy Flows/glacial features"].forEach(f=>feats.add(f))}
+    return{tags,feats:[...feats]};
+  }
+  feats.add("Impact > Regolith");
+  if(m&1){tags.push("Lunar mare (dark terrain)");["Composition > Basalt","Volcanic > Lava Flows"].forEach(f=>feats.add(f))}
+  else{tags.push("Highlands (bright terrain)");["Composition > Anorthosite","Composition > Impact Breccia","Impact > Crater"].forEach(f=>feats.add(f))}
+  if(m&2){tags.push("Rugged relief (wall, rim or crater)");["Impact > Crater","Impact > Ejecta","Impact > Impact Melt","Composition > Impact Breccia"].forEach(f=>feats.add(f))}
+  if(m&4){tags.push("Steep slope (possible debris)");feats.add("Environmental > Granular Flows")}
+  if(m&8){tags.push("Polar region");feats.add("Composition > Water/Ice")}
+  return{tags,feats:[...feats]};
+}
+function rankSites(feats){
+  const k=S.cfg.key;
+  return SITES.filter(s=>inList(s,k)).map(s=>{
+    const f=s.directory_features?.[k]||[],m=feats.filter(x=>f.includes(x)),c=CRIT[s.id],p=c?.p,t=c?.t;
+    return{s,m,score:m.length/feats.length,dry:p?(p[0]+p[1])/2:Infinity,cold:t?(t[0]+t[1])/2:Infinity};
+  }).sort((a,b)=>b.score-a.score||a.dry-b.dry||(k==="mars"?a.cold-b.cold:0)||a.s.name.localeCompare(b.s.name));
+}
+function rankForMask(m){return S.rankCache[m]||(S.rankCache[m]=rankSites(profileOfMask(m).feats))}
+function profile(a){return profileOfMask(maskOf(a))}
+
+const ZPAL=["#ffb000","#00c2a8","#ff5c8a","#7cff6b","#b48cff","#4cc9f0","#ff8c42","#f9f871","#ff6b6b","#9be564"], zColor={};
+function colorOfSite(id){return zColor[id]||(zColor[id]=ZPAL[Object.keys(zColor).length%ZPAL.length])}
+function hexRgb(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
+function drawZones(zcv,zctx,tmp){
+  const thr=(+$("zthr").value)/100,tctx=tmp.getContext("2d"),img=tctx.createImageData(DEM_W,DEM_H),d=img.data;
+  const zm=S.cfg.zoneMask,NM=S.cfg.key==="mars"?128:16,info=[];
+  for(let m=0;m<NM;m++){const r=rankForMask(m)[0];info.push({m,r,rgb:hexRgb(colorOfSite(r.s.id)),score:r.score,w:0})}
+  const rw=new Float32Array(DEM_H);let tot=0;
+  for(let y=0;y<DEM_H;y++){rw[y]=Math.cos((90-(y+.5)*180/DEM_H)*Math.PI/180);tot+=rw[y]*DEM_W}
+  for(let y=0;y<DEM_H;y++)for(let x=0;x<DEM_W;x++){
+    const i=y*DEM_W+x,inf=info[S.MASK[i]];
+    if(inf.score<thr||!(inf.m&zm))continue;
+    const t=(1-thr)<.001?1:(inf.score-thr)/(1-thr),p=i*4;
+    d[p]=inf.rgb[0];d[p+1]=inf.rgb[1];d[p+2]=inf.rgb[2];d[p+3]=Math.round(255*(.5+.5*t));
+    inf.w+=rw[y];
+  }
+  tctx.putImageData(img,0,0);
+  zctx.clearRect(0,0,DEM_W,DEM_H);zctx.filter="blur(2px)";zctx.drawImage(tmp,0,0);zctx.filter="none";
+  const bySite=new Map();
+  info.filter(x=>x.w/tot>=.005&&x.score>=thr&&(x.m&zm)).forEach(x=>{
+    const g=bySite.get(x.r.s.id)||{s:x.r.s,w:0,score:0,terr:[]};
+    g.w+=x.w;g.score=Math.max(g.score,x.score);g.terr.push({w:x.w,t:profileOfMask(x.m).tags.join(" + ")});bySite.set(x.r.s.id,g);
+  });
+  const rows=[...bySite.values()].sort((a,b)=>b.w-a.w).slice(0,6);
+  $("zleg").innerHTML=rows.length?rows.map(g=>`<li><i style="background:${colorOfSite(g.s.id)};color:${colorOfSite(g.s.id)}"></i><span><b>${esc(g.s.name)}</b> · up to ${Math.round(g.score*100)} %<br><small>${(()=>{const s=g.terr.sort((a,b)=>b.w-a.w);return s.slice(0,3).map(x=>esc(x.t)).join(" ; ")+(s.length>3?" ; +"+(s.length-3)+" more terrain types":"")})()}<br>${(g.w/tot*100).toFixed(0)} % of the surface</small></span></li>`).join(""):'<li class="na">No zone above this threshold.</li>';
+}
+
+const miniProj=d3.geoNaturalEarth1().fitSize([320,170],{type:"Sphere"}), miniPath=d3.geoPath(miniProj);
+function miniMap(s){
+  const names=countriesOf(s),[r,g,b]=hexRgb(S.cfg.color);
+  const paths=features.map(f=>`<path d="${miniPath(f)}" fill="${names.includes(f.properties.name)?`rgba(${r},${g},${b},.55)`:"#181c25"}" stroke="rgba(206,212,224,.45)" stroke-width=".4"/>`).join("");
+  let mark="";
+  if(isPlaced(s)){const p=miniProj([s.coords.lon,s.coords.lat]);mark=`<circle cx="${p[0]}" cy="${p[1]}" r="7" fill="none" stroke="${S.cfg.color}" stroke-width="1.5"/><circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#fff"/>`}
+  return `<svg class="mini" viewBox="0 0 320 170" role="img" aria-label="Position of the site on Earth">${paths}${mark}</svg>`;
+}
+function showResult(a,prof,ranked){
+  const top=ranked[0],ties=ranked.filter(r=>r.score===top.score).length;
+  const lat=Math.abs(a.lat).toFixed(2)+"° "+(a.lat>=0?"N":"S"),lon=Math.abs(a.lon).toFixed(2)+"° "+(a.lon>=0?"E":"W");
+  const F=FOLDER[top.s.id],img=F?.imgs?.earth?.file,nf=n=>Math.round(n).toLocaleString("en-US");
+  const others=ranked.slice(1,4).map(r=>`<li><span>${esc(r.s.name)}</span><span>${Math.round(r.score*100)} %</span></li>`).join("");
+  $("lres").innerHTML=`
+    <dl><dt>Position</dt><dd>${lat}, ${lon}</dd>
+    <dt>Altitude</dt><dd>${nf(a.elev)} m</dd>
+    <dt>Slope</dt><dd>${a.slope.toFixed(1)}°</dd>
+    <dt>Local relief</dt><dd>${nf(a.relief)} m (“rugged” threshold: ${nf(S.reliefP80)} m)</dd>
+    <dt>Brightness</dt><dd>${Math.round(a.L)} / 255 (dark/bright threshold: ${S.otsuT})</dd></dl>
+    <div class="gl">Detected profile</div>
+    <div class="chips">${prof.tags.map(t=>`<span>${esc(t)}</span>`).join("")}</div>
+    <div class="gl">Catalogue elements sought</div>
+    <div class="chips">${prof.feats.map(f=>`<span class="${top.m.includes(f)?"hit":""}">${esc(f.replace(" > "," › "))}</span>`).join("")}</div>
+    <div class="best">
+      <div class="gl" style="margin-top:0">Closest Earth site</div>
+      <h3>${esc(top.s.name)}</h3>
+      <div class="note" style="margin:2px 0 0">${esc(top.s.country||"")}</div>
+      <div><span class="pc">${Math.round(top.score*100)} %</span> <span class="note">${top.m.length} of ${prof.feats.length} elements (highlighted above)</span></div>
+      ${img?`<img class="earth" src="${esc(img)}" alt="${esc(top.s.name)}" loading="lazy">`:""}
+      ${miniMap(top.s)}
+      ${ties>1?`<p class="tie">${ties} sites tied; ordered by driest${S.cfg.key==="mars"?", then coldest,":""} (quoted values).</p>`:""}
+      <button type="button" class="go" data-site="${top.s.id}">Open the site sheet ▸</button>
+    </div>
+    ${others?`<div class="gl">Next</div><ul class="others">${others}</ul>`:""}`;
+}
+$("lres").addEventListener("click",e=>{const b=e.target.closest("[data-site]");if(b){nextDetailBody=S.cfg.key;location.hash="site-"+b.dataset.site}});
+$("lres").addEventListener("error",e=>{if(e.target.tagName==="IMG")e.target.remove()},true);
+$("pl-moon").onclick=()=>{location.hash="lune"};
+$("pl-mars").onclick=()=>{location.hash="mars"};
+
+let M=null, pendingKey=null;
+function showPlanet(key){
+  if(M&&S&&S.cfg.key===key){planetLoop(true);return}
+  if(pendingKey===key)return;
+  initPlanet(key);
+}
+function initPlanet(key){
+  if(typeof THREE==="undefined"||!THREE.OrbitControls){$("lstatus").hidden=false;$("lstatus").textContent="The 3D library could not be loaded (internet connection required).";return}
+  pendingKey=key;planetLoop(false);
+  $("lstatus").hidden=false;$("lstatus").textContent="Loading "+(key==="mars"?"Mars":"Moon")+" data…";
+  document.body.dataset.body=key;
+  $("pl-moon").setAttribute("aria-pressed",key==="moon");$("pl-mars").setAttribute("aria-pressed",key==="mars");
+  setTimeout(()=>{
+    loadPlanetData(key).then(st=>{
+      if(pendingKey!==key)return;
+      S=st;if(!st.ready){computeThresholds();st.ready=true}
+      if(!M)buildScene();
+      if(!M){pendingKey=null;return}
+      M.setPlanet(st);$("lstatus").hidden=true;pendingKey=null;planetLoop(!$("lune").hidden);
+    }).catch(()=>{pendingKey=null;$("lstatus").hidden=false;$("lstatus").textContent="Could not load the data."});
+  },30);
+}
+function buildScene(){
+  const host=$("lcanvas");
+  let renderer;
+  try{renderer=new THREE.WebGLRenderer({antialias:true})}catch(e){$("lstatus").hidden=false;$("lstatus").textContent="WebGL is not available in this browser.";return}
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.outputEncoding=THREE.sRGBEncoding;
+  host.appendChild(renderer.domElement);
+  const scene=new THREE.Scene();scene.background=new THREE.Color(0x05070b);
+  const camera=new THREE.PerspectiveCamera(40,1,.01,200);camera.position.set(3.4,.7,.5);
+  const controls=new THREE.OrbitControls(camera,renderer.domElement);
+  controls.enableDamping=true;controls.dampingFactor=.08;controls.minDistance=1.05;controls.maxDistance=9;controls.rotateSpeed=.55;controls.zoomSpeed=.8;controls.enablePan=false;
+
+  const tex=new THREE.Texture();tex.encoding=THREE.sRGBEncoding;tex.anisotropy=renderer.capabilities.getMaxAnisotropy();
+  const bc=document.createElement("canvas");bc.width=DEM_W;bc.height=DEM_H;const bump=new THREE.CanvasTexture(bc);
+  const geo=new THREE.SphereGeometry(1,512,256),pos=geo.attributes.position,uv=geo.attributes.uv,n=pos.count;
+  const dirs=new Float32Array(n*3),hts=new Float32Array(n);
+  for(let i=0;i<n;i++){const x=pos.getX(i),y=pos.getY(i),z=pos.getZ(i),l=Math.hypot(x,y,z);dirs[i*3]=x/l;dirs[i*3+1]=y/l;dirs[i*3+2]=z/l}
+  function paintBump(){
+    const bx=bc.getContext("2d"),bi=bx.createImageData(DEM_W,DEM_H),lo=S.cfg.hmin,hi=S.cfg.hmax;
+    for(let i=0;i<DEM_W*DEM_H;i++){const g=Math.max(0,Math.min(255,(S.ELEV[i]-lo)/(hi-lo)*255));bi.data[i*4]=bi.data[i*4+1]=bi.data[i*4+2]=g;bi.data[i*4+3]=255}
+    bx.putImageData(bi,0,0);bump.needsUpdate=true;
+  }
+  function applyRelief(ex){
+    const R=S.cfg.R;
+    for(let i=0;i<n;i++){const r=1+ex*hts[i]/R;pos.setXYZ(i,dirs[i*3]*r,dirs[i*3+1]*r,dirs[i*3+2]*r)}
+    pos.needsUpdate=true;geo.computeVertexNormals();geo.computeBoundingSphere();
+  }
+  const mat=new THREE.MeshStandardMaterial({map:tex,bumpMap:bump,bumpScale:.35,roughness:1,metalness:0});
+  const mesh=new THREE.Mesh(geo,mat);scene.add(mesh);
+  const zcv=document.createElement("canvas");zcv.width=DEM_W;zcv.height=DEM_H;
+  const zctx=zcv.getContext("2d"),ztmp=document.createElement("canvas");ztmp.width=DEM_W;ztmp.height=DEM_H;
+  const ztex=new THREE.CanvasTexture(zcv);ztex.encoding=THREE.sRGBEncoding;
+  const zoneMat=new THREE.MeshBasicMaterial({map:ztex,transparent:true,depthWrite:false,opacity:.8,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2});
+  const zoneMesh=new THREE.Mesh(geo,zoneMat);scene.add(zoneMesh);
+  function refreshZones(){drawZones(zcv,zctx,ztmp);ztex.needsUpdate=true;zoneMesh.visible=$("zon").checked}
+  let zt=null;
+  $("zthr").oninput=e=>{$("zthrv").textContent=e.target.value+" %";clearTimeout(zt);zt=setTimeout(refreshZones,80)};
+  $("zon").onchange=()=>{zoneMesh.visible=$("zon").checked;$("zleg").hidden=!$("zon").checked};
+  const sun=new THREE.DirectionalLight(0xffffff,1.9);scene.add(sun);const amb=new THREE.AmbientLight(0x6b7a99,.42);scene.add(amb);
+  const sp=new Float32Array(1800*3);
+  for(let i=0;i<1800;i++){const a=Math.random()*Math.PI*2,b=Math.acos(2*Math.random()-1),r=60;sp[i*3]=r*Math.sin(b)*Math.cos(a);sp[i*3+1]=r*Math.cos(b);sp[i*3+2]=r*Math.sin(b)*Math.sin(a)}
+  const sg=new THREE.BufferGeometry();sg.setAttribute("position",new THREE.BufferAttribute(sp,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xbfc7d8,size:1.2,sizeAttenuation:false})));
+  const marker=new THREE.Group();
+  marker.add(new THREE.Mesh(new THREE.SphereGeometry(.18,16,16),new THREE.MeshBasicMaterial({color:0xff4d3d})));
+  marker.add(new THREE.Mesh(new THREE.RingGeometry(.34,.44,40),new THREE.MeshBasicMaterial({color:0xffffff,side:THREE.DoubleSide})));
+  marker.visible=false;scene.add(marker);
+  const ray=new THREE.Raycaster();
+  function size(){const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);renderer.domElement.style.width=w+"px";renderer.domElement.style.height=h+"px";camera.aspect=w/h;camera.updateProjectionMatrix()}
+  new ResizeObserver(size).observe(host);size();
+
+  let down=null;
+  renderer.domElement.addEventListener("pointerdown",e=>{down={x:e.clientX,y:e.clientY,t:performance.now()}});
+  renderer.domElement.addEventListener("pointerup",e=>{
+    if(!down)return;const moved=Math.hypot(e.clientX-down.x,e.clientY-down.y),dt=performance.now()-down.t;down=null;
+    if(moved>5||dt>700)return;
+    const r=renderer.domElement.getBoundingClientRect();
+    ray.setFromCamera(new THREE.Vector2(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1),camera);
+    const hit=ray.intersectObject(mesh,false)[0];if(!hit)return;
+    pickPoint(hit.point);
+  });
+  function pickPoint(p){
+    const d=p.clone().normalize(),lat=Math.asin(d.y)*180/Math.PI;
+    let u=Math.atan2(d.z,-d.x)/(2*Math.PI);if(u<0)u+=1;
+    const lon=(u-.5)*360,a=analyze(lat,lon),prof=profile(a),ranked=rankForMask(maskOf(a));
+    showResult(a,prof,ranked);
+    marker.position.copy(p);marker.lookAt(p.clone().multiplyScalar(2));marker.visible=true;
+  }
+  function setPlanet(st){
+    S=st;const c=st.cfg;
+    tex.image=st.img;tex.needsUpdate=true;
+    paintBump();
+    for(let i=0;i<n;i++)hts[i]=demAt(uv.getX(i),1-uv.getY(i));
+    amb.color.setHex(c.amb);$("zthr").value=c.thr;$("zthrv").textContent=c.thr+" %";
+    applyRelief(+$("lexag").value);
+    refreshZones();
+    marker.visible=false;
+    camera.position.set(c.cam[0],c.cam[1],c.cam[2]);
+    document.body.dataset.body=c.key;
+    $("ltitle").textContent=c.label+" in 3D";$("lcredit").textContent=c.credit;$("lhow").innerHTML=howHtml(c);
+    $("lres").innerHTML=`<p class="note">${esc(c.intro)}</p>`;
+    $("pl-moon").setAttribute("aria-pressed",c.key==="moon");$("pl-mars").setAttribute("aria-pressed",c.key==="mars");
+  }
+  let t=null;
+  $("lexag").oninput=e=>{const v=+e.target.value;$("lexagv").textContent="×"+v;clearTimeout(t);t=setTimeout(()=>applyRelief(v),60)};
+  $("lnear").onclick=()=>{camera.position.set(...S.cfg.cam)};
+  $("lfar").onclick=()=>{camera.position.set(...S.cfg.far)};
+  M={renderer,scene,camera,controls,sun,marker,zoneMat,setPlanet,pickPoint,mesh};
+}
+let planetRaf=0;
+function planetLoop(on){
+  cancelAnimationFrame(planetRaf);
+  if(!on||!M)return;
+  const step=()=>{
+    planetRaf=requestAnimationFrame(step);
+    M.controls.update();
+    M.zoneMat.opacity=.82+.18*Math.sin(performance.now()/450);
+    M.sun.position.copy(M.camera.position).applyAxisAngle(new THREE.Vector3(0,1,0),1.15).add(new THREE.Vector3(0,.6,0));
+    if(M.marker.visible){const s=Math.max(.03,(M.camera.position.length()-1)*.07);M.marker.scale.setScalar(s)}
+    M.renderer.render(M.scene,M.camera);
+  };
+  step();
+}
+
+/* ================= Home previews ================= */
+function earthPreview(){
+  const Wp=380,Hp=200,pr=d3.geoNaturalEarth1().fitSize([Wp,Hp],{type:"Sphere"}),pp=d3.geoPath(pr);
+  const col=COLORS.moon;
+  const paths=features.map(f=>{
+    const e=CS.get(f.properties.name),fill=e&&e.score>0?d3.interpolateRgb(LAND,col)(.12+.78*(BEST?e.score/BEST:0)):LAND;
+    return `<path d="${pp(f)}" fill="${fill}" stroke="rgba(206,212,224,.5)" stroke-width=".4"/>`;
+  }).join("");
+  const dots=LASTDOTS.filter(d=>!d.off).map(d=>{const p=pr([d.s.coords.lon,d.s.coords.lat]);return `<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="none" stroke="${col}" stroke-width="1" opacity=".7"/><circle cx="${p[0]}" cy="${p[1]}" r="2.4" fill="#fff"/>`}).join("");
+  $("prevEarth").innerHTML=`<svg viewBox="0 0 ${Wp} ${Hp}" role="img" aria-label="Preview of the Earth map">${paths}${dots}</svg>`;
+}
+function globePreview(canvas,src,lon0,lat0){
+  const im=new Image();
+  im.onload=()=>{
+    const cv=document.createElement("canvas");cv.width=im.width;cv.height=im.height;
+    const cx=cv.getContext("2d",{willReadFrequently:true});cx.drawImage(im,0,0);
+    const tex=cx.getImageData(0,0,im.width,im.height).data,TW=im.width,TH=im.height;
+    const W=canvas.width,H=canvas.height,out=canvas.getContext("2d"),img=out.createImageData(W,H),d=img.data;
+    const R=W/2-10,la=lat0*Math.PI/180,lo0=lon0*Math.PI/180,L=[-.55,.5,.67],ln=Math.hypot(L[0],L[1],L[2]);
+    for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+      const nx=(x+.5-W/2)/R,ny=-(y+.5-H/2)/R,r2=nx*nx+ny*ny;if(r2>=1)continue;
+      const nz=Math.sqrt(1-r2),rho=Math.sqrt(r2),c=Math.asin(rho);
+      let lat,lon;
+      if(rho<1e-9){lat=la;lon=lo0}
+      else{lat=Math.asin(Math.cos(c)*Math.sin(la)+ny*Math.sin(c)*Math.cos(la)/rho);lon=lo0+Math.atan2(nx*Math.sin(c),rho*Math.cos(la)*Math.cos(c)-ny*Math.sin(la)*Math.sin(c))}
+      let u=(lon/Math.PI+1)/2;u-=Math.floor(u);const v=(.5-lat/Math.PI);
+      const tx=Math.min(TW-1,Math.floor(u*TW)),ty=Math.min(TH-1,Math.max(0,Math.floor(v*TH))),ti=(ty*TW+tx)*4;
+      const sh=.18+.95*Math.max(0,(nx*L[0]+ny*L[1]+nz*L[2])/ln),edge=Math.min(1,(1-Math.sqrt(r2))*R/1.5),p=(y*W+x)*4;
+      d[p]=Math.min(255,tex[ti]*sh);d[p+1]=Math.min(255,tex[ti+1]*sh);d[p+2]=Math.min(255,tex[ti+2]*sh);d[p+3]=Math.round(255*edge);
+    }
+    out.putImageData(img,0,0);
+  };
+  im.src=src;
+}
+
+render();
+earthPreview();
+globePreview($("prevMoon"),PL.moon.tex,-15,18);
+globePreview($("prevMars"),PL.mars.tex,-70,14);
+route();
+</script>

@@ -1,0 +1,1966 @@
+[
+    {
+        "id":  1,
+        "name":  "The Antarctic Dry Valleys",
+        "country":  "Antarctica",
+        "doc_pages":  [
+                          6,
+                          15
+                      ],
+        "coords":  {
+                       "lat":  -77.5,
+                       "lon":  163.0,
+                       "source":  "site",
+                       "raw":  "77°30\u0027S 163°00\u0027E",
+                       "note":  null
+                   },
+        "elevation_raw":  "2800 metres",
+        "environment":  {
+                            "climate":  "The ADV are hyper arid; a cold polar desert.",
+                            "temperature":  "Average annual temperatures here are around -18 °C.",
+                            "precip_type":  "Rainfall rare but can occur along coastal regions. No snow in valleys.",
+                            "annual_precip":  "Negligible.",
+                            "humidity":  "Low.",
+                            "wind":  "High; winds can reach speeds of 320 Km per hour.",
+                            "insolation":  "High solar radiation is recorded in the Dry Valleys. 24-hour sunshine during the southern hemisphere summer."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "directory only",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Described as the most \u0027Mars-like\u0027 environment on Earth: cold dry desert, polygons, gullies, cold-based glaciers, salts, subsurface brines, extremophiles; also human-mission/habitat testing."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Composition \u003e Water/Ice"
+                                            ],
+                                   "mars":  [
+                                                "Fluvial \u003e Lakes",
+                                                "Fluvial \u003e Gullies",
+                                                "Wind \u003e Soils/regolith",
+                                                "Ice \u003e Polygon Terrain",
+                                                "Ice \u003e Icy Flows/glacial features",
+                                                "Composition \u003e Carbonate"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Blood Falls",
+                             "coords_raw":  "77.722053°S, 162.271861°E",
+                             "lat":  -77.722053,
+                             "lon":  162.271861
+                         },
+                         {
+                             "name":  "Wright Valley: South Fork Study Area",
+                             "coords_raw":  "77.3336°S, 161.1724°E",
+                             "lat":  -77.3336,
+                             "lon":  161.1724
+                         },
+                         {
+                             "name":  "Beacon Valley",
+                             "coords_raw":  "77.842°S 160.844°E",
+                             "lat":  -77.842,
+                             "lon":  160.844
+                         }
+                     ],
+        "issues":  [
+                       "Relevance text names Mars only; Moon assignment comes from the Directory (Water/Ice) only."
+                   ]
+    },
+    {
+        "id":  2,
+        "name":  "The Atacama Desert",
+        "country":  "Northern Chile and Southern Peru",
+        "doc_pages":  [
+                          16,
+                          22
+                      ],
+        "coords":  {
+                       "lat":  -24.062,
+                       "lon":  -69.923,
+                       "source":  "subsite:Yungay Area",
+                       "raw":  "site-level: 20 °S to 30 °S (no longitude); Yungay Area: 24.062 S, 69.923 W",
+                       "note":  "Site-level coordinate is only a latitude range; the Yungay Area sub-site point is used."
+                   },
+        "elevation_raw":  "Up to 6885m.",
+        "environment":  {
+                            "climate":  "Arid, temperate desert.",
+                            "temperature":  "Extremes are 0 -/+ 23 °C.",
+                            "precip_type":  "Rain.",
+                            "annual_precip":  "\u003c 10mm/yr",
+                            "humidity":  "Very low.",
+                            "wind":  null,
+                            "insolation":  "20.9 MJ/m2/day. High solar irradiance."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Analogue for both Mars and the Moon: hyper-arid desert, Mars-like soils, desert pavement, volcanic/hydrothermal deposits, playas, channels, fans, aeolian features, impact deposits, oxidation, perchlorates."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Volcanic \u003e Lava Flows",
+                                                "Volcanic \u003e Pyroclastic Deposits",
+                                                "Volcanic \u003e Rilles/Channel Systems"
+                                            ],
+                                   "mars":  [
+                                                "Impact Features \u003e Crater",
+                                                "Volcanic \u003e Structure",
+                                                "Volcanic \u003e Lava Flows",
+                                                "Volcanic \u003e Hydrothermal Deposits",
+                                                "Fluvial \u003e Deltas/Fans",
+                                                "Wind \u003e Soils/regolith",
+                                                "Wind \u003e Dunes",
+                                                "Composition \u003e Basalt",
+                                                "Composition \u003e Sulphate",
+                                                "Composition \u003e Iron Oxide"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Yungay Area",
+                             "coords_raw":  "24.062 S, 69.923 W",
+                             "lat":  -24.062,
+                             "lon":  -69.923
+                         },
+                         {
+                             "name":  "Pampas de La Joya",
+                             "coords_raw":  "16.699 S, 71.806 W",
+                             "lat":  -16.699,
+                             "lon":  -71.806
+                         }
+                     ],
+        "issues":  [
+                       "Temperature printed \u0027Extremes are 0 -/+ 23 °C\u0027 (odd notation, kept verbatim)."
+                   ]
+    },
+    {
+        "id":  3,
+        "name":  "Central Australia",
+        "country":  "Australia",
+        "doc_pages":  [
+                          23,
+                          26
+                      ],
+        "coords":  {
+                       "lat":  -23.7,
+                       "lon":  133.87,
+                       "source":  "site",
+                       "raw":  "Alice Springs is located at 23.7°S, 133.87°E",
+                       "note":  "Reference point is the town of Alice Springs; the analogue sites are spread across the desert zones."
+                   },
+        "elevation_raw":  "Alice Springs is located at 576 metres above sea level.",
+        "environment":  {
+                            "climate":  "Arid desert.",
+                            "temperature":  "For most of the year the temperature is \u003e 26 °C; October to March \u003e 30 °C.",
+                            "precip_type":  "Rain and frost.",
+                            "annual_precip":  "Average rainfall to the North of Alice Springs is 305 mm; south this decreases to 127 mm.",
+                            "humidity":  "Low.",
+                            "wind":  "Variable.",
+                            "insolation":  "Average of 9 hours sunshine per day."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  false,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Fluvial/aeolian features, moundsprings, barchan dunes, Martian regolith/soils and channels; impact craters, ejecta rays and crater-wall gullies analogous to Moon and Mars; hydrothermal deposits, polygons, volcanic fields."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Impact \u003e Crater",
+                                                "Environmental \u003e Granular Flows"
+                                            ],
+                                   "mars":  [
+                                                "Impact Features \u003e Ejecta",
+                                                "Impact Features \u003e Gullies",
+                                                "Volcanic \u003e Hydrothermal Deposits",
+                                                "Volcanic \u003e Mud Volcanoes",
+                                                "Fluvial \u003e Lakes",
+                                                "Fluvial \u003e Channels",
+                                                "Fluvial \u003e Deltas/Fans",
+                                                "Fluvial \u003e Gullies",
+                                                "Wind \u003e Dunes",
+                                                "Ice \u003e Polygon Terrain"
+                                            ]
+                               },
+        "subsites":  [
+
+                     ],
+        "issues":  [
+                       "Text mentions extremophiles/microfossils/stromatolites but the site is not in the Directory Astrobiology list."
+                   ]
+    },
+    {
+        "id":  4,
+        "name":  "Axel Heiberg Island",
+        "country":  "Canada / Nunavut",
+        "doc_pages":  [
+                          27,
+                          35
+                      ],
+        "coords":  {
+                       "lat":  79.43333,
+                       "lon":  -90.76667,
+                       "source":  "site",
+                       "raw":  "79°26\u0027 N, 90° 46\u0027 W.",
+                       "note":  null
+                   },
+        "elevation_raw":  "The highest point is at 2210 metres.",
+        "environment":  {
+                            "climate":  "Polar desert.",
+                            "temperature":  "Eureka (comparable) annual temperature of -19.7 °C.",
+                            "precip_type":  "Snow, rain in summer.",
+                            "annual_precip":  "64 mm, 60% which falls as snow.",
+                            "humidity":  "NA",
+                            "wind":  "Variable.",
+                            "insolation":  "Eureka: low of 15.27 MJ/(m2d) in 1973 to a high of 22.75 in 1988."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "directory only",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Predominantly Mars: polygons, perennial spring mineral deposits, salt deposits, valleys, extremophiles, periglacial landforms, ground ice, evaporite geology, ice-covered lakes."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Composition \u003e Water/Ice"
+                                            ],
+                                   "mars":  [
+                                                "Ice \u003e Polygon Terrain",
+                                                "Ice \u003e Icy Flows/glacial features",
+                                                "Composition \u003e Sulphate",
+                                                "Composition \u003e Carbonate"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Saline Perennial Springs - Gypsum Hill",
+                             "coords_raw":  "79.409175N, 90.732765W",
+                             "lat":  79.409175,
+                             "lon":  -90.732765
+                         },
+                         {
+                             "name":  "Saline Perennial Springs - Colour Peak",
+                             "coords_raw":  "79.388711N, 91.267662W",
+                             "lat":  79.388711,
+                             "lon":  -91.267662
+                         },
+                         {
+                             "name":  "Polygonal Terrain",
+                             "coords_raw":  "79.2314N, 90.505907W",
+                             "lat":  79.2314,
+                             "lon":  -90.505907
+                         },
+                         {
+                             "name":  "Colour Lake Fen",
+                             "coords_raw":  "79.24918N, 90.45424W",
+                             "lat":  79.24918,
+                             "lon":  -90.45424
+                         }
+                     ],
+        "issues":  [
+                       "Temperature and insolation values are for Eureka, a \u0027comparable\u0027 station, not the site itself.",
+                       "Relevance text names Mars only; Moon assignment comes from the Directory (Water/Ice) only."
+                   ]
+    },
+    {
+        "id":  5,
+        "name":  "The Barberton Greenstone Belt",
+        "country":  "South Africa / Mpumalanga province / Barberton",
+        "doc_pages":  [
+                          36,
+                          40
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  null,
+                       "note":  "Coordinates field is blank in the document; sub-sites (Buck Reef, The Josefsdal Chert) are also blank."
+                   },
+        "elevation_raw":  "Variable.",
+        "environment":  {
+                            "climate":  "Grassland savannah of the Highveld escarpment and subtropical Lowveld plains. The west is drier, hotter and colder than the rest of the province.",
+                            "temperature":  "Averages from 20.2 °C in June to 26.8 °C in January.",
+                            "precip_type":  "Rain.",
+                            "annual_precip":  "672 mm.",
+                            "humidity":  null,
+                            "wind":  null,
+                            "insolation":  null
+                        },
+        "relevance":  {
+                          "moon":  false,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "none",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Evaluates occurrence and preservation potential of microbial life on Mars: fossilised microbial mats, stromatolites, volcanic sediments, aqueous alteration, hydrothermal activity."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Hydrothermal Deposits",
+                                                "Composition \u003e Silica"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Buck Reef",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         },
+                         {
+                             "name":  "The Josefsdal Chert",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+                       "No coordinates anywhere in the document."
+                   ]
+    },
+    {
+        "id":  6,
+        "name":  "Black Point Lava Flow",
+        "country":  "USA / Arizona",
+        "doc_pages":  [
+                          41,
+                          45
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  null,
+                       "note":  "Coordinates field is blank; the single sub-site\u0027s coordinates are also blank."
+                   },
+        "elevation_raw":  "1580 metres.",
+        "environment":  {
+                            "climate":  "Tundra and Desert areas, high altitudes. Thunderstorms common.",
+                            "temperature":  "Ranges from -9 °C (January) to 28 °C (July).",
+                            "precip_type":  "Rain and snow.",
+                            "annual_precip":  "Av.ann rain: 583.19 mm; Av.ann snow: 2763.52 mm.",
+                            "humidity":  "Low.",
+                            "wind":  "Constant and often high.",
+                            "insolation":  "Av.annual days of sunshine: 288."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  false,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Predominantly a lunar-surface analogue (lava flows, cinder cones, crater morphologies, palaeoregolith, EVA/mission simulations); basaltic lavas also relevant to Mars."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Impact \u003e Regolith",
+                                                "Composition \u003e Basalt"
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Lava Flows",
+                                                "Wind \u003e Soils/regolith",
+                                                "Composition \u003e Basalt"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Edge of BPLF and SP Lava Flow",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+                       "No coordinates in the document.",
+                       "Climate values identical to Cinder Lake and (partly) Meteor Crater entries - the document appears to reuse one regional climate block."
+                   ]
+    },
+    {
+        "id":  7,
+        "name":  "Cinder Lake",
+        "country":  "USA / Arizona",
+        "doc_pages":  [
+                          46,
+                          49
+                      ],
+        "coords":  {
+                       "lat":  35.3225,
+                       "lon":  -111.51806,
+                       "source":  "site",
+                       "raw":  "35.3225°, -111.51806°",
+                       "note":  null
+                   },
+        "elevation_raw":  "2030 metres.",
+        "environment":  {
+                            "climate":  "High altitude tundra and desert areas.",
+                            "temperature":  "Ranges from -9 °C (January) to 28 °C (July).",
+                            "precip_type":  "Rain and snow.",
+                            "annual_precip":  "Av.ann rain: 583.19 mm; Av.ann snow: 2763.52 mm.",
+                            "humidity":  "Low.",
+                            "wind":  "Variable.",
+                            "insolation":  "Average annual days of sunshine: 288."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  false,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "directory only",
+                          "evidence":  "Artificial crater field built by USGS in 1967 to train Apollo astronauts and test equipment; designed as a lunar analogue (cinder terrain as lunar regolith proxy, ejecta, rays)."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Impact \u003e Crater",
+                                                "Impact \u003e Ejecta",
+                                                "Impact \u003e Regolith",
+                                                "Composition \u003e Basalt"
+                                            ],
+                                   "mars":  [
+                                                "Impact Features \u003e Crater",
+                                                "Volcanic \u003e Lava Flows",
+                                                "Wind \u003e Soils/regolith",
+                                                "Composition \u003e Basalt"
+                                            ]
+                               },
+        "subsites":  [
+
+                     ],
+        "issues":  [
+                       "Text says designed as a lunar analogue; Mars assignment comes from the Directory only.",
+                       "Climate values identical to Black Point Lava Flow entry."
+                   ]
+    },
+    {
+        "id":  8,
+        "name":  "Columbia River Basalt Group",
+        "country":  "USA / Washington, Oregon, Idaho, Nevada, and California",
+        "doc_pages":  [
+                          50,
+                          53
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  "Various",
+                       "note":  "Coordinates printed as \u0027Various\u0027 (multi-state province); sub-site (The Yakima Folds) is blank."
+                   },
+        "elevation_raw":  "Various elevations observed.",
+        "environment":  {
+                            "climate":  "Temperate deserts.",
+                            "temperature":  "Warm summers and cool winters; varies between states and elevations.",
+                            "precip_type":  "Rain; snow in the winter and at high elevations.",
+                            "annual_precip":  "Washington: 15cm as east of Cascades in rain shadow; Oregon high deserts \u003c 250mm rain per year.",
+                            "humidity":  "Low.",
+                            "wind":  "Variable.",
+                            "insolation":  null
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Analogue for Moon and Mars flood-basalt volcanism and chemistry, basalts with sediments, aquifers, pillow lavas, clays; Yakima folds as wrinkle-ridge analogues; astrobiology for Mars."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Volcanic \u003e Lava Flows",
+                                                "Volcanic \u003e Wrinkle Ridges",
+                                                "Composition \u003e Basalt"
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Lava Flows",
+                                                "Volcanic \u003e Wrinkle Ridges",
+                                                "Composition \u003e Basalt"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "The Yakima Folds",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+                       "No point coordinates (area spans five states)."
+                   ]
+    },
+    {
+        "id":  9,
+        "name":  "The Golden Deposit",
+        "country":  "Canada / North West Territories",
+        "doc_pages":  [
+                          54,
+                          57
+                      ],
+        "coords":  {
+                       "lat":  65.19944,
+                       "lon":  -124.6375,
+                       "source":  "site",
+                       "raw":  "65° 11\u002758\"N, 124° 38\u002715\"W",
+                       "note":  null
+                   },
+        "elevation_raw":  null,
+        "environment":  {
+                            "climate":  "Polar desert.",
+                            "temperature":  "Average in January -27 °C, June 17 °C.",
+                            "precip_type":  "Rain and snow.",
+                            "annual_precip":  "\u003c 300 mm per year.",
+                            "humidity":  "Low.",
+                            "wind":  null,
+                            "insolation":  "5 hours in winter, 20 in summer."
+                        },
+        "relevance":  {
+                          "moon":  false,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "none",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Predominantly Mars: jarosite-bearing deposit formed from acidic groundwater seeps under permafrost, analogous to Meridiani Planum / Mawrth Vallis jarosite."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Hydrothermal Deposits",
+                                                "Ice \u003e Polygon Terrain",
+                                                "Composition \u003e Sulphate",
+                                                "Composition \u003e Iron Oxide"
+                                            ]
+                               },
+        "subsites":  [
+
+                     ],
+        "issues":  [
+                       "Elevation field is blank.",
+                       "Directory Astrobiology list prints \u00279\u0027 out of ascending order (kept; text supports microbial life at the site)."
+                   ]
+    },
+    {
+        "id":  10,
+        "name":  "The Haughton Impact Structure",
+        "country":  "Canada / Nunavut / Devon Island",
+        "doc_pages":  [
+                          58,
+                          66
+                      ],
+        "coords":  {
+                       "lat":  75.36667,
+                       "lon":  -89.68333,
+                       "source":  "site",
+                       "raw":  "75° 22\u0027 N, 89 ° 41\u0027 W.",
+                       "note":  null
+                   },
+        "elevation_raw":  "Highest point on Devon Island is 1920 metres.",
+        "environment":  {
+                            "climate":  "Polar Desert.",
+                            "temperature":  "Average annual temperature -16 °C.",
+                            "precip_type":  "Snow",
+                            "annual_precip":  "Average \u003c 13mm.",
+                            "humidity":  "NA",
+                            "wind":  "Variable.",
+                            "insolation":  "During the field season there is 24 hr daylight."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Good analogue for both Moon and Mars: rocky, dusty, unvegetated terrain; impact structure with melt breccias, hydrothermal system, crater lake, gullies, ice-wedge polygons; human-exploration analogue station (HMPRS)."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Impact \u003e Crater",
+                                                "Impact \u003e Ejecta",
+                                                "Impact \u003e Impact Melt",
+                                                "Composition \u003e Impact Breccia",
+                                                "Composition \u003e Water/Ice"
+                                            ],
+                                   "mars":  [
+                                                "Impact Features \u003e Crater",
+                                                "Impact Features \u003e Ejecta",
+                                                "Impact Features \u003e Melt Sheets",
+                                                "Impact Features \u003e Hydrothermal Deposits",
+                                                "Impact Features \u003e Crater Lakes",
+                                                "Ice \u003e Polygon Terrain",
+                                                "Ice \u003e Icy Flows/glacial features",
+                                                "Composition \u003e Phyllosilicate",
+                                                "Composition \u003e Carbonate"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Hydrothermal Supersite",
+                             "coords_raw":  "75.21.5N 89.32.40W",
+                             "lat":  75.35139,
+                             "lon":  -89.54444
+                         },
+                         {
+                             "name":  "Impact Breccia Supersite",
+                             "coords_raw":  "75.11.53N , 81.51.4W",
+                             "lat":  null,
+                             "lon":  null
+                         },
+                         {
+                             "name":  "Ice Wedge Polygons",
+                             "coords_raw":  "75.21.26.8 N 88.40.47.2 W",
+                             "lat":  75.35744,
+                             "lon":  -88.67978
+                         }
+                     ],
+        "issues":  [
+                       "Sub-site coordinates are printed in a dotted D.M.S-like format (e.g. 75.21.5N); decimals here are my D.M.S interpretation.",
+                       "Impact Breccia Supersite longitude (81.51.4W) is ~8 degrees from the site\u0027s 89°41\u0027W; no decimals given (possible document typo)."
+                   ]
+    },
+    {
+        "id":  11,
+        "name":  "Ibn Battuta",
+        "country":  "Morocco",
+        "doc_pages":  [
+                          67,
+                          77
+                      ],
+        "coords":  {
+                       "lat":  30.5,
+                       "lon":  -6.75,
+                       "source":  "site",
+                       "raw":  "30.5°, -6.75 °",
+                       "note":  "Negative longitude as printed (west)."
+                   },
+        "elevation_raw":  "2500 metres.",
+        "environment":  {
+                            "climate":  "Arid desert.",
+                            "temperature":  "10 - 37 °C, above 40 °C in July and August.",
+                            "precip_type":  "Rain.",
+                            "annual_precip":  "180 to 260 mm per year.",
+                            "humidity":  "Very Dry.",
+                            "wind":  "Averages 2.6 m/s.",
+                            "insolation":  "High."
+                        },
+        "relevance":  {
+                          "moon":  false,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "none",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Fantastic Mars analogues and exploration terrain: stromatolites, mud volcanoes, travertine, evaporites, fossil geothermal vents, aeolian landforms, deflation surfaces, clays and basalts."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Lava Flows",
+                                                "Volcanic \u003e Hydrothermal Deposits",
+                                                "Volcanic \u003e Mud Volcanoes",
+                                                "Wind \u003e Soils/regolith",
+                                                "Wind \u003e Dunes",
+                                                "Composition \u003e Basalt",
+                                                "Composition \u003e Phyllosilicate",
+                                                "Composition \u003e Carbonate"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Ben Haddou 1 [11.6.1.1]",
+                             "coords_raw":  "7°4\u002721,7\"W; 30°59\u002737\"N",
+                             "lat":  30.99361,
+                             "lon":  -7.07269
+                         },
+                         {
+                             "name":  "Ben Haddou 2 [11.6.1.2]",
+                             "coords_raw":  "7°7\u002715,8\"W; 31°2\u002724\"N",
+                             "lat":  31.04,
+                             "lon":  -7.12106
+                         },
+                         {
+                             "name":  "Stromatolites [11.6.1.3]",
+                             "coords_raw":  "6°43\u002718,3\"W; 30°47\u002730\"N",
+                             "lat":  30.79167,
+                             "lon":  -6.72175
+                         },
+                         {
+                             "name":  "Travertine [11.6.1.4]",
+                             "coords_raw":  "6°42\u00270,4\"W; 30°59\u002720,4\"N",
+                             "lat":  30.989,
+                             "lon":  -6.70011
+                         },
+                         {
+                             "name":  "Adad [11.6.1.5]",
+                             "coords_raw":  "6°40\u002719,7\"W; 30°47\u002760\"N",
+                             "lat":  30.8,
+                             "lon":  -6.67214
+                         },
+                         {
+                             "name":  "Saoun [11.6.1.6]",
+                             "coords_raw":  "6°43\u002719\"W; 30°42\u00270,1\"N",
+                             "lat":  30.70003,
+                             "lon":  -6.72194
+                         },
+                         {
+                             "name":  "Tinerhir [11.6.2.1]",
+                             "coords_raw":  "5°14\u002718\"W; 31°13\u002743\"N",
+                             "lat":  31.22861,
+                             "lon":  -5.23833
+                         },
+                         {
+                             "name":  "Alnif [11.6.2.2]",
+                             "coords_raw":  "5°39\u00276\"W; 31°26\u00271,4\"N",
+                             "lat":  31.43372,
+                             "lon":  -5.65167
+                         },
+                         {
+                             "name":  "Rissani 1 [11.6.3.1]",
+                             "coords_raw":  "4°24\u002711\"W; 31°17\u002739\"N",
+                             "lat":  31.29417,
+                             "lon":  -4.40306
+                         },
+                         {
+                             "name":  "Rissani 2 [11.6.3.2]",
+                             "coords_raw":  "4°24\u002723\"W; 31°15\u002736\"N",
+                             "lat":  31.26,
+                             "lon":  -4.40639
+                         },
+                         {
+                             "name":  "Rissani 3 [11.6.3.3]",
+                             "coords_raw":  "4°21\u002735\"W; 31°14\u002710\"N",
+                             "lat":  31.23611,
+                             "lon":  -4.35972
+                         },
+                         {
+                             "name":  "Kess Kess [11.6.3.4]",
+                             "coords_raw":  "4°3\u00279\"W; 31°22\u00274\"N",
+                             "lat":  31.36778,
+                             "lon":  -4.0525
+                         },
+                         {
+                             "name":  "Chebbi [11.6.3.5]",
+                             "coords_raw":  "3°59\u002742\"W; 31°12\u002750\"N",
+                             "lat":  31.21389,
+                             "lon":  -3.995
+                         },
+                         {
+                             "name":  "Lake Maider [11.6.3.6]",
+                             "coords_raw":  "4°42\u002752\"W; 30°39\u002718\"N",
+                             "lat":  30.655,
+                             "lon":  -4.71444
+                         },
+                         {
+                             "name":  "Maider [11.6.3.7]",
+                             "coords_raw":  "4°33\u002740\"W; 30°46\u002728\"N",
+                             "lat":  30.77444,
+                             "lon":  -4.56111
+                         },
+                         {
+                             "name":  "Zaouia [11.6.4.1]",
+                             "coords_raw":  "6°2\u002718,2\"W; 30°43\u002715\"N",
+                             "lat":  30.72083,
+                             "lon":  -6.03839
+                         },
+                         {
+                             "name":  "Zagora [11.6.4.2]",
+                             "coords_raw":  "5°42\u002716\"W; 30°19\u002723\"N",
+                             "lat":  30.32306,
+                             "lon":  -5.70444
+                         },
+                         {
+                             "name":  "Mhamid [11.6.4.3]",
+                             "coords_raw":  "5°41\u002714\"W; 29°54\u002725\"N",
+                             "lat":  29.90694,
+                             "lon":  -5.68722
+                         },
+                         {
+                             "name":  "Sebkha Tazra [11.6.5.1]",
+                             "coords_raw":  "12°19\u002719\"W; 27°55\u002736\"N",
+                             "lat":  27.92667,
+                             "lon":  -12.32194
+                         },
+                         {
+                             "name":  "Sebkha Tah [11.6.5.2]",
+                             "coords_raw":  "12°47\u002752\"W; 27°42\u00277\"N",
+                             "lat":  27.70194,
+                             "lon":  -12.79778
+                         },
+                         {
+                             "name":  "Sebkha Oum Dba [11.6.5.3]",
+                             "coords_raw":  "13°0\u002723\"W; 27°32\u002731\"N",
+                             "lat":  27.54194,
+                             "lon":  -13.00639
+                         },
+                         {
+                             "name":  "Sebkha Aridal [11.6.5.4]",
+                             "coords_raw":  "14°0\u00279\"W; 26°9\u002751\"N",
+                             "lat":  26.16417,
+                             "lon":  -14.0025
+                         }
+                     ],
+        "issues":  [
+                       "Many sub-sites (Ouarzazate, Tinerhir/Alnif, Erfoud/Rissani, Zagora, Tan Tan regions) with their own coordinates; several with no text."
+                   ]
+    },
+    {
+        "id":  12,
+        "name":  "Iceland",
+        "country":  "Iceland / various",
+        "doc_pages":  [
+                          78,
+                          84
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  null,
+                       "note":  "Coordinates field and all sub-site coordinates (Askja, Eyjafjallajokull, Krysuvik, Laki Flow Field) are blank."
+                   },
+        "elevation_raw":  "The Lowest point is at Jökulsárlón Lagoon at -146 metres beneath the Atlantic Ocean at 0 metres. the highest point is Hvannadalshnúkur at 2110 metres.",
+        "environment":  {
+                            "climate":  "Temperate as moderated by the North Atlantic Current.",
+                            "temperature":  "Av. July 10 -13 °C; Av. In south: winter lowlands O °C, highlands -10 °C down to -25 °C in the northern part of the country.",
+                            "precip_type":  "Rain and snow.",
+                            "annual_precip":  "Wettest month is October with 88 mm; driest is May with 42 mm.",
+                            "humidity":  "59 to 92%; rarely drops below 40%.",
+                            "wind":  "Prevailing wind direction is easterly, typically reaching 18 m/s.",
+                            "insolation":  "Ranges from 0.03 kWh/m²/day (December) to 4.71 kWh/m²/day (June)."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Natural laboratory for Mars and Moon: basaltic lavas, glaciovolcanism, periglacial features, lava tubes, hydrothermal deposits, Mars-like soils, pyroclastics, pillow lavas, geysers, dunes, extremophiles."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Volcanic \u003e Structure",
+                                                "Volcanic \u003e Pyroclastic Deposits",
+                                                "Volcanic \u003e Collapse Pits",
+                                                "Composition \u003e Basalt",
+                                                "Composition \u003e Water/Ice"
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Structure",
+                                                "Volcanic \u003e Lava Flows",
+                                                "Volcanic \u003e Lava Tubes",
+                                                "Volcanic \u003e Pyroclastic Deposits",
+                                                "Volcanic \u003e Wrinkle Ridges",
+                                                "Volcanic \u003e Hydrothermal Deposits",
+                                                "Wind \u003e Soils/regolith",
+                                                "Wind \u003e Dunes",
+                                                "Ice \u003e Icy Flows/glacial features",
+                                                "Composition \u003e Basalt",
+                                                "Composition \u003e Iron Oxide",
+                                                "Composition \u003e Silica"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Askja",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         },
+                         {
+                             "name":  "Eyjafjallajokull",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         },
+                         {
+                             "name":  "Krysuvik",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         },
+                         {
+                             "name":  "1783-1784 Laki Flow Field",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+                       "No coordinates in the document.",
+                       "Temperature printed \u0027winter lowlands O °C\u0027 (letter O; probably 0, kept verbatim)."
+                   ]
+    },
+    {
+        "id":  13,
+        "name":  "Kamchatka",
+        "country":  "The Russian Federation",
+        "doc_pages":  [
+                          85,
+                          90
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  "Extending from lat. 51°N to lat. 61°N",
+                       "note":  "Latitude range only, no longitude anywhere; sub-site Klyuchevskaya Volcano Group gives only \u0027Located 56 °N\u0027."
+                   },
+        "elevation_raw":  "Highest volcano is Klyuchevskaya Sopka at 4750 metres.",
+        "environment":  {
+                            "climate":  "Generally sub-arctic, however, in higher and northerly areas it has a polar climate. Covered in snow from October to late May.",
+                            "temperature":  null,
+                            "precip_type":  "Rain in the summer, snow in winter. There is considerable variation between the rain-drenched and heavily glaciated east coast and the drier and more continental interior valley.",
+                            "annual_precip":  "2,700 mm.",
+                            "humidity":  "Up to 97% in summer months.",
+                            "wind":  "Variable depending on elevation.",
+                            "insolation":  null
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Volcanoes and volcanic landforms (lava flows, scoria, ash) as Martian and lunar analogues; cold climate and frozen ground add periglacial/glacier analogues for Mars; extremophiles."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Volcanic \u003e Structure",
+                                                "Environmental \u003e Granular Flows"
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Structure",
+                                                "Volcanic \u003e Lava Flows",
+                                                "Volcanic \u003e Pyroclastic Deposits",
+                                                "Volcanic \u003e Hydrothermal Deposits",
+                                                "Fluvial \u003e Gullies",
+                                                "Wind \u003e Soils/regolith",
+                                                "Ice \u003e Icy Flows/glacial features"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Avachinsky Area",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         },
+                         {
+                             "name":  "Klyuchevskaya Volcano Group",
+                             "coords_raw":  "Located 56 °N",
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+                       "No longitude in the document; cannot be placed as a point.",
+                       "Elevation: site says Klyuchevskaya Sopka 4750 m, sub-site says 4800 m."
+                   ]
+    },
+    {
+        "id":  14,
+        "name":  "Kilauea",
+        "country":  "USA / Hawai\u0027i",
+        "doc_pages":  [
+                          91,
+                          95
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  null,
+                       "note":  "Coordinates field blank; sub-site Ka\u0027u Desert coordinates also blank."
+                   },
+        "elevation_raw":  "1277m.",
+        "environment":  {
+                            "climate":  "The park has distinct climate zones that vary according to elevation.",
+                            "temperature":  "Av. July high 28.3 °C, av Jan low 19.4 °C.",
+                            "precip_type":  "Rain.",
+                            "annual_precip":  "1752.6 mm",
+                            "humidity":  "High.",
+                            "wind":  null,
+                            "insolation":  "244 days of sun per year."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Shield volcanoes excellent for both Mars and Moon: basaltic lavas, caves, lava tubes, collapse pits, palaeoregolith; volcanic deserts, gullies, outwash channels, life in basalt."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Impact \u003e Regolith",
+                                                "Volcanic \u003e Structure",
+                                                "Volcanic \u003e Lava Flows",
+                                                "Volcanic \u003e Collapse Pits",
+                                                "Volcanic \u003e Wrinkle Ridges",
+                                                "Composition \u003e Basalt"
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Structure",
+                                                "Volcanic \u003e Lava Flows",
+                                                "Volcanic \u003e Lava Tubes",
+                                                "Volcanic \u003e Pyroclastic Deposits",
+                                                "Volcanic \u003e Collapse Pits",
+                                                "Volcanic \u003e Wrinkle Ridges",
+                                                "Fluvial \u003e Gullies",
+                                                "Wind \u003e Soils/regolith",
+                                                "Composition \u003e Basalt"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Ka\u0027u Desert",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+                       "No coordinates in the document."
+                   ]
+    },
+    {
+        "id":  15,
+        "name":  "Lonar Crater",
+        "country":  "India / Buldana district, Maharashtra",
+        "doc_pages":  [
+                          96,
+                          99
+                      ],
+        "coords":  {
+                       "lat":  19.97667,
+                       "lon":  76.50833,
+                       "source":  "site",
+                       "raw":  "19° 58\u002736\"N 76° 30\u002730\"E",
+                       "note":  null
+                   },
+        "elevation_raw":  "583 metres.",
+        "environment":  {
+                            "climate":  "Semi-arid.",
+                            "temperature":  "Summer, 38 °C; winter 28 to 12 °C.",
+                            "precip_type":  "Rain",
+                            "annual_precip":  "Moderate especially during monsoon season.",
+                            "humidity":  "Low",
+                            "wind":  null,
+                            "insolation":  null
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  false,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Good analogue for Moon and Mars impact processes in basaltic rock; basalt similar to Martian basaltic meteorites; impact melt breccias, impact-induced hydrothermal systems, crater lake; nitrogen fixation as astrobiology analogue."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Impact \u003e Crater",
+                                                "Impact \u003e Impact Melt",
+                                                "Composition \u003e Basalt",
+                                                "Composition \u003e Impact Breccia"
+                                            ],
+                                   "mars":  [
+                                                "Impact Features \u003e Crater",
+                                                "Impact Features \u003e Melt Sheets",
+                                                "Impact Features \u003e Hydrothermal Deposits",
+                                                "Impact Features \u003e Gullies",
+                                                "Impact Features \u003e Crater Lakes",
+                                                "Composition \u003e Basalt"
+                                            ]
+                               },
+        "subsites":  [
+
+                     ],
+        "issues":  [
+                       "Text mentions astrobiological analogues but the site is not in the Directory Astrobiology list."
+                   ]
+    },
+    {
+        "id":  16,
+        "name":  "Meteor Crater",
+        "country":  "USA / Arizona",
+        "doc_pages":  [
+                          100,
+                          103
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  null,
+                       "note":  "Coordinates field is blank."
+                   },
+        "elevation_raw":  "1700 metres.",
+        "environment":  {
+                            "climate":  "Arid Desert",
+                            "temperature":  "Ranges from -9 °C (January) to 28 °C (July).",
+                            "precip_type":  "Rain and snow.",
+                            "annual_precip":  null,
+                            "humidity":  "Low.",
+                            "wind":  "Variable.",
+                            "insolation":  "Average Annual days of sunshine: 288."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Analogue for both Moon and Mars: simple bowl-shaped craters, ejecta deposits, glass and shocked materials; carbon species preserved in impact glasses."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Impact \u003e Crater"
+                                            ],
+                                   "mars":  [
+                                                "Impact Features \u003e Crater",
+                                                "Impact Features \u003e Gullies"
+                                            ]
+                               },
+        "subsites":  [
+
+                     ],
+        "issues":  [
+                       "No coordinates in the document.",
+                       "Temperature/insolation text identical to Black Point and Cinder Lake entries; annual precipitation blank."
+                   ]
+    },
+    {
+        "id":  17,
+        "name":  "Mistastin Lake Crater",
+        "country":  "Canada / Labrador",
+        "doc_pages":  [
+                          104,
+                          108
+                      ],
+        "coords":  {
+                       "lat":  55.88333,
+                       "lon":  -63.3,
+                       "source":  "site",
+                       "raw":  "N 55° 53\u0027 W 63° 18\u0027",
+                       "note":  null
+                   },
+        "elevation_raw":  "338 metres.",
+        "environment":  {
+                            "climate":  "Transition zone between arctic and sub-arctic climates.",
+                            "temperature":  "-39 to +32 °C. Av winter -17 °C, av summer +10 °C.",
+                            "precip_type":  "Rain / freezing rain and snow.",
+                            "annual_precip":  null,
+                            "humidity":  null,
+                            "wind":  null,
+                            "insolation":  "Newfoundland has less than 1600 hours per year."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  false,
+                          "astrobiology":  false,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "none",
+                          "evidence":  "Exceptional lunar analogue: anorthositic target, ejecta deposits, impact melt rock, suevite, double-layer ejecta comparable to large lunar craters."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Impact \u003e Crater",
+                                                "Impact \u003e Ejecta",
+                                                "Impact \u003e Impact Melt",
+                                                "Composition \u003e Anorthosite",
+                                                "Composition \u003e Impact Breccia"
+                                            ],
+                                   "mars":  [
+
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Discovery Hill",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         },
+                         {
+                             "name":  "Cote Creek",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+                       "Annual precipitation shows only a stray page number (107) in the extraction; treated as blank.",
+                       "Insolation sentence refers to Newfoundland although the site is in Labrador (kept verbatim)."
+                   ]
+    },
+    {
+        "id":  18,
+        "name":  "Mt. Etna",
+        "country":  "Sicily",
+        "doc_pages":  [
+                          109,
+                          112
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  null,
+                       "note":  "Coordinates field is blank."
+                   },
+        "elevation_raw":  "3350 metres.",
+        "environment":  {
+                            "climate":  "A Mediterranean climate; very hot summers and short, mild winters",
+                            "temperature":  "Average annual High of 23.12°C (August), Average annual Low 11.47°C (Jan/Feb).",
+                            "precip_type":  "Rain; snow in winter months, snow can be observed year round at the summit of Mt. Etna.",
+                            "annual_precip":  "Mean annual precipitation of 547.2mm.",
+                            "humidity":  "Relative humidity is highest in Dec/Jan at 77% with a low of 66% in July.",
+                            "wind":  "The wind averages between 6 - 7 knots each month. July and August can be very hot and dusty if the Sirocco wind is blowing from the Sahara.",
+                            "insolation":  "Sunshine occurs here for most of the year."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  false,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Analogue for Moon and Mars features: basaltic lavas, volcanoes, Tharsis Rise, pyroclastic deposits, open lava channels (Mars) and sinuous rilles (Moon); also Venus processes."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Volcanic \u003e Structure",
+                                                "Volcanic \u003e Rilles/Channel Systems",
+                                                "Composition \u003e Basalt"
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Structure",
+                                                "Volcanic \u003e Lava Flows",
+                                                "Composition \u003e Basalt"
+                                            ]
+                               },
+        "subsites":  [
+
+                     ],
+        "issues":  [
+                       "No coordinates in the document."
+                   ]
+    },
+    {
+        "id":  19,
+        "name":  "The Namib Desert",
+        "country":  "Namibia",
+        "doc_pages":  [
+                          113,
+                          116
+                      ],
+        "coords":  {
+                       "lat":  -23.56667,
+                       "lon":  15.05,
+                       "source":  "site",
+                       "raw":  "Extends from the Olifants River in South Africa 32 °S to the Carunjamba River in Angola 14 ° S. Gobabeb is located at 23°34’S, 15°03’E.",
+                       "note":  "Point is Gobabeb, a named reference location inside a ~2000 km-long desert."
+                   },
+        "elevation_raw":  "From the Atlantic coast eastward, the Namib gradually ascends in elevation, reaching up to 200 kilometres inland.",
+        "environment":  {
+                            "climate":  "Coastal desert, hyper-arid.",
+                            "temperature":  "Coast: 9 -20 °C; inland: variable sometimes \u003e 45 °C with freezing temperatures overnight.",
+                            "precip_type":  "Rain and fog.",
+                            "annual_precip":  "2 mm in the most arid regions to 200 mm at the escarpment.",
+                            "humidity":  "High in coastal regions creating fog, less inland.",
+                            "wind":  "Sand moving winds from south to south west.",
+                            "insolation":  "High."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "text only",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Text: analogues for both the Moon and Martian features - deserts, sand and gravel, large barchan/transverse/star dunes (second largest dune sand seas, closest in size to Mars), almost no surface water, low water availability and high temperature life."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+
+                                            ],
+                                   "mars":  [
+                                                "Wind \u003e Soils/regolith",
+                                                "Wind \u003e Dunes",
+                                                "Wind \u003e Yardangs",
+                                                "Wind \u003e Transverse Aeolian Ridges"
+                                            ]
+                               },
+        "subsites":  [
+
+                     ],
+        "issues":  [
+                       "Relevance text mentions the Moon but the Directory lists no Moon features for chapter 19."
+                   ]
+    },
+    {
+        "id":  20,
+        "name":  "Pavilion Lake",
+        "country":  "Canada / British Columbia",
+        "doc_pages":  [
+                          117,
+                          121
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  null,
+                       "note":  "Coordinates field and sub-site (Kelly Lake, Cariboo Plateau) coordinates are blank."
+                   },
+        "elevation_raw":  "820 metres.",
+        "environment":  {
+                            "climate":  "Cold semi-arid climate.",
+                            "temperature":  "Over the course of a year, the temperature typically varies from -5°C to 30°C and is rarely below -15°C or above 36°C.",
+                            "precip_type":  "Rain and light snow.",
+                            "annual_precip":  "Wettest month is December with 34mm of precipitation. The driest month is August with 11mm of precipitation.",
+                            "humidity":  "The relative humidity typically ranges from 28% (dry) to 93% (very humid) over the course of the year.",
+                            "wind":  "Typical wind speeds vary from 0 m/s to 11 m/s rarely \u003e 15 m/s.",
+                            "insolation":  "Ranges from 0.82 kWh/m²/day (December) to 5.64 kWh/m²/day (June)."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "text only",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Analogue for Moon and Mars: microbialites, microbial mats, biosignatures, alkaline/hypersaline lakes (science) and the PLRP operations approach as analogue for human lunar/Martian missions (exploration)."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+
+                                            ],
+                                   "mars":  [
+                                                "Fluvial \u003e Lakes"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Kelly Lake",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         },
+                         {
+                             "name":  "Cariboo Plateau",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+                       "No coordinates in the document.",
+                       "Relevance text mentions the Moon but the Directory lists no Moon features for chapter 20."
+                   ]
+    },
+    {
+        "id":  21,
+        "name":  "Pilbara",
+        "country":  "Australia",
+        "doc_pages":  [
+                          122,
+                          125
+                      ],
+        "coords":  {
+                       "lat":  -21.0,
+                       "lon":  119.0,
+                       "source":  "site",
+                       "raw":  "21°S 119°E",
+                       "note":  "Whole-degree precision (region-level)."
+                   },
+        "elevation_raw":  "Variable.",
+        "environment":  {
+                            "climate":  "Desert.",
+                            "temperature":  "Typically varies from 13°C to 36°C",
+                            "precip_type":  "Light rain and thunderstorms.",
+                            "annual_precip":  "309.1 mm.",
+                            "humidity":  "Highly variable:16% to 91%",
+                            "wind":  "Low: 1 m/s to 10 m/s.",
+                            "insolation":  "Between 11 and 13 hours sunshine per day on average."
+                        },
+        "relevance":  {
+                          "moon":  false,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "none",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Mars analogue and origin-of-life insights: volcanic sediments, metamorphosed volcanics, aqueous alteration, hydrothermal mineralisation, carbon preservation, fossils/biosignatures."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Hydrothermal Deposits",
+                                                "Composition \u003e Silica"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Dresser Formation",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         },
+                         {
+                             "name":  "Strelley Pool Chert",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+
+                   ]
+    },
+    {
+        "id":  22,
+        "name":  "The Ries Impact Crater",
+        "country":  "Germany / Western Bavaria / Nördlinger",
+        "doc_pages":  [
+                          126,
+                          129
+                      ],
+        "coords":  {
+                       "lat":  48.88333,
+                       "lon":  10.61667,
+                       "source":  "site",
+                       "raw":  "N 48° 53\u0027 E 10° 37\u0027",
+                       "note":  null
+                   },
+        "elevation_raw":  "Nördlingen lies at 441 metres.",
+        "environment":  {
+                            "climate":  "Temperate.",
+                            "temperature":  "July and August hottest with max daily temperatures \u003e 37°C.",
+                            "precip_type":  "Rain and snow.",
+                            "annual_precip":  "June and July wettest months with a monthly average \u003e50 mm.",
+                            "humidity":  "High in the summer months.",
+                            "wind":  "Variable",
+                            "insolation":  null
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Relevant to both Moon and Mars: mid-size complex impact crater morphology and processes, impact ejecta and glasses, phyllosilicates; life in impact glasses."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Impact \u003e Crater",
+                                                "Impact \u003e Ejecta",
+                                                "Composition \u003e Impact Breccia"
+                                            ],
+                                   "mars":  [
+                                                "Impact Features \u003e Crater",
+                                                "Impact Features \u003e Ejecta",
+                                                "Composition \u003e Phyllosilicate"
+                                            ]
+                               },
+        "subsites":  [
+
+                     ],
+        "issues":  [
+
+                   ]
+    },
+    {
+        "id":  23,
+        "name":  "Rio Tinto",
+        "country":  "SW Spain / Nerva to Huelva",
+        "doc_pages":  [
+                          130,
+                          133
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  null,
+                       "note":  "Coordinates field is blank."
+                   },
+        "elevation_raw":  "Huelva is located at 54m above sea level.",
+        "environment":  {
+                            "climate":  "A temperate or Mediterranean climate.",
+                            "temperature":  "Average annual temperature is 18.1 °C.",
+                            "precip_type":  "Rain.",
+                            "annual_precip":  "Average annual precipitation of 490 mm.",
+                            "humidity":  "Average annual humidity ~ 64%.",
+                            "wind":  "Variable",
+                            "insolation":  "Average of 8 hours sunshine per day."
+                        },
+        "relevance":  {
+                          "moon":  false,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "none",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Excellent Mars analogue: acidic system, ancient river channels and deposits, iron-oxide and sulphate deposits, extremophiles, fossil/biosignature preservation."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+
+                                            ],
+                                   "mars":  [
+                                                "Fluvial \u003e Channels",
+                                                "Composition \u003e Sulphate",
+                                                "Composition \u003e Iron Oxide"
+                                            ]
+                               },
+        "subsites":  [
+
+                     ],
+        "issues":  [
+                       "No coordinates in the document."
+                   ]
+    },
+    {
+        "id":  24,
+        "name":  "Sudbury Impact Crater",
+        "country":  "Canada / Sudbury / Ontario",
+        "doc_pages":  [
+                          134,
+                          137
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  null,
+                       "note":  "Coordinates field is blank."
+                   },
+        "elevation_raw":  "347.5 metres.",
+        "environment":  {
+                            "climate":  "Temperate.",
+                            "temperature":  "Typically varies from -18°C to 25°C.",
+                            "precip_type":  "Rain and snow.",
+                            "annual_precip":  "Rainfall: 656 mm; snowfall: 274 cm.",
+                            "humidity":  "High from 38% to 96%.",
+                            "wind":  "Wind speeds vary from 1 m/s to 7 m/s.",
+                            "insolation":  "Max of 16 hours in July, min of 8.35 hours in December."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  false,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Analogue for impact craters and processes on Moon and Mars: large impact structures, melt rocks, impact melt breccias, melt sheets, hydrothermal systems, shatter cones; Apollo 16 geology training site."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Impact \u003e Crater",
+                                                "Impact \u003e Ejecta",
+                                                "Impact \u003e Impact Melt",
+                                                "Composition \u003e Impact Breccia"
+                                            ],
+                                   "mars":  [
+                                                "Impact Features \u003e Crater",
+                                                "Impact Features \u003e Ejecta",
+                                                "Impact Features \u003e Melt Sheets",
+                                                "Impact Features \u003e Hydrothermal Deposits"
+                                            ]
+                               },
+        "subsites":  [
+
+                     ],
+        "issues":  [
+                       "No coordinates in the document."
+                   ]
+    },
+    {
+        "id":  25,
+        "name":  "Sunset Crater",
+        "country":  "USA / North-central Arizona",
+        "doc_pages":  [
+                          138,
+                          140
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  null,
+                       "note":  "Coordinates field is blank."
+                   },
+        "elevation_raw":  "Plateau encompassing the San Francisco volcanic field is at 2150m a.s.l. The landscape of the eastern margin decreases in elevation from 2130m at the base of the Sunset scoria cone to 1400m at the Little Colorado River.",
+        "environment":  {
+                            "climate":  "Semi-arid to arid climatic conditions are found here.",
+                            "temperature":  "Average daily maximum July ~ 28 °C; January ~ 6 °C.",
+                            "precip_type":  "Rain, with snow in winter months at higher elevations.",
+                            "annual_precip":  "Mean annual precipitation is 430 mm.",
+                            "humidity":  null,
+                            "wind":  "The prevailing wind is SW; strong winds \u003c 20 ms-1 in spring months.",
+                            "insolation":  null
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  false,
+                          "moon_basis":  "directory only",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Wind-redistributed tephra forms aeolian dune forms analogous to Martian landforms; volcanoes, lava flows, basalt, tephra, basaltic dune fields."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Volcanic \u003e Structure",
+                                                "Composition \u003e Basalt"
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Structure",
+                                                "Volcanic \u003e Lava Flows",
+                                                "Wind \u003e Soils/regolith",
+                                                "Wind \u003e Dunes",
+                                                "Wind \u003e Transverse Aeolian Ridges",
+                                                "Composition \u003e Basalt"
+                                            ]
+                               },
+        "subsites":  [
+
+                     ],
+        "issues":  [
+                       "No coordinates in the document.",
+                       "Relevance text names Mars only; Moon assignment comes from the Directory (Volcanic Structure, Basalt) only."
+                   ]
+    },
+    {
+        "id":  26,
+        "name":  "Svalbard",
+        "country":  "Norway",
+        "doc_pages":  [
+                          141,
+                          146
+                      ],
+        "coords":  {
+                       "lat":  78.0,
+                       "lon":  16.0,
+                       "source":  "site",
+                       "raw":  "78°N 16°E",
+                       "note":  "Whole-degree precision (archipelago-level)."
+                   },
+        "elevation_raw":  "Much of the Svalbard landscape, particularly the island of Spitsbergen, is mountainous. A highest elevation of 1713 metres above sea level is reached at Newtontoppen on northeastern Spitsbergen.",
+        "environment":  {
+                            "climate":  "A cold arctic desert.",
+                            "temperature":  "Annual mean temperature at sea level is about -5 °C, but this decreases fast with altitude.",
+                            "precip_type":  "Rain, snow in winter months.",
+                            "annual_precip":  "Mean of 271 mm",
+                            "humidity":  "The specific humidity on Svalbard is very low, but the relative humidity is high i.e. there is not much water vapour in the air, but the air is close to saturation.",
+                            "wind":  "The windiest month is January where on average the wind blows faster than 10m/s. The wind direction is generally East or South East",
+                            "insolation":  "Ranges from 0 kWh/m²/day (January/December) to 5.69 kWh/m²/day (June)."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "directory only",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Mars analogue: red sand/gravel/mud terrain, cold climate, carbonate rosettes/terraces, polar habitats, gullies and fans, volcanoes, hot springs, instrument field tests (AMASE)."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Composition \u003e Water/Ice"
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Lava Flows",
+                                                "Fluvial \u003e Channels",
+                                                "Fluvial \u003e Deltas/Fans",
+                                                "Fluvial \u003e Gullies",
+                                                "Wind \u003e Soils/regolith",
+                                                "Ice \u003e Polygon Terrain",
+                                                "Ice \u003e Icy Flows/glacial features",
+                                                "Composition \u003e Sulphate",
+                                                "Composition \u003e Carbonate"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Bockfjord Volcanic Complex (BVC)",
+                             "coords_raw":  "79°29’53” N, 13°12’20” E",
+                             "lat":  79.49806,
+                             "lon":  13.20556
+                         },
+                         {
+                             "name":  "Ebbadalen Formation",
+                             "coords_raw":  "78°42’35” N, 16°43’04” E",
+                             "lat":  78.70972,
+                             "lon":  16.71778
+                         },
+                         {
+                             "name":  "Murchison Fjord",
+                             "coords_raw":  "79°52’43” N, 18°29’17” E",
+                             "lat":  79.87861,
+                             "lon":  18.48806
+                         },
+                         {
+                             "name":  "Adventtoppen and Hiorthfjellet",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+                       "Relevance text names Mars only; Moon assignment comes from the Directory (Water/Ice) only."
+                   ]
+    },
+    {
+        "id":  27,
+        "name":  "Tenerife",
+        "country":  "Spain / Canary Islands / Tenerife",
+        "doc_pages":  [
+                          147,
+                          152
+                      ],
+        "coords":  {
+                       "lat":  28.22444,
+                       "lon":  -16.62683,
+                       "source":  "site",
+                       "raw":  "28°13\u002727.97\"N, 16°37\u002736.60\"W",
+                       "note":  null
+                   },
+        "elevation_raw":  "The summit of Mount Teide is at 3718 metres; many analogue sites at 2,200 metres.",
+        "environment":  {
+                            "climate":  "Temperate/maritime/alpine conditions.",
+                            "temperature":  "Temperatures on the island rarely stray from the averages which dip to 20ºC in the winter months and peak at 28ºC during the summer months.",
+                            "precip_type":  "Rain; snow at the summit of Mt. Teide.",
+                            "annual_precip":  "On average, the wettest month of the year for Tenerife is November with an estimated 38 mm of precipitation. The driest months are June, July, August \u0026 September with close to no precipitation.",
+                            "humidity":  "The average humidity is between 60% - 70% all year round.",
+                            "wind":  "Ranges from 5.63 m/s (October) to 7.89 m/s (July).",
+                            "insolation":  "Ranges from 3.26 kWh/m²/day (December) to 6.97 kWh/m²/day (May)."
+                        },
+        "relevance":  {
+                          "moon":  true,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "text+directory",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Good analogue for Mars and Moon: vents, lava flows, pyroclastic deposits, hydrothermal alteration, lava tubes/caves, channels; red oxidised tephra resembling JSC-1 simulant and Mars bright regions; cave habitats."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+                                                "Volcanic \u003e Rilles/Channel Systems",
+                                                "Composition \u003e Basalt"
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Structure",
+                                                "Volcanic \u003e Lava Flows",
+                                                "Volcanic \u003e Lava Tubes",
+                                                "Volcanic \u003e Pyroclastic Deposits",
+                                                "Volcanic \u003e Wrinkle Ridges",
+                                                "Wind \u003e Soils/regolith",
+                                                "Composition \u003e Basalt"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Minas de San Jose",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         },
+                         {
+                             "name":  "Llano De Ucanca",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         },
+                         {
+                             "name":  "Cuevas Negras and Sima de Vicky",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+                       "Temperature sentence is odd as printed (\u0027averages which dip to 20ºC in winter ... peak at 28ºC\u0027)."
+                   ]
+    },
+    {
+        "id":  28,
+        "name":  "The Turpan Desert",
+        "country":  "China / Xinjiang Province",
+        "doc_pages":  [
+                          153,
+                          156
+                      ],
+        "coords":  {
+                       "lat":  42.63,
+                       "lon":  89.86,
+                       "source":  "site",
+                       "raw":  "42.63°N, 89.86°E.",
+                       "note":  null
+                   },
+        "elevation_raw":  "Highest peak in the Flaming Mountains is at 831.7 metres above sea level but the basin is about 150 metres above sea level.",
+        "environment":  {
+                            "climate":  "Arid continental climate; desert",
+                            "temperature":  "July average max ~ 39.7°C and January average max ~ -2.2°C.",
+                            "precip_type":  "Rain",
+                            "annual_precip":  "\u003c 2cm.",
+                            "humidity":  null,
+                            "wind":  "Variable and high.",
+                            "insolation":  "High."
+                        },
+        "relevance":  {
+                          "moon":  false,
+                          "mars":  true,
+                          "astrobiology":  false,
+                          "moon_basis":  "none",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Martian aeolian processes: dunes, ripples and dust devils; dust-devil tracks studied in situ and from orbit."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+
+                                            ],
+                                   "mars":  [
+                                                "Wind \u003e Dunes",
+                                                "Wind \u003e Dust Devils"
+                                            ]
+                               },
+        "subsites":  [
+
+                     ],
+        "issues":  [
+
+                   ]
+    },
+    {
+        "id":  29,
+        "name":  "Utah Desert",
+        "country":  "USA / Utah",
+        "doc_pages":  [
+                          157,
+                          161
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  null,
+                       "note":  "Coordinates field is blank; document only says the MDRS is in the south-east area of Utah."
+                   },
+        "elevation_raw":  "Study areas are located between 1340 and 1400 metres.",
+        "environment":  {
+                            "climate":  "Arid desert.",
+                            "temperature":  "Hottest month, July av. Daily max. 37.1 °C, min. 16.3 °C; coldest month, January, av.daily. Max of 5.2 °C, min. -10.9 °C.",
+                            "precip_type":  "Rain and Snow.",
+                            "annual_precip":  "Average annual 141.22 mm of which 14.73 mm occurred as snow",
+                            "humidity":  "Ranges from 17 to 90 %.",
+                            "wind":  "0 m/s to 8 m/s.",
+                            "insolation":  "Between 9 and 15 hours over the year."
+                        },
+        "relevance":  {
+                          "moon":  false,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "none",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Physical, chemical and astrobiological Mars analogues around the Mars Desert Research Station: Mars-like soils/regolith, evaporites, clays, sulphates, inverted fluvial channels, ancient lake beds; long-duration exploration operations."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+
+                                            ],
+                                   "mars":  [
+                                                "Fluvial \u003e Lakes",
+                                                "Fluvial \u003e Channels",
+                                                "Wind \u003e Soils/regolith",
+                                                "Composition \u003e Phyllosilicate",
+                                                "Composition \u003e Sulphate"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Kissing Camel Ridge (KCR)",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+                       "No coordinates in the document."
+                   ]
+    },
+    {
+        "id":  30,
+        "name":  "Yellowstone",
+        "country":  "USA",
+        "doc_pages":  [
+                          162,
+                          168
+                      ],
+        "coords":  {
+                       "lat":  null,
+                       "lon":  null,
+                       "source":  null,
+                       "raw":  "sub-site Chocolate Pots printed as 6°43’19”W; 30°42’01”N",
+                       "note":  "Not used: those printed coordinates are identical to the Ibn Battuta sub-site \u0027Saoun\u0027 (Morocco) and are inconsistent with a USA site - a copy/paste error in the document. Site-level and Grand Prismatic Springs coordinates are blank."
+                   },
+        "elevation_raw":  "The park sits on the Yellowstone Plateau, at an average elevation of 2,400 metres.",
+        "environment":  {
+                            "climate":  "Depends upon altitude.",
+                            "temperature":  "Summer: 21 to 27 (unit not recoverable from the extraction)",
+                            "precip_type":  "Rain; Snow is possible in any month of the year, with averages of 3800 mm annually",
+                            "annual_precip":  "Highly variable and ranges from 380mm annually near Mammoth Hot Springs, to 2 000 mm in south-western sections of the park.",
+                            "humidity":  null,
+                            "wind":  null,
+                            "insolation":  null
+                        },
+        "relevance":  {
+                          "moon":  false,
+                          "mars":  true,
+                          "astrobiology":  true,
+                          "moon_basis":  "none",
+                          "mars_basis":  "text+directory",
+                          "evidence":  "Mars analogue: hot springs and silica sinters tied to giant calderas; extremophiles as astrobiological analogues for past Martian geothermal features."
+                      },
+        "directory_features":  {
+                                   "moon":  [
+
+                                            ],
+                                   "mars":  [
+                                                "Volcanic \u003e Lava Flows",
+                                                "Volcanic \u003e Hydrothermal Deposits",
+                                                "Composition \u003e Phyllosilicate",
+                                                "Composition \u003e Iron Oxide",
+                                                "Composition \u003e Silica"
+                                            ]
+                               },
+        "subsites":  [
+                         {
+                             "name":  "Chocolate Pots",
+                             "coords_raw":  "6°43’19”W; 30°42’01”N",
+                             "lat":  null,
+                             "lon":  null
+                         },
+                         {
+                             "name":  "Grand Prismatic Springs",
+                             "coords_raw":  null,
+                             "lat":  null,
+                             "lon":  null
+                         }
+                     ],
+        "issues":  [
+                       "Chocolate Pots coordinates are a document error (same as Ibn Battuta \u0027Saoun\u0027).",
+                       "Temperature has no printed unit/minus in the extraction (\u0027Summer: 21 to 27\u0027).",
+                       "Precipitation sentence reads \u00273800 mm\u0027 in the ordered extraction but \u0027800 mm\u0027 in an earlier extraction (possible stray leading digit); the same park range is stated as 380-2000 mm."
+                   ]
+    }
+]
