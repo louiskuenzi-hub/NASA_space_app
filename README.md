@@ -8,7 +8,7 @@ The main resource is ESA's **The Catalogue of Planetary Analogues** (CAFE study,
 
 ## What is in the site
 
-- **Home**: animated contour lines, a project guide ("Explanations") and a "Map" section with three live previews.
+- **Home**: animated contour lines and starfield, three live map previews (the Moon and Mars previews rotate), key figures, a four-step "How it works", a gallery of the 30 catalogue sites with their photos, a footer and a Contact dialog. Sections reveal as you scroll; everything respects `prefers-reduced-motion`.
 - **Earth map** (`#carte`): flat world map of the analogue sites. Switch Moon / Mars, tick criteria (terrain & geology from the catalogue, plus climate type, temperature, precipitation, humidity, wind, insolation and altitude bands), and countries and glowing disks are tinted by how well each site covers them. Click a point to zoom and open its sheet.
 - **3D Moon and Mars** (`#lune`, `#mars`): globes with real relief. Click anywhere to read the terrain (altitude, slope, local relief, brightness), get a terrain profile and the closest catalogue site on Earth. Glowing zones show where a catalogue site matches above a chosen threshold.
 - **Site sheet** (`#site-N`): Earth photo beside a Moon or Mars image, the catalogue data, the lunar and Martian features the site covers.
@@ -22,7 +22,11 @@ To publish it, upload `index.html` and `images/` to any static host (Porkbun sta
 
 ## Rebuild
 
-`index.html` is generated. To rebuild it after editing `src/template.html` or the data files:
+`index.html` is generated. To rebuild it after editing `src/template.html` or the data files, use either script (they produce the same file):
+
+```bash
+node src/build.mjs
+```
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File src\build.ps1
@@ -37,7 +41,8 @@ The script embeds the data (sites, outlines, Moon and Mars elevation grids and c
 | `index.html` | The built site (generated) |
 | `images/` | Site photos and Moon/Mars images, resized to 1000 px |
 | `src/template.html` | Page source with placeholders for the embedded data |
-| `src/build.ps1` | Builds `index.html` |
+| `src/build.mjs` | Builds `index.html` (Node, any OS) |
+| `src/build.ps1` | Builds `index.html` (Windows PowerShell) |
 | `data/sites.json` | The 30 catalogue sites in structured form: location, quoted climate values, Moon/Mars features, relevance notes |
 | `data/folder.json` | Image paths, captions and notes per site |
 | `data/credits.html` | Image credits shown in the guide |

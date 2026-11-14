@@ -22,6 +22,6 @@ $o = (Txt "$root\src\template.html").Replace('/*SITES*/', $sites).Replace('/*WOR
 foreach ($k in $rep.Keys) { $o = $o.Replace($k, $rep[$k]) }
 
 $desc = "Interactive map of places on Earth that resemble the Moon or Mars, based on ESA's Catalogue of Planetary Analogues. Built by Helvetic Dynamics for the NASA Space Apps Challenge."
-$head = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="' + $desc + '"><meta property="og:title" content="Landing Site Finder"><meta property="og:description" content="' + $desc + '"><meta name="theme-color" content="#0b0d12"><link rel="icon" type="image/png" href="' + $logo + '"></head><body>'
+$head = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="' + $desc + '"><meta property="og:title" content="Landing Site Finder"><meta property="og:description" content="' + $desc + '"><meta name="theme-color" content="#0b0d12"><link rel="icon" type="image/png" href="' + $logo + '"></head><body>'
 [IO.File]::WriteAllText($Out, ($head + $o + '</body></html>'), $enc)
 "wrote {0} ({1:N1} MB)" -f $Out, ((Get-Item $Out).Length / 1MB)
