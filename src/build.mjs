@@ -1,5 +1,6 @@
 // Builds index.html from src/template.html and the files in data/ and assets/.
 // Same job as build.ps1, for machines without PowerShell.
+// The Moon and Mars elevation grids and colour maps stay in data/ and are fetched by the page when a globe opens.
 // Usage:  node src/build.mjs            (writes ../index.html)
 //         node src/build.mjs out.html   (writes elsewhere)
 import { readFileSync, writeFileSync, statSync } from "node:fs";
@@ -13,10 +14,10 @@ const Txt = p => readFileSync(join(root, p), "utf8").replace(/^﻿/, "");
 
 const logo = "data:image/png;base64," + B64("assets/logo-white.png");
 const rep = {
-  "/*MOONDEM*/": B64("data/moon/moon_dem.bin"),
-  "/*MOONCOLOR*/": "data:image/jpeg;base64," + B64("data/moon/lroc_color_2k.jpg"),
-  "/*MARSDEM*/": B64("data/mars/mars_dem.bin"),
-  "/*MARSCOLOR*/": "data:image/jpeg;base64," + B64("data/mars/mars_color_1920.jpg"),
+  "/*MOONDEM*/": "data/moon/moon_dem.bin",
+  "/*MOONCOLOR*/": "data/moon/lroc_color_2k.jpg",
+  "/*MARSDEM*/": "data/mars/mars_dem.bin",
+  "/*MARSCOLOR*/": "data/mars/mars_color_1920.jpg",
   "/*LOGO*/": logo,
   "/*CREDITS*/": Txt("data/credits.html"),
 };

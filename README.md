@@ -8,17 +8,19 @@ The main resource is ESA's **The Catalogue of Planetary Analogues** (CAFE study,
 
 ## What is in the site
 
-- **Home**: animated contour lines and starfield, three live map previews (the Moon and Mars previews rotate), key figures, a four-step "How it works", a gallery of the 30 catalogue sites with their photos, a footer and a Contact dialog. Sections reveal as you scroll; everything respects `prefers-reduced-motion`.
+- **Home**: animated contour lines and starfield with a real 3D Moon (three.js), three live map previews (the Moon and Mars previews rotate), key figures, a four-step "How it works", a gallery of the 30 catalogue sites with their photos, a footer and a Contact dialog. Sections reveal as you scroll; everything respects `prefers-reduced-motion`.
 - **Earth map** (`#carte`): flat world map of the analogue sites. Switch Moon / Mars, tick criteria (terrain & geology from the catalogue, plus climate type, temperature, precipitation, humidity, wind, insolation and altitude bands), and countries and glowing disks are tinted by how well each site covers them. Click a point to zoom and open its sheet.
-- **3D Moon and Mars** (`#lune`, `#mars`): globes with real relief. Click anywhere to read the terrain (altitude, slope, local relief, brightness), get a terrain profile and the closest catalogue site on Earth. Glowing zones show where a catalogue site matches above a chosen threshold.
-- **Site sheet** (`#site-N`): Earth photo beside a Moon or Mars image, the catalogue data, the lunar and Martian features the site covers.
+- **3D Moon and Mars** (`#lune`, `#mars`): globes with real relief (applied on the GPU; the terrain classification runs in a Web Worker). Click anywhere to read the terrain (altitude, slope, local relief, brightness), get a terrain profile and the closest catalogue site on Earth. Glowing zones show where a catalogue site matches above a chosen threshold. Hover for coordinates and altitude, toggle a 30° grid, and the camera glides to the point you click.
+- **Site sheet** (`#site-N`): Earth photo beside a Moon or Mars image, a small 3D globe showing where that counterpart lies with a button that analyses the same spot on the big globe, the catalogue data, the lunar and Martian features the site covers.
 - **Guide** (`#guide`): step-by-step use, how to read the percentages, limits, sources and image credits.
 
 ## Run it
 
-`index.html` is a single self-contained page plus the `images/` folder. Open `index.html` in a browser. An internet connection is needed for the d3, topojson and three.js libraries (jsDelivr / cdnjs) and the Google Fonts.
+`index.html` embeds the catalogue, the country outlines and the logo. The Moon and Mars elevation grids and colour maps stay in `data/moon/` and `data/mars/` and are fetched only when a globe opens (with a progress readout), so the first load is light. Site photos are in `images/` (full size for the sheets, 480 px copies in `images/_thumbs/` for the gallery).
 
-To publish it, upload `index.html` and `images/` to any static host (Porkbun static hosting, Netlify, GitHub Pages, ...). With GitHub Pages: Settings > Pages > Deploy from a branch > `main` / root.
+Serve the folder over http (for example `python -m http.server`, or any static host): browsers do not let a page fetch the data files when `index.html` is opened directly from disk. An internet connection is needed for the d3, topojson and three.js libraries (jsDelivr / cdnjs) and the Google Fonts.
+
+To publish it, upload `index.html`, `images/` and `data/` to any static host (Porkbun static hosting, Netlify, GitHub Pages, ...). With GitHub Pages: Settings > Pages > Deploy from a branch > `main` / root.
 
 ## Rebuild
 
@@ -39,16 +41,16 @@ The script embeds the data (sites, outlines, Moon and Mars elevation grids and c
 | Path | Content |
 |---|---|
 | `index.html` | The built site (generated) |
-| `images/` | Site photos and Moon/Mars images, resized to 1000 px |
+| `images/` | Site photos and Moon/Mars images, resized to 1000 px; `_thumbs/` holds 480 px copies for the gallery |
 | `src/template.html` | Page source with placeholders for the embedded data |
 | `src/build.mjs` | Builds `index.html` (Node, any OS) |
 | `src/build.ps1` | Builds `index.html` (Windows PowerShell) |
 | `data/sites.json` | The 30 catalogue sites in structured form: location, quoted climate values, Moon/Mars features, relevance notes |
-| `data/folder.json` | Image paths, captions and notes per site |
+| `data/folder.json` | Image paths, captions and notes per site, plus the lat/lon of each Moon/Mars counterpart image (well-known landmark positions, used by the small 3D globe on the site sheet) |
 | `data/credits.html` | Image credits shown in the guide |
 | `data/countries-110m.json` | Country outlines (world-atlas, derived from Natural Earth) |
-| `data/moon/` | LRO LOLA elevation grid (4 px/deg) and LROC colour map |
-| `data/mars/` | MGS MOLA elevation grid (4 px/deg) and Viking MDIM 2.1 colour map |
+| `data/moon/` | LRO LOLA elevation grid (4 px/deg) and LROC colour map (2k for the globe, 1k for previews) |
+| `data/mars/` | MGS MOLA elevation grid (4 px/deg) and Viking MDIM 2.1 colour map (full for the globe, 1k for previews) |
 | `assets/` | Logo (original and white-on-transparent version) |
 | `tools/` | Scripts that document how the data files were prepared |
 
