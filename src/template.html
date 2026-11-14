@@ -32,8 +32,8 @@ img{max-width:100%}
 #boot .ring{width:46px;height:46px;border:2px solid var(--line);border-top-color:var(--fg);border-radius:50%;animation:spin 1s linear infinite}
 #boot .bt{font:500 11px var(--mono);letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
 @keyframes spin{to{transform:rotate(360deg)}}
-#cglow{position:fixed;left:0;top:0;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;pointer-events:none;z-index:0;opacity:0;
-  background:radial-gradient(circle,color-mix(in srgb,var(--moon) 16%,transparent) 0%,transparent 62%);transition:opacity .5s;will-change:transform}
+#cglow{position:fixed;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;z-index:60;opacity:0;mix-blend-mode:screen;
+  background:radial-gradient(circle,rgba(47,109,240,.26) 0%,rgba(47,109,240,.08) 38%,rgba(47,109,240,0) 64%);transition:opacity .5s;will-change:transform;transform:translate3d(-9999px,-9999px,0)}
 @media (pointer:fine){#cglow.on{opacity:1}}
 
 /* ---------- Home ---------- */
@@ -127,13 +127,17 @@ h1.big:hover .ln em{color:var(--fg)}
 .mcard:hover .mgo::after{transform:translateX(6px)}
 
 /* ---------- Home: ticker, stats, steps, gallery, footer ---------- */
-.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel);overflow:hidden;white-space:nowrap;padding:12px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.ticker .trk{display:inline-flex;gap:0;animation:ticker 70s linear infinite}
+.ticker{position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel);overflow:hidden;white-space:nowrap;padding:12px 0;contain:paint}
+.ticker::before,.ticker::after{content:"";position:absolute;top:0;bottom:0;width:100px;z-index:1;pointer-events:none}
+.ticker::before{left:0;background:linear-gradient(90deg,var(--panel) 15%,rgba(18,21,28,0))}
+.ticker::after{right:0;background:linear-gradient(270deg,var(--panel) 15%,rgba(18,21,28,0))}
+/* The track moves on the compositor at a constant 60 px/s (duration set from its real width), ≥ 1 px per frame so the text does not step */
+.ticker .trk{display:inline-flex;gap:0;animation:ticker var(--tdur,80s) linear infinite;will-change:transform;backface-visibility:hidden;transform:translate3d(0,0,0)}
 .ticker:hover .trk{animation-play-state:paused}
 .ticker span{font:500 11px var(--mono);letter-spacing:.26em;text-transform:uppercase;color:#b5bac6;padding:0 22px;display:inline-flex;align-items:center;gap:22px}
 .ticker span::after{content:"";width:6px;height:6px;transform:rotate(45deg);border:1px solid var(--muted);display:inline-block}
 .ticker span.m::after{background:var(--moon);border-color:var(--moon)}.ticker span.r::after{background:var(--mars);border-color:var(--mars)}
-@keyframes ticker{to{transform:translateX(-50%)}}
+@keyframes ticker{to{transform:translate3d(-50%,0,0)}}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--line);background:var(--panel)}
 .stat{padding:26px 22px;border-right:1px solid var(--line);position:relative;overflow:hidden}
 .stat:last-child{border-right:0}
@@ -891,7 +895,7 @@ const topo=(function(){
   /* Stars live on their own canvas, redrawn every frame (cheap: a few hundred arcs) so the parallax and twinkle are
      smooth; the contour lines are heavier and only redrawn ~24 times a second. Both pause when the hero is off screen. */
   const sv=$("stars"), sctx=sv.getContext("2d");
-  let stars=[],mx=.5,my=.5,smx=.5,smy=.5,vis=true;
+  let stars=[],mx=.5,my=.5,smx=.5,smy=.5,vis=true,ratio=1;
   function resize(){
     const r=home.getBoundingClientRect();
     w=cv.width=sv.width=Math.max(320,Math.round(r.width));h=cv.height=sv.height=Math.max(320,Math.round(r.height));
@@ -942,12 +946,12 @@ const topo=(function(){
     raf=requestAnimationFrame(frame);
     if(!vis)return;
     drawStars((now-t0)/1000);
-    if(now-last<42)return;last=now;draw((now-t0)/1000);
+    if(now-last<(ratio<.4?125:42))return;last=now;draw((now-t0)/1000);
   }
   function start(){if(on)return;on=true;resize();draw((performance.now()-t0)/1000);drawStars((performance.now()-t0)/1000);if(!REDUCE)raf=requestAnimationFrame(frame)}
   function stop(){on=false;cancelAnimationFrame(raf)}
   new ResizeObserver(()=>{if(on){resize();draw((performance.now()-t0)/1000);drawStars((performance.now()-t0)/1000)}}).observe(home);
-  new IntersectionObserver(([e])=>{vis=e.isIntersecting},{threshold:0}).observe(home);
+  new IntersectionObserver(([e])=>{vis=e.isIntersecting;ratio=e.intersectionRatio},{threshold:[0,.2,.4,.6,.8]}).observe(home);
   document.addEventListener("visibilitychange",()=>{if(!on)return;if(document.hidden)cancelAnimationFrame(raf);else if(!REDUCE)raf=requestAnimationFrame(frame)});
   return{start,stop};
 })();
@@ -1006,9 +1010,9 @@ document.querySelectorAll(".ahead").forEach(h=>{const s=document.createElement("
   new IntersectionObserver(([e])=>h.classList.toggle("stuck",!e.isIntersecting)).observe(s)});
 /* Cursor glow on the home page (desktop only) */
 if(matchMedia("(pointer:fine)").matches&&!REDUCE){
-  const g=$("cglow");let gx=0,gy=0,tx=0,ty=0,gr=0;
-  addEventListener("pointermove",e=>{tx=e.clientX;ty=e.clientY;if($("home").hidden)return;g.classList.add("on");if(!gr)gr=requestAnimationFrame(gl)},{passive:true});
-  function gl(){gx+=(tx-gx)*.12;gy+=(ty-gy)*.12;g.style.transform=`translate(${gx}px,${gy}px)`;gr=(Math.abs(tx-gx)+Math.abs(ty-gy)>.5)?requestAnimationFrame(gl):0}
+  const g=$("cglow");let gx=-1,gy=-1,tx=0,ty=0,gr=0;
+  addEventListener("pointermove",e=>{tx=e.clientX;ty=e.clientY;if($("home").hidden)return;if(gx<0){gx=tx;gy=ty}g.classList.add("on");if(!gr)gr=requestAnimationFrame(gl)},{passive:true});
+  function gl(){gx+=(tx-gx)*.28;gy+=(ty-gy)*.28;g.style.transform=`translate3d(${gx.toFixed(1)}px,${gy.toFixed(1)}px,0)`;gr=(Math.abs(tx-gx)+Math.abs(ty-gy)>.3)?requestAnimationFrame(gl):0}
   document.documentElement.addEventListener("mouseleave",()=>g.classList.remove("on"));
 }
 
@@ -1717,7 +1721,9 @@ function globePreview(canvas,src,lon0,lat0){
 /* ================= Home extras: ticker, counters, reveal, gallery, tilt ================= */
 function buildTicker(){
   const items=SITES.map(s=>{const m=inList(s,"moon"),r=inList(s,"mars");return `<span class="${r?"r":m?"m":""}">${esc(s.name)}</span>`}).join("");
-  $("ticker").innerHTML=items+items;
+  const trk=$("ticker");trk.innerHTML=items+items;
+  const setSpeed=()=>{const w=trk.scrollWidth/2;if(w>0)trk.style.setProperty("--tdur",(w/60).toFixed(1)+"s")};
+  setSpeed();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(setSpeed);
 }
 function countUp(el,n){
   const b=el.querySelector("b"),t0=performance.now(),dur=REDUCE?1:1400;
