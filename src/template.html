@@ -47,6 +47,12 @@ img{max-width:100%}
 #topoLabels{position:absolute;inset:0;pointer-events:none;font-family:var(--mono);font-size:11px;color:#9aa1b0;z-index:1;will-change:transform}
 #topoLabels span{position:absolute;left:0;top:0;transform:translate(-50%,-50%);background:var(--bg);padding:0 3px;line-height:1.25;white-space:nowrap;letter-spacing:.04em}
 #topoLabels .peak{background:transparent;color:var(--fg);font-size:12px;padding:0;transform:translate(12px,-50%)}
+.home.has3d #topoLabels{display:none}
+#hero3d{position:absolute;z-index:1;pointer-events:none;right:-9vw;top:50%;width:min(64vh,38vw);height:min(64vh,38vw);margin-top:calc(-.5*min(64vh,38vw));opacity:0;transition:opacity 1.4s var(--ease);will-change:transform}
+#hero3d.on{opacity:1}
+@media (min-width:1800px){#hero3d{right:calc((100vw - 1560px)/2 - 6vw)}}
+@media (max-width:980px){#hero3d{right:-14vw;width:min(50vh,60vw);height:min(50vh,60vw);margin-top:calc(-.5*min(50vh,60vw))}#hero3d.on{opacity:.7}}
+@media (max-width:720px){#hero3d{right:-42vw;top:14%;width:min(42vh,84vw);height:min(42vh,84vw);margin-top:0}#hero3d.on{opacity:.42}}
 .hwrap{position:relative;z-index:2;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;max-width:1560px;margin:0 auto;will-change:transform,opacity;
   padding-block:28px 22px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
 .hnav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 28px;animation:fadeDown .9s var(--ease) both}
@@ -284,6 +290,8 @@ svg#map{display:block;width:100%;height:auto;touch-action:none;cursor:grab;backg
 .legend{display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid var(--line);background:var(--panel);font:400 11px var(--mono);letter-spacing:.06em;color:var(--muted);flex-wrap:wrap}
 .ramp{width:110px;height:8px;background:linear-gradient(90deg,var(--land),var(--accent));border:1px solid var(--line);transition:background .5s}
 .legend .lg1{display:none}
+.legend .lhov{color:var(--fg);font-variant-numeric:tabular-nums;min-width:0}
+.legend .lhov:not(:empty)::before{content:"·";color:var(--muted);margin-right:8px}
 aside{display:flex;flex-direction:column;gap:14px}
 .card{background:var(--panel);border:1px solid var(--line);padding:14px;transition:border-color .3s}
 .card:hover{border-color:#3a4150}
@@ -330,6 +338,14 @@ details.how p{font-size:12px;color:#b3b8c4;margin:8px 0 0}
 .imgbox.missing .ph{display:flex}
 .imgbox .ph code{font-size:11px;overflow-wrap:anywhere;color:#aab0be}
 .fig figcaption{padding:10px 12px;font-size:12.5px;color:#c3c8d3;border-top:1px solid var(--line)}
+.g3d{display:flex;gap:14px;align-items:center;padding:10px 12px 12px;border-top:1px solid var(--line);background:radial-gradient(ellipse at 18% 50%,rgba(47,109,240,.08),transparent 45%)}
+.mini3dHost{width:120px;height:120px;flex:none;border-radius:50%;overflow:hidden;background:radial-gradient(circle,#10151f,#05070b)}
+.mini3dHost canvas{width:120px;height:120px;display:block}
+.g3dt{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:#c3c8d3;min-width:0}
+.g3dt b{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.an3d{align-self:flex-start;margin-top:4px;background:var(--accent);color:#fff;border:0;padding:9px 12px;font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:filter .2s,transform .2s}
+.an3d:hover{filter:brightness(1.15);transform:translateY(-1px)}
+@media (max-width:420px){.g3d{flex-direction:column;align-items:flex-start}}
 .fig figcaption b{font:500 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-right:8px}
 .dgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
 @media (max-width:1000px){.dgrid{grid-template-columns:minmax(0,1fr)}}
@@ -450,6 +466,7 @@ details.how p{font-size:12px;color:#b3b8c4;margin:8px 0 0}
     <canvas id="stars" aria-hidden="true"></canvas>
     <canvas id="topo" aria-hidden="true"></canvas>
     <div id="topoLabels" aria-hidden="true"></div>
+    <canvas id="hero3d" aria-hidden="true"></canvas>
     <div class="hwrap">
       <nav class="hnav" aria-label="Main">
         <a class="mark" href="#" aria-label="Helvetic Dynamics, home">
@@ -786,7 +803,7 @@ details.how p{font-size:12px;color:#b3b8c4;margin:8px 0 0}
   <div class="main">
     <div class="mapbox lbox">
       <div id="lcanvas"><div class="lstatus" id="lstatus">Loading data…</div></div>
-      <div class="legend"><span class="lg2">DRAG: ROTATE · WHEEL: ZOOM · CLICK: ANALYSE</span><span class="lg1">DRAG · PINCH · TAP TO ANALYSE</span>
+      <div class="legend"><span class="lg2">DRAG: ROTATE · WHEEL: ZOOM · CLICK: ANALYSE</span><span class="lg1">DRAG · PINCH · TAP TO ANALYSE</span><span class="lhov" id="lhover"></span>
         <span style="margin-left:auto" id="lcredit">DATA: NASA/GSFC · LRO (LOLA, LROC) · CGI MOON KIT</span></div>
     </div>
     <aside>
@@ -801,6 +818,7 @@ details.how p{font-size:12px;color:#b3b8c4;margin:8px 0 0}
       <section class="card">
         <h2>Display</h2>
         <div class="lrow"><label for="lexag">Relief</label><input type="range" id="lexag" min="1" max="30" step="1" value="5"><output id="lexagv">×5</output></div>
+        <label class="lchk" style="margin-top:8px"><input type="checkbox" id="lgrid"> Coordinate grid (30°)</label>
         <div class="lbtns"><button type="button" id="lnear">Near side</button><button type="button" id="lfar">Far side</button></div>
       </section>
       <section class="card">
@@ -869,6 +887,8 @@ const MOBQ=matchMedia("(max-width:960px)").matches;
 /* Images fade in once decoded (gallery, site sheet, 3D result panel) */
 document.addEventListener("load",e=>{if(e.target.tagName==="IMG")e.target.classList.add("ld")},true);
 function markLoaded(root){(root||document).querySelectorAll("img").forEach(i=>{if(i.complete&&i.naturalWidth)i.classList.add("ld")})}
+/* 480 px copies of the site photos for the gallery and the 3D result panel (the sheet keeps the full image) */
+const thumbOf=f=>"images/_thumbs/"+f.split("/").pop();
 
 /* ================= Home: animated contour lines ================= */
 const topo=(function(){
@@ -932,7 +952,7 @@ const topo=(function(){
     }
     ctx.restore();
     const p0=P[0],px=p0.x*w,py=p0.y*h;
-    if(w<=720)return;
+    if(w<=720||home.classList.contains("has3d"))return;
     ctx.fillStyle="#e8453a";ctx.beginPath();ctx.moveTo(px,py-7);ctx.lineTo(px+6.5,py+5);ctx.lineTo(px-6.5,py+5);ctx.closePath();ctx.fill();
     const pa=Math.round(fz(p0.x,p0.y,asp,P,t)*ALT/10)*10;
     peakEl.textContent=fmtAlt(pa);peakEl.style.left=px+"px";peakEl.style.top=py+"px";
@@ -946,7 +966,7 @@ const topo=(function(){
     raf=requestAnimationFrame(frame);
     if(!vis)return;
     drawStars((now-t0)/1000);
-    if(now-last<(ratio<.4?125:42))return;last=now;draw((now-t0)/1000);
+    if(now-last<(ratio<.4?125:MOBQ?66:50))return;last=now;draw((now-t0)/1000);
   }
   function start(){if(on)return;on=true;resize();draw((performance.now()-t0)/1000);drawStars((performance.now()-t0)/1000);if(!REDUCE)raf=requestAnimationFrame(frame)}
   function stop(){on=false;cancelAnimationFrame(raf)}
@@ -957,7 +977,7 @@ const topo=(function(){
 })();
 /* Hero parallax: the text slides and fades a little faster than the background while you scroll away */
 if(!REDUCE){
-  const hw=document.querySelector(".hwrap"),layers=[$("stars"),$("topo"),$("topoLabels")];let pr=0,lastY=-1;
+  const hw=document.querySelector(".hwrap"),layers=[$("stars"),$("topo"),$("topoLabels"),$("hero3d")];let pr=0,lastY=-1;
   const upd=()=>{pr=0;if($("home").hidden)return;const y=Math.min(scrollY,innerHeight*1.25);if(y===lastY)return;lastY=y;const k=Math.min(1,y/innerHeight);
     hw.style.transform=`translate3d(0,${(y*.28).toFixed(1)}px,0)`;hw.style.opacity=(1-k*.85).toFixed(3);
     layers.forEach(c=>c.style.transform=`translate3d(0,${(y*.12).toFixed(1)}px,0)`)};
@@ -1233,9 +1253,55 @@ let detailId=null, detailBody="moon";
 function figure(kind,label,sid){
   const f=FOLDER[sid]?.imgs?.[kind];
   if(!f)return `<figure class="fig"><div class="imgbox missing"><div class="ph">No ${label.toLowerCase()} image planned for this site</div></div><figcaption><b>${label}</b></figcaption></figure>`;
+  const g3d=(kind!=="earth"&&f.lat!=null)?`<div class="g3d"><div class="mini3dHost" data-key="${kind}" data-lat="${f.lat}" data-lon="${f.lon}"></div>
+    <div class="g3dt"><b>Where on ${label}</b><span>${esc(f.subject.replace(/^Image:\s*/,"").replace(/\s*\(Wikipedia\)$/,""))} · ${fmtLatLon(f.lat,f.lon)}</span>
+    <button type="button" class="an3d" data-key="${kind}" data-lat="${f.lat}" data-lon="${f.lon}">Analyse this spot in 3D ▸</button></div></div>`:"";
   return `<figure class="fig"><div class="imgbox"><img src="${esc(f.file)}" alt="${esc(f.subject)}" loading="lazy"><div class="ph"><span>Image not available</span></div></div>
-    <figcaption><b>${label}</b>${esc(f.subject)}${kind==="earth"?"":'<br><span class="na">Association proposed in the dataset, not an official NASA equivalence.</span>'}</figcaption></figure>`;
+    <figcaption><b>${label}</b>${esc(f.subject)}${kind==="earth"?"":'<br><span class="na">Association proposed in the dataset, not an official NASA equivalence.</span>'}</figcaption>${g3d}</figure>`;
 }
+/* One small WebGL globe, moved from sheet to sheet, that turns to the counterpart's position and marks it */
+const MINI=(function(){
+  let R=null,scene,camera,grp,mesh,glow,marker,tex={},raf=0,key=null,baseY=0,baseX=0,t0=0;
+  const cv=document.createElement("canvas");cv.className="mini3d";cv.width=cv.height=320;
+  function init(){
+    if(R!==null)return R;
+    if(typeof THREE==="undefined")return R=false;
+    try{R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){return R=false}
+    R.setPixelRatio(2);R.setSize(160,160,false);R.outputEncoding=THREE.sRGBEncoding;R.setClearColor(0,0);
+    scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(30,1,.1,20);camera.position.set(0,0,4.1);
+    grp=new THREE.Group();scene.add(grp);
+    mesh=new THREE.Mesh(new THREE.SphereGeometry(1,64,32),new THREE.MeshStandardMaterial({roughness:1,metalness:0}));grp.add(mesh);
+    glow=new THREE.Mesh(new THREE.SphereGeometry(1.1,32,16),makeGlowMat(0x2f6df0,.5));grp.add(glow);
+    marker=new THREE.Group();
+    marker.add(new THREE.Mesh(new THREE.SphereGeometry(.04,12,12),new THREE.MeshBasicMaterial({color:0xff4d3d})));
+    marker.add(new THREE.Mesh(new THREE.RingGeometry(.07,.09,32),new THREE.MeshBasicMaterial({color:0xffffff,side:THREE.DoubleSide})));
+    mesh.add(marker);
+    const sun=new THREE.DirectionalLight(0xffffff,1.5);sun.position.set(-2,1.5,3);scene.add(sun);scene.add(new THREE.AmbientLight(0x8893a8,.5));
+    return R;
+  }
+  function mount(host,k,lat,lon){
+    if(!init())return;
+    host.appendChild(cv);
+    if(!tex[k]){tex[k]=new THREE.TextureLoader().load(PL[k].texLo);tex[k].encoding=THREE.sRGBEncoding}
+    key=k;mesh.material.map=tex[k];mesh.material.needsUpdate=true;
+    glow.material.uniforms.c.value.set(PL[k].color);
+    const d=dirOf(lat,lon);marker.position.copy(d).multiplyScalar(1.01);marker.lookAt(d.clone().multiplyScalar(3));
+    baseY=Math.PI/2-2*Math.PI*(lon+180)/360;baseX=lat*Math.PI/180;t0=performance.now();
+    grp.rotation.set(baseX,baseY,0);
+    cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);
+  }
+  function frame(now){
+    raf=requestAnimationFrame(frame);
+    if($("detail").hidden||document.hidden||!cv.isConnected)return;
+    const k=Math.min(1,(now-t0)/1200),e=1-Math.pow(1-k,3);
+    grp.rotation.y=baseY+(1-e)*1.2+(REDUCE?0:.12*Math.sin(now/1900));
+    grp.rotation.x=baseX+(REDUCE?0:.05*Math.sin(now/2600));
+    marker.children[1].scale.setScalar(1+.15*Math.sin(now/300));
+    R.render(scene,camera);
+  }
+  function stop(){cancelAnimationFrame(raf)}
+  return{mount,stop};
+})();
 function renderDetail(){
   const s=SITES.find(x=>x.id===detailId);if(!s)return;
   const F=FOLDER[s.id]||{}, inM=inList(s,"moon"), inR=inList(s,"mars");
@@ -1246,6 +1312,7 @@ function renderDetail(){
   $("dname").textContent=s.name;
   $("dsub").textContent=`${s.country||""} · catalogue site ${s.id} · ${[inM?"Moon":null,inR?"Mars":null].filter(Boolean).join(" + ")}`;
   $("dimgs").innerHTML=figure("earth","Earth",s.id)+figure(detailBody,BODY_LABEL[detailBody],s.id);
+  const host=$("dimgs").querySelector(".mini3dHost");if(host)MINI.mount(host,host.dataset.key,+host.dataset.lat,+host.dataset.lon);else MINI.stop();
   const c=s.coords||{};
   const env=ENV.map(([key,l])=>{const v=s.environment?.[key];return `<dt>${l}</dt><dd>${v?esc(v):NA}</dd>`}).join("");
   const featHtml=b=>{
@@ -1277,6 +1344,7 @@ function openDetail(id){
   if(detailId!==id||nextDetailBody){detailId=id;detailBody=nextDetailBody||body;nextDetailBody=null}
   renderDetail();
 }
+$("dimgs").addEventListener("click",e=>{const b=e.target.closest(".an3d");if(!b)return;pendingPick={key:b.dataset.key,lat:+b.dataset.lat,lon:+b.dataset.lon};location.hash=b.dataset.key==="mars"?"mars":"lune"});
 $("d-moon").onclick=()=>{detailBody="moon";renderDetail()};
 $("d-mars").onclick=()=>{detailBody="mars";renderDetail()};
 $("detail").addEventListener("error",e=>{
@@ -1286,11 +1354,11 @@ $("detail").addEventListener("error",e=>{
 /* ================= 3D planets (Moon, Mars) ================= */
 const DEM_W=1440, DEM_H=720;
 const PL={
-  moon:{key:"moon",label:"Moon",R:1737400,color:"#2f6df0",dem:"/*MOONDEM*/",tex:"/*MOONCOLOR*/",hmin:-9200,hmax:10800,zoneMask:14,thr:70,amb:0x6b7a99,
+  moon:{key:"moon",label:"Moon",R:1737400,color:"#2f6df0",dem:"/*MOONDEM*/",tex:"/*MOONCOLOR*/",texLo:"data/moon/lroc_color_1k.jpg",hmin:-9200,hmax:10800,zoneMask:14,thr:70,amb:0x6b7a99,
     cam:[3.4,.7,.5],far:[-3.4,.7,-.5],
     credit:"DATA: NASA/GSFC · LRO (LOLA, LROC) · CGI MOON KIT",
     intro:"Click on the surface of the Moon to read its characteristics and see the catalogue site on Earth that comes closest."},
-  mars:{key:"mars",label:"Mars",R:3396000,color:"#e0382a",dem:"/*MARSDEM*/",tex:"/*MARSCOLOR*/",hmin:-8200,hmax:21200,zoneMask:126,thr:90,amb:0x9a6a55,
+  mars:{key:"mars",label:"Mars",R:3396000,color:"#e0382a",dem:"/*MARSDEM*/",tex:"/*MARSCOLOR*/",texLo:"data/mars/mars_color_1k.jpg",hmin:-8200,hmax:21200,zoneMask:126,thr:90,amb:0x9a6a55,
     cam:[3.4,.7,.5],far:[-3.4,.7,-.5],
     credit:"DATA: NASA · MGS (MOLA) · VIKING MDIM 2.1 (NASA/JPL/USGS)",
     intro:"Click on the surface of Mars to read its characteristics and see the catalogue site on Earth that comes closest."}
@@ -1314,22 +1382,40 @@ function demAt(u,v){
   const x=u*DEM_W-.5,y=v*DEM_H-.5,x0=Math.floor(x),y0=Math.floor(y),fx=x-x0,fy=y-y0;
   return demElev(x0,y0)*(1-fx)*(1-fy)+demElev(x0+1,y0)*fx*(1-fy)+demElev(x0,y0+1)*(1-fx)*fy+demElev(x0+1,y0+1)*fx*fy;
 }
+/* Elevation grids (2 MB each) and colour maps live in data/ and are fetched only when a globe opens, with a progress readout. */
+function fetchProgress(url,onp){
+  return fetch(url).then(r=>{
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    const total=+r.headers.get("Content-Length")||0;
+    if(!r.body||!total)return r.arrayBuffer();
+    const reader=r.body.getReader(),chunks=[];let got=0;
+    const pump=()=>reader.read().then(({done,value})=>{if(done)return;chunks.push(value);got+=value.length;if(onp)onp(got/total);return pump()});
+    return pump().then(()=>{const out=new Uint8Array(got);let o=0;chunks.forEach(c=>{out.set(c,o);o+=c.length});return out.buffer});
+  });
+}
 function loadPlanetData(key){
   if(PS[key])return Promise.resolve(PS[key]);
-  const cfg=PL[key],bin=atob(cfg.dem),u8=new Uint8Array(bin.length);
-  for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
-  const ELEV=new Float32Array(DEM_W*DEM_H);
-  if(key==="moon"){const a=new Uint16Array(u8.buffer);for(let i=0;i<ELEV.length;i++)ELEV[i]=(a[i]-20000)*.5}
-  else{const a=new Int16Array(u8.buffer);for(let i=0;i<ELEV.length;i++)ELEV[i]=a[i]}
-  return new Promise((res,rej)=>{
-    const im=new Image();
-    im.onload=()=>{
-      const cv=document.createElement("canvas");cv.width=im.width;cv.height=im.height;
-      const cx=cv.getContext("2d",{willReadFrequently:true});cx.drawImage(im,0,0);
-      PS[key]={cfg,ELEV,img:im,colorData:cx.getImageData(0,0,im.width,im.height),rankCache:{},ready:false};res(PS[key]);
-    };
-    im.onerror=rej;im.src=cfg.tex;
+  const cfg=PL[key];
+  const dem=fetchProgress(cfg.dem,p=>{const el=$("lstatus");if(!el.hidden)el.textContent="Loading "+cfg.label+" elevation… "+Math.round(p*100)+" %"}).then(buf=>{
+    const ELEV=new Float32Array(DEM_W*DEM_H);
+    if(key==="moon"){const a=new Uint16Array(buf,0,DEM_W*DEM_H);for(let i=0;i<ELEV.length;i++)ELEV[i]=(a[i]-20000)*.5}
+    else{const a=new Int16Array(buf,0,DEM_W*DEM_H);for(let i=0;i<ELEV.length;i++)ELEV[i]=a[i]}
+    return ELEV;
   });
+  const img=new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=rej;im.src=cfg.tex});
+  return Promise.all([dem,img]).then(([ELEV,im])=>{
+    const cv=document.createElement("canvas");cv.width=im.width;cv.height=im.height;
+    const cx=cv.getContext("2d",{willReadFrequently:true});cx.drawImage(im,0,0);
+    return PS[key]={cfg,ELEV,img:im,colorData:cx.getImageData(0,0,im.width,im.height),rankCache:{},ready:false};
+  });
+}
+/* Direction vector of a lat/lon on the globe meshes (matches the texture mapping used by pickPoint) */
+function dirOf(lat,lon){const f=lat*Math.PI/180,t=2*Math.PI*(lon+180)/360;return new THREE.Vector3(-Math.cos(t)*Math.cos(f),Math.sin(f),Math.sin(t)*Math.cos(f))}
+function fmtLatLon(lat,lon){return Math.abs(lat).toFixed(1)+"° "+(lat>=0?"N":"S")+", "+Math.abs(lon).toFixed(1)+"° "+(lon>=0?"E":"W")}
+function makeGlowMat(hex,alpha,k){
+  return new THREE.ShaderMaterial({uniforms:{c:{value:new THREE.Color(hex)},a:{value:alpha},k:{value:k||.42}},transparent:true,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false,
+    vertexShader:"varying vec3 vN;varying vec3 vP;void main(){vN=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.0);vP=mv.xyz;gl_Position=projectionMatrix*mv;}",
+    fragmentShader:"uniform vec3 c;uniform float a;uniform float k;varying vec3 vN;varying vec3 vP;void main(){float d=abs(dot(normalize(vN),normalize(-vP)));float f=pow(clamp(d/k,0.0,1.0),2.2);gl_FragColor=vec4(c,f*a);}"});
 }
 /* The terrain classification of the whole globe (brightness, local relief, slope at every DEM cell, Otsu threshold,
    percentiles, mask) takes a second or two. The three functions below are pure, so they run unchanged either in a
@@ -1484,7 +1570,7 @@ function showResult(a,prof,ranked){
       <h3>${esc(top.s.name)}</h3>
       <div class="note" style="margin:2px 0 0">${esc(top.s.country||"")}</div>
       <div><span class="pc">${Math.round(top.score*100)} %</span> <span class="note">${top.m.length} of ${prof.feats.length} elements (highlighted above)</span></div>
-      ${img?`<img class="earth" src="${esc(img)}" alt="${esc(top.s.name)}" loading="lazy">`:""}
+      ${img?`<img class="earth" src="${esc(thumbOf(img))}" data-full="${esc(img)}" alt="${esc(top.s.name)}" loading="lazy">`:""}
       ${miniMap(top.s)}
       ${ties>1?`<p class="tie">${ties} sites tied; ordered by driest${S.cfg.key==="mars"?", then coldest,":""} (quoted values).</p>`:""}
       <button type="button" class="go" data-site="${top.s.id}">Open the site sheet ▸</button>
@@ -1493,13 +1579,19 @@ function showResult(a,prof,ranked){
   markLoaded($("lres"));
 }
 $("lres").addEventListener("click",e=>{const b=e.target.closest("[data-site]");if(b){nextDetailBody=S.cfg.key;location.hash="site-"+b.dataset.site}});
-$("lres").addEventListener("error",e=>{if(e.target.tagName==="IMG")e.target.remove()},true);
+$("lres").addEventListener("error",e=>{if(e.target.tagName!=="IMG")return;const i=e.target;if(i.dataset.full&&i.getAttribute("src")!==i.dataset.full)i.src=i.dataset.full;else i.remove()},true);
 $("pl-moon").onclick=()=>{location.hash="lune"};
 $("pl-mars").onclick=()=>{location.hash="mars"};
 
-let M=null, pendingKey=null;
+let M=null, pendingKey=null, pendingPick=null;
+/* A site sheet can ask the globe to analyse the position of its Moon/Mars counterpart image */
+function consumePick(){
+  if(!pendingPick||!M||!S||S.cfg.key!==pendingPick.key)return;
+  const pk=pendingPick;pendingPick=null;
+  setTimeout(()=>{if(S&&S.cfg.key===pk.key)M.pickPoint(dirOf(pk.lat,pk.lon))},450);
+}
 function showPlanet(key){
-  if(M&&S&&S.cfg.key===key){planetLoop(true);return}
+  if(M&&S&&S.cfg.key===key){planetLoop(true);consumePick();return}
   if(pendingKey===key)return;
   initPlanet(key);
 }
@@ -1516,8 +1608,8 @@ function initPlanet(key){
       S=st;
       if(!M)buildScene();
       if(!M){pendingKey=null;return}
-      M.setPlanet(st);$("lstatus").hidden=true;$("lcanvas").classList.remove("loading");pendingKey=null;planetLoop(!$("lune").hidden);
-    }).catch(()=>{pendingKey=null;$("lcanvas").classList.remove("loading");$("lstatus").hidden=false;$("lstatus").classList.add("err");$("lstatus").textContent="Could not load the data."});
+      M.setPlanet(st);$("lstatus").hidden=true;$("lcanvas").classList.remove("loading");pendingKey=null;planetLoop(!$("lune").hidden);consumePick();
+    }).catch(()=>{pendingKey=null;$("lcanvas").classList.remove("loading");$("lstatus").hidden=false;$("lstatus").classList.add("err");$("lstatus").textContent="Could not load the data. The data/ folder must sit next to index.html and the site must be served over http (opening the file directly does not allow it)."});
   },30);
 }
 function buildScene(){
@@ -1546,10 +1638,18 @@ function buildScene(){
     if(k>=1){camTween=null;if(wantAuto&&!REDUCE){controls.autoRotate=true;wantAuto=false}}
   }
   const planet=new THREE.Group();scene.add(planet);
-  const glowMat=new THREE.ShaderMaterial({uniforms:{c:{value:new THREE.Color(0x2f6df0)}},transparent:true,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false,
-    vertexShader:"varying vec3 vN;varying vec3 vP;void main(){vN=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.0);vP=mv.xyz;gl_Position=projectionMatrix*mv;}",
-    fragmentShader:"uniform vec3 c;varying vec3 vN;varying vec3 vP;void main(){float d=abs(dot(normalize(vN),normalize(-vP)));float f=pow(clamp(d/0.42,0.0,1.0),2.2);gl_FragColor=vec4(c,f*0.42);}"});
+  const glowMat=makeGlowMat(0x2f6df0,.42);
   const glow=new THREE.Mesh(new THREE.SphereGeometry(1,64,32),glowMat);planet.add(glow);
+  /* Coordinate grid (30° steps), floating just above the highest relief */
+  const gp=[];
+  for(let la=-60;la<=60;la+=30){const f=la*Math.PI/180;for(let i=0;i<180;i++){const t0=i/180*2*Math.PI,t1=(i+1)/180*2*Math.PI;gp.push(-Math.cos(t0)*Math.cos(f),Math.sin(f),Math.sin(t0)*Math.cos(f),-Math.cos(t1)*Math.cos(f),Math.sin(f),Math.sin(t1)*Math.cos(f))}}
+  for(let lo=0;lo<360;lo+=30){const t=lo*Math.PI/180;for(let i=0;i<90;i++){const f0=(i/90-.5)*Math.PI,f1=((i+1)/90-.5)*Math.PI;gp.push(-Math.cos(t)*Math.cos(f0),Math.sin(f0),Math.sin(t)*Math.cos(f0),-Math.cos(t)*Math.cos(f1),Math.sin(f1),Math.sin(t)*Math.cos(f1))}}
+  const gg=new THREE.BufferGeometry();gg.setAttribute("position",new THREE.BufferAttribute(new Float32Array(gp),3));
+  const grat=new THREE.LineSegments(gg,new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.2,depthWrite:false}));grat.visible=$("lgrid").checked;planet.add(grat);
+  $("lgrid").onchange=()=>{grat.visible=$("lgrid").checked};
+  /* Expanding ring when a point is picked */
+  const ripple=new THREE.Mesh(new THREE.RingGeometry(.3,.36,48),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0,side:THREE.DoubleSide,depthWrite:false}));ripple.visible=false;planet.add(ripple);
+  let rippleT0=0;
 
   const tex=new THREE.Texture();tex.encoding=THREE.sRGBEncoding;tex.anisotropy=renderer.capabilities.getMaxAnisotropy();
   const bc=document.createElement("canvas");bc.width=DEM_W;bc.height=DEM_H;const bump=new THREE.CanvasTexture(bc);
@@ -1579,6 +1679,7 @@ function buildScene(){
     disp.scale.value=mat.displacementScale;disp.bias.value=mat.displacementBias;
     mat.bumpScale=.35*Math.pow(ex/5,.6);
     glow.scale.setScalar(1.09+ex*c.hmax/R*.6);
+    grat.scale.setScalar(1.004+ex*c.hmax/R);
     if(markerAt)placeMarker(ex);
   }
   function refreshZones(){drawZones(zcv,zctx,ztmp);ztex.needsUpdate=true;zoneMesh.visible=$("zon").checked}
@@ -1598,7 +1699,19 @@ function buildScene(){
   function size(){const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);renderer.domElement.style.width=w+"px";renderer.domElement.style.height=h+"px";camera.aspect=w/h;camera.updateProjectionMatrix()}
   new ResizeObserver(size).observe(host);size();
 
-  let down=null;
+  let down=null,hoverEv=null;
+  const hov=$("lhover"),sph=new THREE.Sphere(new THREE.Vector3(0,0,0),1),hp=new THREE.Vector3();
+  renderer.domElement.addEventListener("pointermove",e=>{if(e.pointerType==="touch")return;hoverEv=e},{passive:true});
+  renderer.domElement.addEventListener("pointerleave",()=>{hoverEv=null;hov.textContent=""});
+  function updateHover(){
+    if(!hoverEv||!S)return;const e=hoverEv;hoverEv=null;
+    const r=renderer.domElement.getBoundingClientRect();
+    ray.setFromCamera(new THREE.Vector2(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1),camera);
+    sph.radius=planet.scale.x;
+    if(!ray.ray.intersectSphere(sph,hp)){hov.textContent="";return}
+    const d=hp.normalize(),lat=Math.asin(d.y)*180/Math.PI;let u=Math.atan2(d.z,-d.x)/(2*Math.PI);if(u<0)u+=1;const lon=(u-.5)*360;
+    hov.textContent=fmtLatLon(lat,lon)+" · "+Math.round(demAt(u,(90-lat)/180)).toLocaleString("en-US")+" m";
+  }
   renderer.domElement.addEventListener("pointerdown",e=>{down={x:e.clientX,y:e.clientY,t:performance.now()}});
   renderer.domElement.addEventListener("pointerup",e=>{
     if(!down)return;const moved=Math.hypot(e.clientX-down.x,e.clientY-down.y),dt=performance.now()-down.t;down=null;
@@ -1614,6 +1727,7 @@ function buildScene(){
     const lon=(u-.5)*360,a=analyze(lat,lon),prof=profile(a),ranked=rankForMask(maskOf(a));
     showResult(a,prof,ranked);
     markerAt={d,u,v:(90-lat)/180};placeMarker(reliefCur);marker.visible=true;
+    ripple.position.copy(marker.position);ripple.lookAt(d.clone().multiplyScalar(3));ripple.visible=!REDUCE;rippleT0=performance.now();
     controls.autoRotate=false;wantAuto=false;
     const cd=camera.position.clone().normalize();
     if(cd.angleTo(d)>.12&&!REDUCE)flyTo(d.clone().multiplyScalar(camera.position.length()),900);
@@ -1645,7 +1759,9 @@ function buildScene(){
     if(reliefCur!==reliefTarget){reliefCur+=(reliefTarget-reliefCur)*Math.min(1,dt*.011);if(Math.abs(reliefCur-reliefTarget)<.01)reliefCur=reliefTarget;setRelief(reliefCur)}
     if(!controls.autoRotate&&!camTween&&!marker.visible&&!REDUCE&&now-lastTouch>9000)controls.autoRotate=true;
     starField.rotation.y+=.00006;
-    if(marker.visible){const s=Math.max(.03,(camera.position.length()-1)*.07);marker.scale.setScalar(s);marker.children[1].scale.setScalar(1+.14*Math.sin(now/260))}
+    updateHover();
+    if(marker.visible){const s=Math.max(.03,(camera.position.length()-1)*.07);marker.scale.setScalar(s);marker.children[1].scale.setScalar(1+.14*Math.sin(now/260));
+      if(ripple.visible){const k=(now-rippleT0)/900;if(k>=1)ripple.visible=false;else{ripple.scale.setScalar(s*(1+k*5));ripple.material.opacity=(1-k)*.9}}}
   }
   $("lexag").oninput=e=>{const v=+e.target.value;$("lexagv").textContent="×"+v;reliefTarget=REDUCE?(reliefCur=v):v;if(REDUCE)setRelief(v)};
   $("lnear").onclick=()=>{flyTo(new THREE.Vector3(...S.cfg.cam),1000)};
@@ -1744,12 +1860,12 @@ function buildGallery(){
     const feats=[...(s.directory_features?.moon||[]),...(s.directory_features?.mars||[])].map(x=>x.split(" > ").pop());
     const uniq=[...new Set(feats)].slice(0,4).join(" · ");
     return `<button type="button" class="scard" role="listitem" data-site="${s.id}" aria-label="Open the sheet of ${esc(s.name)}">
-      <div class="im"><span class="id">${String(s.id).padStart(2,"0")}</span>${f?`<img src="${esc(f.file)}" alt="" loading="lazy" decoding="async">`:""}<div class="no"${f?' hidden':''}>No photo yet</div>
+      <div class="im"><span class="id">${String(s.id).padStart(2,"0")}</span>${f?`<img src="${esc(thumbOf(f.file))}" data-full="${esc(f.file)}" alt="" loading="lazy" decoding="async">`:""}<div class="no"${f?' hidden':''}>No photo yet</div>
         <div class="bd">${m?'<i class="m" title="Moon list"></i>':""}${r?'<i class="r" title="Mars list"></i>':""}</div></div>
       <div class="tx"><h3>${esc(s.name)}</h3><div class="co">${esc(s.country||"")}</div>${uniq?`<div class="ft">${esc(uniq)}</div>`:""}</div></button>`;
   }).join("");
   $("srow").addEventListener("click",e=>{const b=e.target.closest("[data-site]");if(!b)return;lastView="#home";nextDetailBody=body;location.hash="site-"+b.dataset.site});
-  $("srow").addEventListener("error",e=>{if(e.target.tagName==="IMG"){const box=e.target.parentNode;e.target.remove();box.querySelector(".no").hidden=false}},true);
+  $("srow").addEventListener("error",e=>{if(e.target.tagName!=="IMG")return;const i=e.target;if(i.dataset.full&&i.getAttribute("src")!==i.dataset.full){i.src=i.dataset.full;return}const box=i.parentNode;i.remove();box.querySelector(".no").hidden=false},true);
   const row=$("srow"),stepW=()=>Math.max(240,row.firstElementChild?.getBoundingClientRect().width+16||300);
   $("sprev").onclick=()=>row.scrollBy({left:-stepW()*2,behavior:REDUCE?"auto":"smooth"});
   $("snext").onclick=()=>row.scrollBy({left:stepW()*2,behavior:REDUCE?"auto":"smooth"});
@@ -1775,14 +1891,38 @@ function setupTilt(){
   });
 }
 
+/* Hero: a real Moon in three.js, lit from the side, drifting slowly and leaning towards the pointer */
+function heroMoon(){
+  if(typeof THREE==="undefined"||REDUCE)return;
+  const cv=$("hero3d"),home=$("heroSec");let R;
+  try{R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true,powerPreference:"low-power"})}catch(e){return}
+  R.setPixelRatio(Math.min(devicePixelRatio||1,MOBQ?1.5:2));R.outputEncoding=THREE.sRGBEncoding;R.setClearColor(0,0);
+  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(30,1,.1,50);camera.position.set(0,0,3.9);
+  const grp=new THREE.Group();scene.add(grp);
+  const tex=new THREE.TextureLoader().load(MOBQ?PL.moon.texLo:PL.moon.tex,()=>{cv.classList.add("on");home.classList.add("has3d")});
+  tex.encoding=THREE.sRGBEncoding;tex.anisotropy=R.capabilities.getMaxAnisotropy();
+  const moon=new THREE.Mesh(new THREE.SphereGeometry(1,96,48),new THREE.MeshStandardMaterial({map:tex,roughness:1,metalness:0}));grp.add(moon);
+  grp.add(new THREE.Mesh(new THREE.SphereGeometry(1.1,48,24),makeGlowMat(0x2f6df0,.45)));
+  const sun=new THREE.DirectionalLight(0xffffff,1.7);sun.position.set(-3.2,1.4,2.2);scene.add(sun);scene.add(new THREE.AmbientLight(0x6b7a99,.3));
+  let vis=true,tx=0,ty=0,rx=0,ry=0;
+  function size(){const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;R.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
+  new ResizeObserver(size).observe(cv);size();
+  home.addEventListener("pointermove",e=>{const r=home.getBoundingClientRect();tx=(e.clientX-r.left)/r.width-.5;ty=(e.clientY-r.top)/r.height-.5},{passive:true});
+  new IntersectionObserver(([e])=>{vis=e.isIntersecting},{threshold:0}).observe(cv);
+  function frame(now){requestAnimationFrame(frame);if(!vis||$("home").hidden||document.hidden)return;
+    moon.rotation.y=now*.00005;rx+=(ty*.22-rx)*.04;ry+=(tx*.3-ry)*.04;grp.rotation.x=rx-.08;grp.rotation.y=ry;R.render(scene,camera)}
+  requestAnimationFrame(frame);
+}
+
 render();
 earthPreview();
-globePreview($("prevMoon"),PL.moon.tex,-15,18);
-globePreview($("prevMars"),PL.mars.tex,-70,14);
+/* Rotating previews start only when the map cards come near the viewport */
+new IntersectionObserver((es,io)=>{if(!es.some(e=>e.isIntersecting))return;io.disconnect();globePreview($("prevMoon"),PL.moon.texLo,-15,18);globePreview($("prevMars"),PL.mars.texLo,-70,14)},{rootMargin:"500px 0px"}).observe($("maps"));
 buildTicker();
 buildGallery();
 setupTilt();
 route();
 setupReveal();
 requestAnimationFrame(()=>setTimeout(()=>$("boot").classList.add("out"),150));
+setTimeout(heroMoon,250);
 </script>

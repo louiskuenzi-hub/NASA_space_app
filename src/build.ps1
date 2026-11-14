@@ -8,10 +8,10 @@ function Txt($p) { [IO.File]::ReadAllText($p, [Text.Encoding]::UTF8) }
 
 $logo = "data:image/png;base64," + (B64 "$root\assets\logo-white.png")
 $rep = @{
-  '/*MOONDEM*/'   = (B64 "$root\data\moon\moon_dem.bin")
-  '/*MOONCOLOR*/' = ("data:image/jpeg;base64," + (B64 "$root\data\moon\lroc_color_2k.jpg"))
-  '/*MARSDEM*/'   = (B64 "$root\data\mars\mars_dem.bin")
-  '/*MARSCOLOR*/' = ("data:image/jpeg;base64," + (B64 "$root\data\mars\mars_color_1920.jpg"))
+  '/*MOONDEM*/'   = "data/moon/moon_dem.bin"
+  '/*MOONCOLOR*/' = "data/moon/lroc_color_2k.jpg"
+  '/*MARSDEM*/'   = "data/mars/mars_dem.bin"
+  '/*MARSCOLOR*/' = "data/mars/mars_color_1920.jpg"
   '/*LOGO*/'      = $logo
   '/*CREDITS*/'   = (Txt "$root\data\credits.html")
 }
