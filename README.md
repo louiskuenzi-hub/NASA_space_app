@@ -8,11 +8,19 @@ The main resource is ESA's **The Catalogue of Planetary Analogues** (CAFE study,
 
 ## What is in the site
 
-- **Home**: animated contour lines and starfield with a real 3D Moon (three.js), three live map previews (the Moon and Mars previews rotate), key figures, a four-step "How it works", a gallery of the 30 catalogue sites with their photos, a footer and a Contact dialog. Sections reveal as you scroll; everything respects `prefers-reduced-motion`.
-- **Earth map** (`#carte`): flat world map of the analogue sites. Switch Moon / Mars, tick criteria (terrain & geology from the catalogue, plus climate type, temperature, precipitation, humidity, wind, insolation and altitude bands), and countries and glowing disks are tinted by how well each site covers them. Click a point to zoom and open its sheet.
-- **3D Moon and Mars** (`#lune`, `#mars`): globes with real relief (applied on the GPU; the terrain classification runs in a Web Worker). Click anywhere to read the terrain (altitude, slope, local relief, brightness), get a terrain profile and the closest catalogue site on Earth. Glowing zones show where a catalogue site matches above a chosen threshold. Hover for coordinates and altitude, toggle a 30° grid, and the camera glides to the point you click.
-- **Site sheet** (`#site-N`): Earth photo beside a Moon or Mars image, a small 3D globe showing where that counterpart lies with a button that analyses the same spot on the big globe, the catalogue data, the lunar and Martian features the site covers.
-- **Guide** (`#guide`): step-by-step use, how to read the percentages, limits, sources and image credits.
+- **Home**: a hero with shader-drawn contour lines, a starfield and a real 3D Moon (three.js; on phones a "moonrise horizon" behind the three buttons), three live map previews (the Moon and Mars previews rotate), key figures, a four-step "How it works" that is pinned for a moment on desktop, a gallery of the 30 catalogue sites with their photos, a footer and a Contact dialog. A short intro (a survey reticle that flies onto the Moon) plays on the first visit of a session.
+- **Earth map** (`#carte`): flat world map of the analogue sites. Switch Moon / Mars, tick criteria (terrain & geology from the catalogue, plus climate type, temperature, precipitation, humidity, wind, insolation and altitude bands), and countries and glowing disks are tinted by how well each site covers them. A radar sweep replays the answer on every change; the ranking of the best 8 sits under the map and reorders in place. Click a point to zoom, lock on it and open its sheet. On phones the map stays pinned under the header and the site card is a bottom sheet.
+- **3D Moon and Mars** (`#lune`, `#mars`): globes with real relief. Click anywhere to read the terrain (altitude, slope, local relief, brightness), get a terrain profile and the closest catalogue site on Earth. Glowing zones show where a catalogue site matches above a chosen threshold. Hover for coordinates and altitude, toggle a 30° grid, and the camera glides to the point you click.
+- **Site sheet** (`#site-N`): Earth photo beside a Moon or Mars image, a locator map of the site on Earth, a small 3D globe showing where the counterpart lies with a button that analyses the same spot on the big globe, the catalogue data, the lunar and Martian features the site covers. Previous / next with the arrow keys, a swipe or the bar at the bottom on phones.
+- **Guide** (`#guide`): step-by-step use, how to read the percentages, limits, sources and image credits, with a table of contents on desktop.
+
+### How it is drawn
+
+- One file, `src/template.html`: styles, the five views and one script. No framework, no bundler.
+- **Rendering**: the hero contours are a WebGL fragment shader (d3.contours on a 2D canvas is the fallback). The globes use a single material: vertices are displaced on the GPU from a 16-bit height texture, the lighting normal comes from a slope texture, and the zone colours are blended in the same shader. The terrain classification runs in a Web Worker. A click is ray-marched against the elevation grid, so it reads the surface that is actually drawn.
+- **Frames only when needed**: every loop (hero, previews, mini globe, big globe) stops when its canvas is hidden or off screen, and the big globe redraws only when something changed.
+- **Motion**: route changes use the View Transitions API where it exists (the gallery photo flies into the sheet and back, an iris opens into the globes); the hero exit, the page progress line and the gallery effects are CSS scroll-driven animations where supported, with JavaScript or static fallbacks. Everything respects `prefers-reduced-motion`.
+- The view elements are `#app`, `#globeV`, `#detail` and `#guideV`. They are deliberately not named after the public hashes (`#lune`, `#guide`): an element whose id equals the hash makes the browser scroll to it.
 
 ## Run it
 
