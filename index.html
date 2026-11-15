@@ -143,8 +143,7 @@ h1.big:hover .ln em{color:var(--fg)}
 .mprev svg{width:100%;height:auto}
 .mcard:hover .mprev canvas{transform:scale(1.06)}
 .mcard:hover .mprev svg{transform:scale(1.04)}
-.mprev .pv{animation:pulse 2.2s ease-out infinite paused;transform-box:fill-box;transform-origin:center}
-.mprev.live .pv{animation-play-state:running}
+.mprev canvas.ov{position:absolute;left:0;right:0;top:0;bottom:0;margin:auto;pointer-events:none}
 .mprev .orbit{position:absolute;inset:14%;border:1px dashed rgba(206,212,224,.18);border-radius:50%;animation:spin 40s linear infinite;pointer-events:none}
 .mprev .orbit::before{content:"";position:absolute;left:50%;top:-3px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--hov);box-shadow:0 0 10px var(--hov)}
 .mbody{padding:20px 20px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
@@ -462,6 +461,13 @@ details.how p{font-size:12px;color:#b3b8c4;margin:8px 0 0}
 .lr .media img.earth{margin:0}
 .lr .media img.earth+svg.mini{position:absolute;right:8px;bottom:8px;width:46%;margin:0;border-color:var(--edge);box-shadow:0 8px 24px rgba(0,0,0,.6);background:rgba(11,13,18,.88)}
 .lr .media svg.mini:first-child{margin:0}
+.lmk{position:absolute;left:0;top:0;z-index:2;display:flex;align-items:center;font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--fg);background:rgba(11,13,18,.72);border:1px solid var(--accent);padding:4px 7px;cursor:pointer;white-space:nowrap;opacity:0;pointer-events:none;will-change:transform,opacity;transition:opacity .25s,background .2s,color .2s}
+.lmk b{color:var(--accent);font-weight:500;margin-left:6px}
+.lmk:hover{background:var(--accent);color:#fff}.lmk:hover b{color:#fff}
+.lmk::before{content:"";position:absolute;left:-1px;top:100%;width:1px;height:14px;background:var(--accent)}
+.lmk::after{content:"";position:absolute;left:-4px;top:calc(100% + 11px);width:7px;height:7px;border:1px solid var(--accent);border-radius:50%;background:rgba(11,13,18,.6)}
+#lcanvas.loading .lmk{display:none}
+@media (max-width:720px){.lmk span{display:none}.lmk b{margin-left:0}.lmk{padding:3px 6px}}
 .lhud{position:absolute;left:10px;right:10px;bottom:10px;z-index:4;display:none;align-items:center;gap:12px;min-height:56px;padding:8px 12px;background:rgba(11,13,18,.86);border:1px solid var(--accent);color:var(--fg);text-align:left;cursor:pointer;animation:hudIn .55s cubic-bezier(.2,.9,.25,1) both}
 .lhud img{width:56px;height:40px;object-fit:cover;flex:none}
 .lhud span{display:flex;flex-direction:column;min-width:0;font:800 13px var(--head);font-stretch:112%;text-transform:uppercase;line-height:1.1}
@@ -535,12 +541,12 @@ details.how p{font-size:12px;color:#b3b8c4;margin:8px 0 0}
 @media (max-width:720px){
   #topoLabels{display:none}
   .hwrap{padding-block:max(12px,env(safe-area-inset-top,0px)) 18px}
-  .hnav{display:grid;grid-template-columns:auto auto auto 1fr;gap:0 18px;align-items:center}
+  .hnav{display:grid;grid-template-columns:auto auto 1fr auto;gap:0 18px;align-items:center}
   .nlinks{display:contents}
   .hnav .mark{grid-row:1;grid-column:1/4;min-height:44px}
   .mark img{height:32px}.mark .mk{font-size:13px}
   .hnav .nl.contact{grid-row:1;grid-column:4;justify-self:end;min-height:44px;padding:0 16px;margin:0}
-  .hnav .nl:not(.contact){grid-row:2;min-height:44px;padding:0;font-size:12px;letter-spacing:.14em;text-align:left}
+  .hnav .nl:not(.contact){grid-row:2;min-height:44px;padding:0;font-size:12px;letter-spacing:.14em;text-align:left;justify-self:start}
   .nl:not(.contact)::after{left:0;right:0;bottom:10px}
   /* the three buttons sit on the first screen: the lead is clamped to three lines with a "Read more" toggle */
   .hero{margin:0;padding-block:18px 0;flex:1;display:flex;flex-direction:column}
@@ -879,10 +885,10 @@ h2.split.in .wi{transform:none}
       <h2 id="mapsTitle" class="rv">Pick a map</h2>
       <p class="msub rv" style="--d:.08s">Three ways into the same data. Each card below opens a live map.</p>
       <div class="mgrid">
-        <a class="mcard rv" href="#carte" style="--hov:#eceef3">
+        <a class="mcard rv" href="#carte" style="--hov:#2f6df0">
           <div class="mprev" id="prevEarth" aria-hidden="true"></div>
           <div class="mbody">
-            <span class="tag">Earth</span>
+            <span class="tag" style="color:#eceef3">Earth</span>
             <h3>Site map</h3>
             <p>A flat world map of the 30 analogue sites. Choose the Moon or Mars, tick criteria in the side panel and see which countries and spots match best.</p>
             <span class="mgo">Open the map</span>
@@ -1201,6 +1207,7 @@ h2.split.in .wi{transform:none}
         <h2>Display</h2>
         <div class="lrow"><label for="lexag">Relief</label><input type="range" id="lexag" min="1" max="30" step="1" value="5"><output id="lexagv">×5</output></div>
         <label class="lchk" style="margin-top:8px"><input type="checkbox" id="lgrid"> Coordinate grid (30°)</label>
+        <label class="lchk"><input type="checkbox" id="llmk" checked> Catalogue landmarks</label>
         <div class="lbtns"><button type="button" id="lnear">Near side</button><button type="button" id="lfar">Far side</button></div>
       </section>
       <section class="card">
@@ -3993,11 +4000,15 @@ function loadPlanetData(key){
 }
 /* Direction vector of a lat/lon on the globe meshes (matches the texture mapping used by pickPoint) */
 function dirOf(lat,lon){const f=lat*Math.PI/180,t=2*Math.PI*(lon+180)/360;return new THREE.Vector3(-Math.cos(t)*Math.cos(f),Math.sin(f),Math.sin(t)*Math.cos(f))}
+/* Atmosphere presets for the big globes: a thin rim brightest on the lit limb for the airless Moon; for Mars a dusty shell,
+   red at dusk and butterscotch by day, that flares into a ring when back-lit */
+const ATMO={moon:{c:0x2f6df0,c2:0x9fbcff,a:.30,k:.34,night:.35,fwdK:.2,scale:1.05},mars:{c:0xe0382a,c2:0xf2b48a,a:.70,k:.50,night:.10,fwdK:1,scale:1.10}};
 function fmtLatLon(lat,lon){return Math.abs(lat).toFixed(1)+"° "+(lat>=0?"N":"S")+", "+Math.abs(lon).toFixed(1)+"° "+(lon>=0?"E":"W")}
 function makeGlowMat(hex,alpha,k){
-  return new THREE.ShaderMaterial({uniforms:{c:{value:new THREE.Color(hex)},a:{value:alpha},k:{value:k||.42}},transparent:true,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false,
-    vertexShader:"varying vec3 vN;varying vec3 vP;void main(){vN=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.0);vP=mv.xyz;gl_Position=projectionMatrix*mv;}",
-    fragmentShader:"uniform vec3 c;uniform float a;uniform float k;varying vec3 vN;varying vec3 vP;void main(){float d=abs(dot(normalize(vN),normalize(-vP)));float f=pow(clamp(d/k,0.0,1.0),2.2);gl_FragColor=vec4(c,f*a);}"});
+  return new THREE.ShaderMaterial({uniforms:{c:{value:new THREE.Color(hex)},c2:{value:new THREE.Color(hex)},a:{value:alpha},k:{value:k||.42},night:{value:1},fwdK:{value:0},sunDir:{value:new THREE.Vector3(0,0,1)}},
+    transparent:true,side:THREE.BackSide,blending:THREE.AdditiveBlending,depthWrite:false,
+    vertexShader:"varying vec3 vN;varying vec3 vW;void main(){vN=normalize(mat3(modelMatrix)*normal);vec4 w=modelMatrix*vec4(position,1.0);vW=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}",
+    fragmentShader:"uniform vec3 c;uniform vec3 c2;uniform vec3 sunDir;uniform float a;uniform float k;uniform float night;uniform float fwdK;varying vec3 vN;varying vec3 vW;void main(){vec3 N=normalize(vN),V=normalize(cameraPosition-vW);float d=abs(dot(N,V)),f=pow(clamp(d/k,0.0,1.0),2.4);float lit=smoothstep(-0.45,0.40,dot(N,sunDir));float fwd=pow(max(dot(-V,sunDir),0.0),5.0)*fwdK;vec3 col=mix(c,c2,lit*0.75+fwd*0.25);gl_FragColor=vec4(col,f*a*(night+(1.0-night)*lit+fwd*1.6));}"});
 }
 /* The terrain classification of the whole globe (brightness, local relief, slope at every DEM cell, Otsu threshold,
    percentiles, mask) takes a second or two. The three functions below are pure, so they run unchanged either in a
@@ -4235,7 +4246,7 @@ function buildScene(){
     if(k>=1){camTween=null;if(wantAuto&&!REDUCE){controls.autoRotate=true;wantAuto=false}}
   }
   const planet=new THREE.Group();scene.add(planet);
-  const glowMat=makeGlowMat(0x2f6df0,.42);
+  const glowMat=makeGlowMat(0x2f6df0,.3,.34);
   const glow=new THREE.Mesh(new THREE.SphereGeometry(1,64,32),glowMat);planet.add(glow);
   /* Coordinate grid (30° steps), floating just above the highest relief */
   const gp=[];
@@ -4254,10 +4265,30 @@ function buildScene(){
      - the zone colours are blended in the same fragment shader from a small RGBA texture, with a cross-fade between two of them. */
   const geo=new THREE.SphereGeometry(1,MOBQ?384:512,MOBQ?192:256);
   const TU={gMap:{value:null},uEx:{value:12.5}};
+  /* SU: landing scan (a bright front that runs over the relief from the picked point, then a survey disc with contour lines
+     and a range circle that stays) and the dusty limb haze of Mars */
+  const SU={hMap:{value:null},accent:{value:new THREE.Color(.18,.43,.94)},scanDir:{value:new THREE.Vector3(0,1,0)},scanR:{value:0},scanA:{value:0},zoneA:{value:0},
+    hazeCol:{value:new THREE.Color(.80,.50,.34)},haze:{value:0},sunV:{value:new THREE.Vector3(0,0,1)}};
+  let pickT=0;
   const mkZ=()=>{const d=new Uint8Array(DEM_W*DEM_H*4),tx=new THREE.DataTexture(d,DEM_W,DEM_H,THREE.RGBAFormat);tx.magFilter=THREE.LinearFilter;tx.minFilter=gl2?THREE.LinearMipmapLinearFilter:THREE.LinearFilter;tx.generateMipmaps=gl2;tx.anisotropy=4;return{d32:new Uint32Array(d.buffer),tx}};
   const Z=[mkZ(),mkZ()],lut32=new Uint32Array(256),lut8=new Uint8Array(lut32.buffer);let zi=0,zFade=0,zonesOn=$("zon").checked;
   const ZU={zMap:{value:Z[0].tx},zPrev:{value:Z[1].tx},zMix:{value:1},zOp:{value:.8}};
   const mat=new THREE.MeshStandardMaterial({displacementScale:0,displacementBias:0,roughness:1,metalness:0});
+  mat.extensions={derivatives:true};
+  const SCN=`{ vec3 vn=normalize(vNormal);
+  float fres=pow(1.-max(dot(vn,normalize(vViewPosition)),0.),3.);
+  float dayL=smoothstep(-.10,.30,dot(vn,sunV));
+  gl_FragColor.rgb=mix(gl_FragColor.rgb,hazeCol*(.03+.97*dayL),haze*fres);
+  float hh=texture2D(hMap,vUv).x*40.,fw=fwidth(hh);
+  float ang=acos(clamp(dot(normalize(vDir),scanDir),-1.,1.));
+  float front=1.-smoothstep(0.,.010+.035*scanR,abs(ang-scanR));
+  float wake=smoothstep(scanR-.30,scanR,ang)*step(ang,scanR);
+  float line=1.-smoothstep(0.,1.4,abs(fract(hh+.5)-.5)/max(fw,1e-5));
+  float zin=(1.-smoothstep(.164,.2,ang))*step(ang,scanR);
+  float rim=1.-smoothstep(0.,.0035,abs(ang-.2));
+  vec3 sc=mix(gl_FragColor.rgb,accent*1.4+.30,clamp(front*scanA,0.,1.)*.9);
+  sc+=accent*(wake*scanA*.45+(line*.55+.05)*zin*zoneA+rim*zoneA*step(.2,scanR)*.8);
+  gl_FragColor.rgb=sc; }`;
   const NRM=`{ vec3 dO=normalize(vDir);
   vec2 e=(texture2D(gMap,vUv).xy*255.-128.)/127.;
   vec2 g=sign(e)*e*e*1.2*uEx;
@@ -4267,10 +4298,10 @@ function buildScene(){
   const ZON=`if(zOp>0.){ vec4 z=texture2D(zMap,vUv,.8);
   if(zMix<1.) z=mix(texture2D(zPrev,vUv,.8),z,zMix);
   gl_FragColor.rgb=gl_FragColor.rgb*(1.-z.a*zOp)+z.rgb*zOp; }`;
-  mat.onBeforeCompile=sh=>{Object.assign(sh.uniforms,TU,ZU);
+  mat.onBeforeCompile=sh=>{Object.assign(sh.uniforms,TU,ZU,SU);
     sh.vertexShader="varying vec3 vDir;\n"+sh.vertexShader.replace("#include <begin_vertex>","#include <begin_vertex>\nvDir=position;");
-    sh.fragmentShader="varying vec3 vDir;\nuniform mat3 normalMatrix;\nuniform sampler2D gMap;uniform float uEx;\nuniform sampler2D zMap;uniform sampler2D zPrev;uniform float zMix;uniform float zOp;\n"
-      +sh.fragmentShader.replace("#include <normal_fragment_maps>",NRM).replace("#include <encodings_fragment>","#include <encodings_fragment>\n"+ZON)};
+    sh.fragmentShader="varying vec3 vDir;\nuniform mat3 normalMatrix;\nuniform sampler2D gMap;uniform float uEx;\nuniform sampler2D zMap;uniform sampler2D zPrev;uniform float zMix;uniform float zOp;\nuniform sampler2D hMap;uniform vec3 accent;uniform vec3 scanDir;uniform float scanR;uniform float scanA;uniform float zoneA;uniform vec3 hazeCol;uniform float haze;uniform vec3 sunV;\n"
+      +sh.fragmentShader.replace("#include <normal_fragment_maps>",NRM).replace("#include <encodings_fragment>","#include <encodings_fragment>\n"+ZON+"\n"+SCN)};
   const mesh=new THREE.Mesh(geo,mat);mesh.frustumCulled=false;planet.add(mesh);
   let reliefCur=5,reliefTarget=5,markerAt=null;
   function placeMarker(ex){const h=demAt(markerAt.u,markerAt.v);marker.position.copy(markerAt.d).multiplyScalar(1+ex*h/S.cfg.R+.004);marker.lookAt(_v.copy(markerAt.d).multiplyScalar(3))}
@@ -4278,10 +4309,10 @@ function buildScene(){
     const c=S.cfg,R=c.R;
     mat.displacementScale=ex*(c.hmax-c.hmin)/R;mat.displacementBias=ex*c.hmin/R;
     TU.uEx.value=12.5*Math.pow(ex/5,.6);
-    glow.scale.setScalar(1.09+ex*c.hmax/R*.6);
+    glow.scale.setScalar(ATMO[c.key].scale+mat.displacementScale*.35);
     grat.scale.setScalar(1.004+ex*c.hmax/R);
     if(markerAt)placeMarker(ex);
-    dirty=true;
+    lmkDirty=true;dirty=true;
   }
   /* Zones: a 128-entry lookup table (terrain class -> premultiplied RGBA) is expanded through the class mask into a typed array
      and uploaded as is. No canvas, no blur filter (the shader samples one mip level down instead), about 2 ms per slider step. */
@@ -4303,10 +4334,49 @@ function buildScene(){
   $("zthr").oninput=e=>{$("zthrv").textContent=e.target.value+" %";refreshZones(true)};
   $("zon").onchange=()=>{zonesOn=$("zon").checked;$("zleg").hidden=!zonesOn;dirty=true};
   const sun=new THREE.DirectionalLight(0xffffff,1.9);scene.add(sun);const amb=new THREE.AmbientLight(0x6b7a99,.42);scene.add(amb);
-  const sp=new Float32Array(1800*3);
-  for(let i=0;i<1800;i++){const a=Math.random()*Math.PI*2,b=Math.acos(2*Math.random()-1),r=60;sp[i*3]=r*Math.sin(b)*Math.cos(a);sp[i*3+1]=r*Math.cos(b);sp[i*3+2]=r*Math.sin(b)*Math.sin(a)}
-  const sg=new THREE.BufferGeometry();sg.setAttribute("position",new THREE.BufferAttribute(sp,3));
-  const starMat=new THREE.PointsMaterial({color:0xbfc7d8,size:1.2,sizeAttenuation:false}),starField=new THREE.Points(sg,starMat);scene.add(starField);
+  /* Stars with magnitudes and colours, 38 % of them gathered in a galactic band, twinkling in the vertex shader */
+  const NS=MOBQ?2600:4200,sp=new Float32Array(NS*3),sc=new Float32Array(NS*3),ss=new Float32Array(NS),sph=new Float32Array(NS);
+  const SPAL=[[.62,.74,1],[.80,.87,1],[1,1,1],[1,.95,.84],[1,.84,.62],[1,.70,.50]],bandRot=new THREE.Euler(1.05,0,.5),bv=new THREE.Vector3();
+  for(let i=0;i<NS;i++){
+    const band=Math.random()<.38,a=Math.random()*Math.PI*2;
+    if(band){const lat=(Math.random()+Math.random()+Math.random()-1.5)*.26;bv.set(Math.cos(lat)*Math.cos(a),Math.sin(lat),Math.cos(lat)*Math.sin(a)).applyEuler(bandRot)}
+    else{const b=Math.acos(2*Math.random()-1);bv.set(Math.sin(b)*Math.cos(a),Math.cos(b),Math.sin(b)*Math.sin(a))}
+    sp[i*3]=bv.x*60;sp[i*3+1]=bv.y*60;sp[i*3+2]=bv.z*60;
+    const m=Math.pow(Math.random(),band?9:6),pc=SPAL[(Math.random()*SPAL.length)|0],br=.35+.65*Math.pow(Math.random(),2)+m*.6;
+    sc[i*3]=pc[0]*br;sc[i*3+1]=pc[1]*br;sc[i*3+2]=pc[2]*br;ss[i]=1.1+m*4.2;sph[i]=Math.random();
+  }
+  const sg=new THREE.BufferGeometry();sg.setAttribute("position",new THREE.BufferAttribute(sp,3));sg.setAttribute("aCol",new THREE.BufferAttribute(sc,3));sg.setAttribute("aSize",new THREE.BufferAttribute(ss,1));sg.setAttribute("aPh",new THREE.BufferAttribute(sph,1));
+  const starMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{uT:{value:0},uPx:{value:1}},
+    vertexShader:"attribute vec3 aCol;attribute float aSize;attribute float aPh;uniform float uT;uniform float uPx;varying vec3 vC;void main(){float tw=0.78+0.22*sin(uT*(0.7+aPh*2.3)+aPh*50.0);vC=aCol*tw;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);gl_PointSize=aSize*uPx;}",
+    fragmentShader:"varying vec3 vC;void main(){float r=length(gl_PointCoord-0.5)*2.0;float al=smoothstep(1.0,0.0,r);gl_FragColor=vec4(vC*al*al,1.0);}"});
+  const starField=new THREE.Points(sg,starMat);starField.frustumCulled=false;scene.add(starField);
+  /* The Sun: one additive sprite (a soft disc with six thin spikes). It is hidden analytically when the planet covers it and
+     swells while it grazes the limb, which gives a "diamond ring" during the sunrise that opens each globe. */
+  const sunCv=document.createElement("canvas");sunCv.width=sunCv.height=256;
+  (function(){const x=sunCv.getContext("2d"),g=x.createRadialGradient(128,128,0,128,128,128);
+    g.addColorStop(0,"rgba(255,255,255,1)");g.addColorStop(.06,"rgba(255,250,238,1)");g.addColorStop(.16,"rgba(255,214,160,.42)");g.addColorStop(.45,"rgba(255,170,110,.10)");g.addColorStop(1,"rgba(255,170,110,0)");
+    x.fillStyle=g;x.fillRect(0,0,256,256);x.translate(128,128);x.globalCompositeOperation="lighter";
+    for(let i=0;i<6;i++){x.rotate(Math.PI/3);const l=x.createLinearGradient(0,0,124,0);l.addColorStop(0,"rgba(255,240,220,.55)");l.addColorStop(1,"rgba(255,240,220,0)");x.fillStyle=l;x.beginPath();x.moveTo(0,-1.4);x.lineTo(124,0);x.lineTo(0,1.4);x.closePath();x.fill()}})();
+  const sunSprite=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(sunCv),blending:THREE.AdditiveBlending,depthTest:false,depthWrite:false,transparent:true}));
+  sunSprite.scale.setScalar(13);sunSprite.renderOrder=5;scene.add(sunSprite);
+  const sd=new THREE.Vector3(0,0,1),_back=new THREE.Vector3(),_right=new THREE.Vector3(),_cd=new THREE.Vector3(),_q1=new THREE.Quaternion(),_q2=new THREE.Quaternion(),_UP06=new THREE.Vector3(0,.6,0),_t1=new THREE.Vector3();
+  let rise=null,riseE=1;
+  /* Working sun direction: 66 degrees from the camera as before; during the first 2.8 s after a globe opens it starts just behind
+     the limb (an eclipse) and swings round, so the terminator sweeps across the disc */
+  function updateSun(now){
+    sd.copy(camera.position).applyAxisAngle(_Y,1.15).add(_UP06).normalize();
+    if(rise){if(!rise.t0)rise.t0=now;const q=Math.min(1,(now-rise.t0)/2800),e=q<.5?4*q*q*q:1-Math.pow(-2*q+2,3)/2;
+      _cd.copy(camera.position).normalize().negate();_right.crossVectors(_cd,_Y).normalize();
+      _back.copy(_cd).applyAxisAngle(_Y,-.16).applyAxisAngle(_right,.09).normalize();
+      _q1.setFromUnitVectors(_back,sd);_q2.copy(Q0).slerp(_q1,e);sd.copy(_back.applyQuaternion(_q2));amb.intensity=.42*(.15+.85*e);riseE=e;if(q>=1)rise=null}
+    else if(riseE!==1||amb.intensity!==.42){amb.intensity=.42;riseE=1}
+    sun.position.copy(sd).multiplyScalar(10);glowMat.uniforms.sunDir.value.copy(sd);
+    SU.sunV.value.copy(sd).transformDirection(camera.matrixWorldInverse);
+    /* occlusion of the sprite by the planet, without reading the depth buffer */
+    const c=camera.position,b=c.dot(sd),Rp=planet.scale.x*(1+mat.displacementScale+mat.displacementBias);let vis=1,ring=0;
+    if(b<0){const dd=_t1.copy(sd).multiplyScalar(b).sub(c).length();vis=THREE.MathUtils.smoothstep(dd,Rp*.985,Rp*1.07);ring=Math.exp(-Math.pow((dd-Rp*1.02)/.06,2))}
+    sunSprite.position.copy(sd).multiplyScalar(55);sunSprite.material.opacity=vis;sunSprite.visible=vis>.003;sunSprite.scale.setScalar(13*(1+ring*1.1));
+  }
   const marker=new THREE.Group();
   marker.add(new THREE.Mesh(new THREE.SphereGeometry(.18,16,16),new THREE.MeshBasicMaterial({color:0xff4d3d})));
   marker.add(new THREE.Mesh(new THREE.RingGeometry(.34,.44,40),new THREE.MeshBasicMaterial({color:0xffffff,side:THREE.DoubleSide})));
@@ -4318,7 +4388,7 @@ function buildScene(){
   function size(){
     const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;
     if(!prLock)pr=Math.max(1,Math.min(devicePixelRatio||1,2,Math.sqrt(BUD/(w*h))));
-    renderer.setPixelRatio(pr);starMat.size=1.2*pr;
+    renderer.setPixelRatio(pr);starMat.uniforms.uPx.value=pr;
     renderer.setSize(w,h,false);renderer.domElement.style.width=w+"px";renderer.domElement.style.height=h+"px";camera.aspect=w/h;camera.updateProjectionMatrix();dirty=true;
   }
   new ResizeObserver(size).observe(host);size();
@@ -4364,6 +4434,7 @@ function buildScene(){
     const lon=(u-.5)*360,a=analyze(lat,lon),m=maskOf(a);
     markerAt={d,u,v:(90-lat)/180};placeMarker(reliefCur);marker.visible=true;
     ripple.position.copy(marker.position);ripple.lookAt(_v.copy(d).multiplyScalar(3));ripple.visible=!REDUCE;rippleT0=performance.now();
+    SU.scanDir.value.copy(d);if(REDUCE){SU.scanR.value=.95;SU.scanA.value=0;SU.zoneA.value=1;pickT=0}else pickT=performance.now();lmkDirty=true;
     controls.autoRotate=false;wantAuto=false;
     if(_v.copy(camera.position).normalize().angleTo(d)>.12&&!REDUCE)flyTo(_v.copy(d).multiplyScalar(camera.position.length()),900);
     dirty=true;
@@ -4372,6 +4443,30 @@ function buildScene(){
       if(PHONE)$("lres").closest(".card").scrollIntoView({behavior:REDUCE?"auto":"smooth",block:"start"});
       else if(MOBQ)$("lres").scrollIntoView({behavior:REDUCE?"auto":"smooth",block:"start"})});
   }
+  /* Catalogue landmarks: one labelled pin for each Moon / Mars place that the dataset pairs with Earth sites (Tycho, Gale ...).
+     The labels are HTML buttons projected from 3D when the camera moves; clicking one runs the normal analysis there. */
+  let LMK=[],lmkDirty=true,lmkOn=$("llmk").checked;
+  function buildLandmarks(){
+    LMK.forEach(l=>l.el.remove());LMK=[];const key=S.cfg.key,m=new Map();
+    for(const id in FOLDER){const f=FOLDER[id].imgs&&FOLDER[id].imgs[key];if(!f||f.lat==null)continue;const q=f.lat+","+f.lon;
+      if(!m.has(q))m.set(q,{lat:f.lat,lon:f.lon,name:f.subject.replace(/^Image:\s*/,"").replace(/\s*\(.*\)\s*$/,""),n:0});m.get(q).n++}
+    m.forEach(o=>{const d=dirOf(o.lat,o.lon),el=document.createElement("button");el.type="button";el.className="lmk";
+      el.innerHTML=`<span>${esc(o.name)}</span><b>${o.n}</b>`;
+      el.title=`${o.n} Earth site${o.n>1?"s":""} of the catalogue ${o.n>1?"are":"is"} paired with ${o.name} (association proposed in the dataset, not an official equivalence)`;
+      el.onclick=e=>{e.stopPropagation();pickPoint(d.clone())};host.appendChild(el);
+      LMK.push({d,u:(o.lon+180)/360,v:(90-o.lat)/180,el})});
+    lmkDirty=true;
+  }
+  function placeLandmarks(){
+    lmkDirty=false;const w=host.clientWidth,h=host.clientHeight,cd=_t1.copy(camera.position).normalize();
+    for(let i=0;i<LMK.length;i++){const l=LMK[i],f=l.d.dot(cd);let a=lmkOn?Math.max(0,Math.min(1,(f-.18)*5)):0;
+      if(markerAt&&marker.visible&&markerAt.d.angleTo(l.d)<.03)a=0;
+      if(a<=0){if(l.a!==0){l.a=0;l.el.style.opacity=0;l.el.style.pointerEvents="none"}continue}
+      _v.copy(l.d).multiplyScalar((1+reliefCur*demAt(l.u,l.v)/S.cfg.R+.02)*planet.scale.x).project(camera);
+      l.a=a;l.el.style.opacity=a.toFixed(2);l.el.style.pointerEvents=a>.3?"auto":"none";
+      l.el.style.transform=`translate3d(${((_v.x*.5+.5)*w).toFixed(1)}px,${((-_v.y*.5+.5)*h).toFixed(1)}px,0) translate(-1px,-100%) translateY(-14px)`}
+  }
+  $("llmk").onchange=()=>{lmkOn=$("llmk").checked;lmkDirty=true;dirty=true};
   /* Per-planet GPU textures are created once and kept, so switching Moon / Mars uploads nothing */
   function planetTextures(st){
     const c=st.cfg;
@@ -4391,9 +4486,11 @@ function buildScene(){
   function setPlanet(st){
     S=st;const c=st.cfg;
     if(!st.tex)planetTextures(st);
-    const first=!mat.map;mat.map=st.tex;mat.displacementMap=st.HT;TU.gMap.value=st.GT;if(first)mat.needsUpdate=true;
-    amb.color.setHex(c.amb);$("zthr").value=c.thr;$("zthrv").textContent=c.thr+" %";
-    glowMat.uniforms.c.value.set(c.color);
+    const first=!mat.map;mat.map=st.tex;mat.displacementMap=st.HT;TU.gMap.value=st.GT;SU.hMap.value=st.HT;if(first)mat.needsUpdate=true;
+    amb.color.setHex(c.amb);$("zthr").value=c.thr;$("zthrv").textContent=c.thr+" %";$("zthr")._fill&&$("zthr")._fill();
+    const A=ATMO[c.key],gu=glowMat.uniforms;gu.c.value.set(A.c);gu.c2.value.set(A.c2);gu.a.value=A.a;gu.k.value=A.k;gu.night.value=A.night;gu.fwdK.value=A.fwdK;
+    if(c.key==="mars"){SU.accent.value.setRGB(1,.34,.24);SU.haze.value=.5}else{SU.accent.value.setRGB(.18,.43,.94);SU.haze.value=0}
+    SU.scanA.value=0;SU.zoneA.value=0;SU.scanR.value=0;pickT=0;buildLandmarks();
     markerAt=null;marker.visible=false;ripple.visible=false;$("lhud").hidden=true;
     reliefCur=reliefTarget=+$("lexag").value;setRelief(reliefCur);
     refreshZones(false);
@@ -4404,7 +4501,7 @@ function buildScene(){
     camera.lookAt(0,0,0);
     /* warm-up frame: shader compile and texture uploads happen here, while the canvas is still dimmed under the spinner;
        the entrance clocks start with the first frame that follows, so the scale-in is seen in full */
-    ZU.zOp.value=zonesOn?.9:0;sun.position.copy(camera.position).applyAxisAngle(_Y,1.15);sun.position.y+=.6;
+    ZU.zOp.value=zonesOn?.9:0;rise=REDUCE?null:{t0:0};camera.updateMatrixWorld();updateSun(0);if(rise)rise.t0=0;
     renderer.render(scene,camera);
     if(!REDUCE){entrance={t0:0};flyTo(_cam,1500,true);wantAuto=true}
     lastTouch=performance.now();dirty=true;
@@ -4414,13 +4511,14 @@ function buildScene(){
     $("pl-moon").setAttribute("aria-pressed",c.key==="moon");$("pl-mars").setAttribute("aria-pressed",c.key==="mars");
   }
   function tick(now,dt){
-    const busy=!!(camTween||entrance||reliefCur!==reliefTarget||ripple.visible||zFade);
+    const busy=!!(camTween||entrance||rise||pickT||reliefCur!==reliefTarget||ripple.visible||zFade);
     stepTween(now);
+    if(pickT){const t=(now-pickT)/1000,q=Math.min(1,t/1.6),e=1-Math.pow(1-q,3);SU.scanR.value=e*.95;SU.scanA.value=1-q;SU.zoneA.value=Math.min(1,t*1.5);if(q>=1)pickT=0}
     if(entrance){if(!entrance.t0)entrance.t0=now;const k=Math.min(1,(now-entrance.t0)/1100),e=1-Math.pow(1-k,3);planet.scale.setScalar(.7+.3*e);if(k>=1)entrance=null}
     if(reliefCur!==reliefTarget){reliefCur+=(reliefTarget-reliefCur)*Math.min(1,dt*.011);if(Math.abs(reliefCur-reliefTarget)<.01)reliefCur=reliefTarget;setRelief(reliefCur)}
     if(zFade){const k=(now-zFade)/350;ZU.zMix.value=k>=1?1:k*k*(3-2*k);if(k>=1)zFade=0}
     if(!controls.autoRotate&&!camTween&&!marker.visible&&!REDUCE&&now-lastTouch>9000)controls.autoRotate=true;
-    starField.rotation.y=now*3.6e-6;
+    starField.rotation.y=now*3.6e-6;if(!REDUCE)starMat.uniforms.uT.value=now/1000;
     updateHover();
     if(marker.visible){const s=Math.max(.03,(camera.position.length()-1)*.07);marker.scale.setScalar(s);marker.children[1].scale.setScalar(REDUCE?1:1+.14*Math.sin(now/260));
       if(ripple.visible){const k=(now-rippleT0)/900;if(k>=1)ripple.visible=false;else{ripple.scale.setScalar(s*(1+k*5));ripple.material.opacity=(1-k)*.9}}}
@@ -4438,15 +4536,18 @@ function buildScene(){
     const moved=camMoved()||controls.autoRotate;
     const pulse=!REDUCE&&(zonesOn||marker.visible)&&now-lastRender>=(MOBQ?48:31);
     if(!(busy||moved||pulse||dirty))return;dirty=false;
-    ZU.zOp.value=zonesOn?(REDUCE?.9:.82+.18*Math.sin(now/450)):0;
-    sun.position.copy(camera.position).applyAxisAngle(_Y,1.15);sun.position.y+=.6;
+    camera.updateMatrixWorld();updateSun(now);
+    ZU.zOp.value=zonesOn?(REDUCE?.9:.82+.18*Math.sin(now/450))*riseE:0;
+    if(moved||lmkDirty||entrance)placeLandmarks();
     renderer.render(scene,camera);perf(now-lastRender,busy||moved);lastRender=now;
   }
   $("lexag").oninput=e=>{const v=+e.target.value;$("lexagv").textContent="×"+v;reliefTarget=v;if(REDUCE){reliefCur=v;setRelief(v)}dirty=true};
   $("lnear").onclick=()=>{flyTo(_cam.set(...S.cfg.cam),1000)};
   $("lfar").onclick=()=>{flyTo(_cam.set(...S.cfg.far),1200)};
   new IntersectionObserver(([e])=>{planetVis=e.isIntersecting;planetLoop(planetOn)}).observe(host);
-  M={renderer,scene,camera,controls,sun,marker,setPlanet,pickPoint,mesh,planet,step,wake:()=>{dirty=true;lastStep=0},zones:ZU};
+  M={renderer,scene,camera,controls,sun,marker,setPlanet,pickPoint,mesh,planet,step,wake:()=>{dirty=true;lastStep=0},zones:ZU,
+     /* test hook: draw one frame of the sunrise at progress q (0..1) */
+     _riseFrame:q=>{rise={t0:1};const n=1+q*2800;updateSun(n);rise=null;renderer.render(scene,camera)}};
 }
 /* The loop runs only while the globe view is open, its canvas is on screen and the tab is visible */
 let planetRaf=0,planetOn=false,planetVis=true;
@@ -4459,17 +4560,25 @@ function planetLoop(on){
 document.addEventListener("visibilitychange",()=>planetLoop(planetOn));
 
 /* ================= Home previews ================= */
+/* Earth card: the map is baked once into an equirectangular canvas and handed to the same globe painter as the Moon and Mars
+   cards (a d3 orthographic redraw per frame would cost 10-40 ms); the placed sites pulse on a small overlay canvas. */
 function earthPreview(){
-  const Wp=380,Hp=200,pr=d3.geoNaturalEarth1().fitSize([Wp,Hp],{type:"Sphere"}),pp=d3.geoPath(pr);
-  const col=COLORS.moon;
-  const paths=features.map(f=>{
-    const e=CS.get(f.properties.name),fill=e&&e.score>0?d3.interpolateRgb(LAND,col)(.12+.78*(BEST?e.score/BEST:0)):LAND;
-    return `<path d="${pp(f)}" fill="${fill}" stroke="rgba(206,212,224,.5)" stroke-width=".4"/>`;
-  }).join("");
-  const dots=LASTDOTS.filter(d=>!d.off).map(d=>{const p=pr([d.s.coords.lon,d.s.coords.lat]);return `<circle class="pv" cx="${p[0]}" cy="${p[1]}" r="5" fill="none" stroke="${col}" stroke-width="1" opacity=".7" style="animation-delay:${(d.s.id*.37)%2.2}s"/><circle cx="${p[0]}" cy="${p[1]}" r="2.4" fill="#fff"/>`}).join("");
-  $("prevEarth").innerHTML=`<svg viewBox="0 0 ${Wp} ${Hp}" role="img" aria-label="Preview of the Earth map">${paths}${dots}</svg>`;
-  /* the pulses only run while the card is on screen */
-  new IntersectionObserver(([e])=>$("prevEarth").classList.toggle("live",e.isIntersecting)).observe($("prevEarth"));
+  const tc=document.createElement("canvas");tc.width=1024;tc.height=512;const x=tc.getContext("2d");
+  const pr=d3.geoEquirectangular().fitSize([1024,512],{type:"Sphere"}),path=d3.geoPath(pr,x),col=COLORS.moon;
+  x.fillStyle="#0d1626";x.fillRect(0,0,1024,512);
+  x.beginPath();path(d3.geoGraticule().step([30,30])());x.strokeStyle="rgba(206,212,224,.16)";x.lineWidth=1;x.stroke();
+  features.forEach(f=>{const e=CS.get(f.properties.name);x.beginPath();path(f);x.fillStyle=e&&e.score>0?d3.interpolateRgb("#2b3243",col)(.25+.75*(BEST?e.score/BEST:0)):"#2b3243";x.fill()});
+  x.beginPath();path(topojson.mesh(WORLD,WORLD.objects.countries,(a,b)=>a!==b));x.strokeStyle="rgba(226,232,244,.55)";x.lineWidth=.8;x.stroke();
+  x.beginPath();path(topojson.mesh(WORLD,WORLD.objects.countries,(a,b)=>a===b));x.strokeStyle="rgba(226,232,244,.8)";x.lineWidth=.8;x.stroke();
+  const host=$("prevEarth");host.innerHTML='<span class="orbit"></span><canvas id="prevEarthCv" width="360" height="360"></canvas><canvas class="ov" id="prevEarthOv" width="360" height="360"></canvas>';
+  const ov=$("prevEarthOv").getContext("2d"),sites=LASTDOTS.filter(d=>!d.off).map(d=>({f:d.s.coords.lat*Math.PI/180,l:d.s.coords.lon*Math.PI/180,ph:(d.s.id*.37)%2.2})),la=16*Math.PI/180,R=170;
+  const dots=lon=>{const l0=lon*Math.PI/180,t=performance.now()/1000;ov.clearRect(0,0,360,360);
+    for(let i=0;i<sites.length;i++){const s=sites[i],dl=s.l-l0,X=Math.cos(s.f)*Math.sin(dl),Y=Math.cos(la)*Math.sin(s.f)-Math.sin(la)*Math.cos(s.f)*Math.cos(dl),Z=Math.sin(la)*Math.sin(s.f)+Math.cos(la)*Math.cos(s.f)*Math.cos(dl);
+      if(Z<.08)continue;const px=180+X*R,py=180-Y*R,al=Math.min(1,(Z-.08)*5),q=REDUCE?.4:((t+s.ph)%2.2)/2.2;
+      ov.globalAlpha=al*(1-q);ov.strokeStyle=col;ov.lineWidth=1.4;ov.beginPath();ov.arc(px,py,3+q*10,0,6.283);ov.stroke();
+      ov.globalAlpha=al;ov.fillStyle="#fff";ov.beginPath();ov.arc(px,py,2.4,0,6.283);ov.fill()}
+    ov.globalAlpha=1};
+  globePreview($("prevEarthCv"),tc.toDataURL("image/png"),-75,16,dots);
 }
 /* Rotating globe previews. The per-pixel geometry (texture row, longitude offset, shading) is computed once; each frame only
    shifts the longitude with integer math and one 32-bit write per visible pixel. One shared loop paints the two globes on
@@ -4479,11 +4588,11 @@ function prevLoop(now){
   prevRaf=0;const live=PREV.filter(p=>p.vis);if(!live.length||document.hidden)return;
   prevRaf=requestAnimationFrame(prevLoop);prevN++;
   if(live.length===1&&prevN%2)return;
-  const p=live[prevN%live.length];
+  const p=live[prevN%live.length];   /* one globe per frame: three visible globes get 20 fps each */
   p.lon+=.2*Math.min(100,now-p.last)/16;p.last=now;p.paint(p.lon);
 }
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!prevRaf&&PREV.some(p=>p.vis))prevRaf=requestAnimationFrame(prevLoop)});
-function globePreview(canvas,src,lon0,lat0){
+function globePreview(canvas,src,lon0,lat0,after){
   const im=new Image();
   im.onload=()=>{
     const cv=document.createElement("canvas");cv.width=im.width;cv.height=im.height;
@@ -4529,6 +4638,7 @@ function globePreview(canvas,src,lon0,lat0){
       }
       out.putImageData(img,0,0);
     };
+    if(after){const base=paint;paint=lon=>{base(lon);after(lon)}}
     const p={paint,lon:lon0,last:performance.now(),vis:false};paint(lon0);
     if(REDUCE)return;PREV.push(p);
     new IntersectionObserver(([e])=>{p.vis=e.isIntersecting;p.last=performance.now();if(p.vis&&!prevRaf)prevRaf=requestAnimationFrame(prevLoop)},{threshold:.05}).observe(canvas);
@@ -4722,9 +4832,8 @@ function setupDock(){
 }
 
 render();
-earthPreview();
-/* Rotating previews start only when the map cards come near the viewport */
-new IntersectionObserver((es,io)=>{if(!es.some(e=>e.isIntersecting))return;io.disconnect();globePreview($("prevMoon"),PL.moon.texLo,-15,18);globePreview($("prevMars"),PL.mars.texLo,-70,14)},{rootMargin:"500px 0px"}).observe($("maps"));
+/* Rotating previews are built only when the map cards come near the viewport */
+new IntersectionObserver((es,io)=>{if(!es.some(e=>e.isIntersecting))return;io.disconnect();earthPreview();globePreview($("prevMoon"),PL.moon.texLo,-15,18);globePreview($("prevMars"),PL.mars.texLo,-70,14)},{rootMargin:"500px 0px"}).observe($("maps"));
 buildTicker();
 buildGallery();
 setupTilt();
